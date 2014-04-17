@@ -1,0 +1,109 @@
+import socket
+import threading
+import Queue
+import interpreter
+import logging
+import logging.config
+import ConfigParser
+import Adafruit_BBIO.ADC as ADC
+
+## initialise logger
+logging.config.fileConfig('StarinetBeagleLogger.conf', disable_existing_loggers=False)
+logger = logging.getLogger('main')
+
+##initialise config parser
+config = ConfigParser.RawConfigParser()
+config.read("StarinetBeagleLogger.conf")
+
+try:
+    ADC.setup()
+except Exception as e:
+    print 'Adc failed - did you start as root?', e
+    pass
+
+try:
+    ADC.read("P9_40")
+except Exception as e:
+    pass
+
+buffer = 570
+my_queue = Queue.Queue()
+
+
+class readFromUDPSocket(threading.Thread):
+
+    def __init__(self, my_queue):
+        logger.info("readfromUDPSocket __init__ initialised.")
+        threading.Thread.__init__(self)
+        self.my_queue = my_queue
+
+    def run(self):
+        logger.debug("readfromUDPSocket run initialised.")
+        while True:
+
+            buffer1, addr = socketUDP.recvfrom(buffer)
+            logger.debug("%s %s", "received data - ", repr(buffer1))
+
+            if buffer1.startswith('\x02') and buffer1.endswith('\x04\r\n'):
+                logger.debug("%s %s %s",  'Starinet UDP Packet received from', addr, repr(buffer1))
+                self.my_queue.put((buffer1, addr))
+                self.my_queue.join()
+
+
+class process(threading.Thread):
+
+    def __init__(self, my_queue):
+
+        logger.info("process __init__ initialised.")
+
+        threading.Thread.__init__(self)
+        self.my_queue = my_queue
+        self.alive = threading.Event()
+        self.alive.set()
+
+    def run(self):
+
+        logger.debug("process run initialised.")
+
+        while True:
+            buffer3 = self.my_queue.get()
+            x = interpreter.processor(buffer3[0])
+
+           # print "Interpreter returned - ", repr(x)
+
+            if x is not None:
+                #buffer4 = '\x0200000100000000127A\x04\r\n'  # Temp line just for testing.
+                buffer4 = x
+                logger.debug("%s %s", "buffer4 has ", repr(buffer4))
+                socketUDP.sendto(buffer4,buffer3[1])
+                self.my_queue.task_done()
+            else:
+                print "x has no data"
+                self.my_queue.task_done()
+
+
+if __name__ == '__main__':
+
+    # Create socket (IPv4 protocol, datagram (UDP)) and bind to address
+    try:
+        socketUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socketUDP.bind((config.get("network", "ip"), int(config.get("network", "port"))))
+    except socket.error:
+        logger.critical("Fatal Error unable to open network port.")
+        exit(1)
+    else:
+        logger.info("%s %s", "Initiated IPv4 Socket bound to port ", config.get("network", "port"))
+
+    # Instantiate & start threads
+    myServer = readFromUDPSocket(my_queue)
+    myInterpreter = process(my_queue)
+    myServer.setDaemon(True)
+    myInterpreter.setDaemon(True)
+
+    myServer.start()
+    myInterpreter.start()
+
+while 1:
+    pass
+
+socketUDP.close()

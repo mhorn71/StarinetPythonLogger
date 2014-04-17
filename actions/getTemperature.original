@@ -1,0 +1,56 @@
+import utilities.samplerstatus as samplerstatus
+import ConfigParser
+import logging
+import Adafruit_BBIO.ADC as ADC
+
+try:
+    ADC.setup()
+except Exception as e:
+    print 'Adc failed - did you start as root?', e
+    pass
+
+try:
+    ADC.read("P9_40")
+except Exception as e:
+    print 'failed to read adc - did you start as root?', e
+    pass
+
+
+
+##initialise logger
+logger = logging.getLogger('actions.getTemperature')
+
+config = ConfigParser.RawConfigParser()
+config.read("StarinetBeagleLogger.conf")
+
+
+def control():
+
+    logger.debug("getTemperature called")
+
+    try:
+        x1 = ADC.read("AIN6")
+        x0 = ADC.read("AIN6")
+        logger.debug("%s %s", "AIN6 Raw reading ", x0)
+        b0 = x0 * 1800
+        logger.debug("%s %s", "Raw reading converted to mV ", b0)
+        pretemp = (b0 - 500) / 10
+        logger.debug("%s %s", "mv converted to C ((b0 - 500) / 10) ", pretemp)
+        #temp = "{0:03d}".format(int(pretemp))
+        temp = str(pretemp)[:4]
+
+        value = '+' + temp
+
+        logger.debug("%s %s", "getTemperature returned value ", value)
+    except IOError as e:
+        logger.critical("%s %s", "premature termination", e)
+        status = 4
+        value = e
+        logger.critical("%s %s", "getTemperature premature termination", e)
+    else:
+        status = 0
+
+    status = status + samplerstatus.status()
+
+    return status, value
+
