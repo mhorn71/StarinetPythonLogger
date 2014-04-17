@@ -28,6 +28,9 @@ def control(buffer0):
             status = 8
             value = None
             logger.critical("%s %s", "Unable to locate module 0 ", e)
+        except ValueError:
+            status = 8
+            value = None
         else:
             status = 0
     elif re.match('1', buffer0):
@@ -43,6 +46,9 @@ def control(buffer0):
             status = 8
             value = None
             logger.critical("%s %s", "Unable to locate module 1 ", e)
+        except ValueError:
+            status = 8
+            value = None
         else:
             status = 0
     else:

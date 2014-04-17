@@ -56,7 +56,7 @@ def mylogger():
         datafile = hex(lastfilenumber).split('x')[1].upper().zfill(4)  # change filenumber to hex
         print "NEW DATA FILE IS CALLED : ", datafile
 
-        if datafile == 'FFFF':
+        if datafile == '0003':
             try:
                 pidfile = open(config.get('paths', 'pidfile'), 'r')
                 pid = int(pidfile.read())
@@ -73,7 +73,7 @@ def mylogger():
                         os.remove(str(config.get('paths', 'pidfile')))
                     except OSError as e:
                         print "Unable to remove pid file fatal error"
-
+                        
 
         f = open(config.get("paths", "datafolder") + datafile, 'wb')
         samplerdata = ''.join(readadc.read())

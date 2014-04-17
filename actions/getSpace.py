@@ -23,6 +23,9 @@ def control():
         status = 4
         value = e
         logger.critical("%s %s", "Unable to open datafolder", e)
+    except ValueError:
+        value = '000'
+        status = 0
     else:
         status = 0
         logger.debug("%s %s", "getSpace returned value ", value)

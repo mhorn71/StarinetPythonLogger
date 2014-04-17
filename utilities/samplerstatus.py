@@ -30,25 +30,33 @@ def status():
     except ValueError as e:
         logger.debug("psuti.Process returned no value from pidfile")
         os.remove(config.get('paths', 'pidfile'))
+        value = 0
     else:
         logger.debug("%s %s", "proc.cmdline reports ", proc.cmdline())
-        if proc.cmdline()[1] == 'logger/sampler.py':
-            if proc.status == psutil.STATUS_ZOMBIE:
+        try:
+            b = proc.cmdline()[1]
+        except IndexError as e:
+            logger.debug("proc.cmdline returned no value from pidfile")
+            os.remove(config.get('paths', 'pidfile'))
+            value = 0
+        else:
+            if  b == 'logger/sampler.py':
+                if proc.status == psutil.STATUS_ZOMBIE:
+                    try:
+                        os.remove(config.get('paths', 'pidfile'))
+                    except IOError as e:
+                        logger.debug("%s %s", "Unable to remove pid file fatal error", e)
+                        value = 2
+                else:
+                    value = 8000
+            else:
                 try:
                     os.remove(config.get('paths', 'pidfile'))
                 except IOError as e:
                     logger.debug("%s %s", "Unable to remove pid file fatal error", e)
                     value = 2
-            else:
-                value = 8000
-        else:
-            try:
-                os.remove(config.get('paths', 'pidfile'))
-            except IOError as e:
-                logger.debug("%s %s", "Unable to remove pid file fatal error", e)
-                value = 2
-            else:
-                value = 0
+                else:
+                    value = 0
 
         logger.debug("%s %s", "Status = ", str(value))
 
