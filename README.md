@@ -18,12 +18,17 @@ You need to install the following two additional python packages.
     https://pypi.python.org/pypi/crcmod/1.7
 
 
+You need to add the following additional hardware on ADC Channel AIN6
 
-1.) place all files in there own folder
+    TMP36 Temperature Sensor
 
-2.) edit the StarinetBeagleLogger.conf file and set the full path of where you want the pid file to live. 
+Software install
 
-3.) Start as root.
+    1.) place all files in there own folder
 
-4.) Download Starbase from ukraa.com/builds/beta and set the IP address of your 
-    beaglebone in the file BeagleStarinetLogger-instrument.xml  
+    2.) edit the StarinetBeagleLogger.conf file and set the full path of where you want the pid file to live. 
+
+    3.) Start as root.
+
+    4.) Download Starbase from ukraa.com/builds/beta and set the IP address of your 
+        beaglebone in the file BeagleStarinetLogger-instrument.xml  
