@@ -37,13 +37,13 @@ response_command = None
 response_crc = None
 #response_value = None
 
+
 def processor(buffer0):
 
     global response_status
     global response_command
     global response_crc
     response_value = None
-
 
     logger.debug("Interpreter was called.")
 
@@ -106,7 +106,6 @@ def processor(buffer0):
                         else:
                             x = 20, None 
 
-
     elif re.match("^\x02*[0-9a-zA-Z]{10}\x1F*(([0-9a-zA-Z]*)(\x1F)*)*\x04*", buffer0):  # Matched Cmd with parameters
 
         logger.debug("Matched command with parameters")
@@ -127,7 +126,7 @@ def processor(buffer0):
                     logger.debug("Packet failed crc check")
                     x = 200, None
                 else:
-                    if int(address) != int(config.get("instaddr", "iaddr")):  # Check Staribus Instrument Address Is Correct
+                    if int(address) != int(config.get("instaddr", "iaddr")):  # Check Staribus Inst Address Is Correct
                         logger.debug("Packet instrument address does not match our address")
                         x = 80, None
                     else:
@@ -151,8 +150,7 @@ def processor(buffer0):
                         else:
                             x = 20, None 
 
-
-    if (x[0] != None) and (x[1] != None):
+    if (x[0] is not None) and (x[1] is not None):
         response_status = str(x[0]).zfill(4)
         response_value = str(x[1])
         response_command = str(address) + str(command)
@@ -160,7 +158,7 @@ def processor(buffer0):
         response_crc = str(staribuscrc.newcrc(joinvalue))
         value = '\x02' + joinvalue + response_crc + '\x04\r\n'
         logger.debug("%s %s", "Created Return Message -", repr(value))
-    elif (x[0] != None) and (x[1] == None):
+    elif (x[0] is not None) and (x[1] is None):
         response_status = str(x[0]).zfill(4)
         response_command = str(address) + str(command)
         response_value = None
@@ -169,7 +167,7 @@ def processor(buffer0):
         value = '\x02' + joinvalue + response_crc + '\x04\r\n'
         logger.debug("%s %s", "Created Return Message -", repr(value))
     else:
-        status =  4 + samplerstatus.status()
+        status = 4 + samplerstatus.status()
         response_status = str(status).zfill(4)
         response_command = str(address) + str(command)
         response_value = None

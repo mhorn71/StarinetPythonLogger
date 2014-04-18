@@ -26,7 +26,7 @@ try:
 except Exception as e:
     pass
 
-buffer = 570
+mybuffer = 570
 my_queue = Queue.Queue()
 
 
@@ -41,7 +41,7 @@ class readFromUDPSocket(threading.Thread):
         logger.debug("readfromUDPSocket run initialised.")
         while True:
 
-            buffer1, addr = socketUDP.recvfrom(buffer)
+            buffer1, addr = socketUDP.recvfrom(mybuffer)
             logger.debug("%s %s", "received data - ", repr(buffer1))
 
             if buffer1.startswith('\x02') and buffer1.endswith('\x04\r\n'):
@@ -75,7 +75,7 @@ class process(threading.Thread):
                 #buffer4 = '\x0200000100000000127A\x04\r\n'  # Temp line just for testing.
                 buffer4 = x
                 logger.debug("%s %s", "buffer4 has ", repr(buffer4))
-                socketUDP.sendto(buffer4,buffer3[1])
+                socketUDP.sendto(buffer4, buffer3[1])
                 self.my_queue.task_done()
             else:
                 print "x has no data"

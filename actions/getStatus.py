@@ -29,16 +29,15 @@ def control(buffer0, buffer1, buffer2):  # buffer0 = reponse_command, buffer1 = 
     if buffer0 is not None:
         basecommand = buffer0[2:]
         command = basecommand[:4]
-        commandVariant = basecommand[4:]
+        commandvariant = basecommand[4:]
         #print "getStatus buffer 0 stripped of address ", basecommand 
         #print "getStatus basecommand stripped of command variant ", command 
         #print "getStatus basecommand stripped of code base and command ", commandVariant 
         #print "getStatus response status of last command ", buffer1
         #print "getStatus response crc of last command ", buffer2 
-        value = command + ' ' + commandVariant + ' ' + buffer1 + ' ' + buffer2
+        value = command + ' ' + commandvariant + ' ' + buffer1 + ' ' + buffer2
     else:
         value = '0000 0000 0000 0000'
-
 
     status = 0
  

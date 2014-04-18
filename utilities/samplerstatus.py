@@ -40,7 +40,7 @@ def status():
             os.remove(config.get('paths', 'pidfile'))
             value = 0
         else:
-            if  b == 'logger/sampler.py':
+            if b == 'logger/sampler.py':
                 if proc.status == psutil.STATUS_ZOMBIE:
                     try:
                         os.remove(config.get('paths', 'pidfile'))

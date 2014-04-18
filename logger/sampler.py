@@ -15,6 +15,7 @@ config.read("StarinetBeagleLogger.conf")
 ## initialise next_call
 next_call = time.time()
 
+
 def mylogger():
     #print "Started mylogger"
 
@@ -22,7 +23,7 @@ def mylogger():
     global next_call
     rate = int(config.get('capture', 'rate').lstrip("0"))
     #next_call = next_call + int(config.get('capture', 'rate').lstrip("0"))
-    next_call = next_call + rate
+    next_call = + rate
     threading.Timer(next_call - time.time(), mylogger).start()
 
     #get name of last data file and set assign to datafile
@@ -47,7 +48,8 @@ def mylogger():
         f = open(config.get("paths", "datafolder") + datafile, 'ab')
         samplerdata = ''.join(readadc.read())
         #print "samplerdata = ", repr(samplerdata)
-        data = str(stamp) + ' ' + temperature.read() + ' ' + str(config.get('capture', 'rate')) + '   ' +  str(samplerdata)
+        data = str(stamp) + ' ' + temperature.read() + ' ' + str(config.get('capture', 'rate')) + '   ' + \
+            str(samplerdata)
         f.write(data)
         f.close()
     elif f.tell() == 512:
@@ -73,12 +75,12 @@ def mylogger():
                         os.remove(str(config.get('paths', 'pidfile')))
                     except OSError as e:
                         print "Unable to remove pid file fatal error"
-                        
 
         f = open(config.get("paths", "datafolder") + datafile, 'wb')
         samplerdata = ''.join(readadc.read())
         #print "samplerdata = ", repr(samplerdata)
-        data = str(stamp) + ' ' + temperature.read() + ' ' + str(config.get('capture', 'rate')) + '   ' + str(samplerdata)
+        data = str(stamp) + ' ' + temperature.read() + ' ' + str(config.get('capture', 'rate')) + '   ' + \
+            str(samplerdata)
         f.write(data)
         f.close()
     else:

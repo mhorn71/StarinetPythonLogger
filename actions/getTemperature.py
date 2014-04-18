@@ -17,7 +17,6 @@ except Exception as e:
     pass
 
 
-
 ##initialise logger
 logger = logging.getLogger('actions.getTemperature')
 
@@ -39,9 +38,9 @@ def control():
         logger.debug("%s %s", "mv converted to C ((b0 - 500) / 10) ", pretemp)
 
         # We always want to return the following format +/-00.0
-        if re.match("^\d{1}$", str(pretemp)):  #matched 0 - 9
+        if re.match("^\d$", str(pretemp)):  # matched 0 - 9
             temp = '+' + str(pretemp.zfill(2)) + '.' + '0'
-        elif re.match("^\d{1}\.\d*$", str(pretemp)):
+        elif re.match("^\d\.\d*$", str(pretemp)):
             a = str(pretemp).split('.')
             b = a[0].zfill(2)
             temp = '+' + b + '.' + a[1][:1]
@@ -50,15 +49,15 @@ def control():
         elif re.match("^\d{2}\.\d*$", str(pretemp)):
             temp = '+' + str(pretemp)[:4]
         elif re.match("^-\d$", str(pretemp)):
-            a = str(pretemp).replace('-','')
+            a = str(pretemp).replace('-', '')
             temp = '-' + str(a.zfill(2)) + '.0'
         elif re.match("^-\d{1,2}\.\d*$", str(pretemp)):
             # matched -1.8888
-            a = str(pretemp).replace('-','')
+            a = str(pretemp).replace('-', '')
             b = str(a).split('.')
             c = str(b[0]).zfill(2)
             temp = '-' + c + '.' + b[1][:1]
-        elif re.match("-\d{2}\.\d*$",str(pretemp)):
+        elif re.match("-\d{2}\.\d*$", str(pretemp)):
             temp = str(pretemp)[:5]
         else:
             temp = '+00.0'

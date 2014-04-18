@@ -17,7 +17,6 @@ def control(buffer0, buffer1, buffer2):
     value = None
     status = None
 
-
     if re.match('0', buffer0):
         logger.debug("Matched module 0")
         try:

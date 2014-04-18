@@ -10,6 +10,7 @@ crc16 = crcmod.mkCrcFun(0x018408, 0xFFFF, True, 0x0000)
 ## initialise logger
 logger = logging.getLogger('utilities.staribuscCrc')
 
+
 def checkcrc(buffer0):
 
     logger.debug("Check crc was called.")
@@ -18,7 +19,7 @@ def checkcrc(buffer0):
 
     logger.debug("%s %s", "Received data crc - ", rxcrc)
 
-    newrxcrc = str(hex(crc16(buffer0.strip('\x02\x04\r\n')[:-4])).replace('x', '')[1:].zfill(4)).upper()  # create new crc
+    newrxcrc = str(hex(crc16(buffer0.strip('\x02\x04\r\n')[:-4])).replace('x', '')[1:].zfill(4)).upper()  # new crc
 
     logger.debug("%s %s", "Calculated new crc based on received data -", newrxcrc)
 
@@ -43,4 +44,4 @@ def newcrc(buffer0):
 
 
 if __name__ == "__main__":
-   print newcrc(str(sys.argv[1:]))
+    print newcrc(str(sys.argv[1:]))

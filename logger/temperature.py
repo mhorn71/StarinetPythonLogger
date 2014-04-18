@@ -22,9 +22,9 @@ def read():
         b0 = x0 * 1800
         pretemp = (b0 - 500) / 10
 
-        if re.match("^\d{1}$", str(pretemp)):  #matched 0 - 9
+        if re.match("^\d$", str(pretemp)):  # matched 0 - 9
             temp = '+' + str(pretemp.zfill(3))
-        elif re.match("^\d{1}\.\d*$", str(pretemp)):
+        elif re.match("^\d\.\d*$", str(pretemp)):
             a = str(pretemp).split('.')
             b = a[0].zfill(3)
             temp = '+' + str(b)
@@ -35,16 +35,16 @@ def read():
             b = a[0].zfill(3)
             temp = '+' + str(b)
         elif re.match("^-\d{1,2}$", str(pretemp)):
-            a = str(pretemp).replace('-','')
+            a = str(pretemp).replace('-', '')
             temp = '-' + str(a.zfill(3))
         elif re.match("^-\d\.\d*$", str(pretemp)):
             # matched -1.8888
-            a = str(pretemp).replace('-','')
+            a = str(pretemp).replace('-', '')
             b = str(a).split('.')
             c = str(b[0]).zfill(3)
             temp = '-' + c
-        elif re.match("-\d{2}\.\d*$",str(pretemp)):
-            a = str(pretemp).replace('-','')
+        elif re.match("-\d{2}\.\d*$", str(pretemp)):
+            a = str(pretemp).replace('-', '')
             b = str(a).split('.')
             c = str(b[0]).zfill(3)
             temp = '-' + c
@@ -55,6 +55,6 @@ def read():
 
     except IOError as e:
 
-         value = '+000'
+        value = '+000'
 
     return value
