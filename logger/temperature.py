@@ -53,7 +53,7 @@ def read():
 
         value = temp
 
-    except IOError as e:
+    except IOError:
 
         value = '+000'
 

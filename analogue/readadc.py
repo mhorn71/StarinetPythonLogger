@@ -53,11 +53,11 @@ def read():
         r1 = "{0:04d}".format(b1)
         r2 = "{0:04d}".format(b2)
         r3 = "{0:04d}".format(b3)
-    except IOError as e:
-        _reading = '0000', '0000', '0000', '0000', e
+    except IOError:
+        _reading = '0000', '0000', '0000', '0000'
 #        logger.debug("%s %s", "adc IO Error ", e)
-    except RuntimeError as e:
-        _reading = '0000', '0000', '0000', '0000', e
+    except RuntimeError:
+        _reading = '0000', '0000', '0000', '0000'
 #        logger.debug("%s %s", "adc RuntimeError ", e)
     else:
         _reading = r0, r1, r2, r3
