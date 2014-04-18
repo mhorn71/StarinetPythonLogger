@@ -56,7 +56,7 @@ def mylogger():
         datafile = hex(lastfilenumber).split('x')[1].upper().zfill(4)  # change filenumber to hex
         print "NEW DATA FILE IS CALLED : ", datafile
 
-        if datafile == '0003':
+        if datafile == 'FFFE':
             try:
                 pidfile = open(config.get('paths', 'pidfile'), 'r')
                 pid = int(pidfile.read())
