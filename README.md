@@ -1,7 +1,7 @@
 StarinetPythonLogger
 ====================
 
-Beaglebone Black Python Starinet data logger for the UKRAA Starbase Observatory 
+Beaglebone Black Python Starinet four channel data logger for the UKRAA Starbase Observatory
 
 
 Install Instructions
@@ -26,9 +26,15 @@ Software install
 
     1.) place all files in there own folder
 
-    2.) edit the StarinetBeagleLogger.conf file and set the full path of where you want the pid file to live. 
+    2.) create under the memory folder the following additional folders;
+        memory/data
+        memory/module
+        memory/module/0
+        memory/module/1
 
-    3.) Start as root.
+    3.) edit the StarinetBeagleLogger.conf file and set the full path of where you want the pid file to live.
 
-    4.) Download Starbase from ukraa.com/builds/beta and set the IP address of your 
+    4.) Start as root.
+
+    5.) Download Starbase from ukraa.com/builds/beta and set the IP address of your
         beaglebone in the file BeagleStarinetLogger-instrument.xml  
