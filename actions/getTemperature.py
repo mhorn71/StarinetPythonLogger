@@ -39,7 +39,7 @@ def control():
 
         # We always want to return the following format +/-00.0
         if re.match("^\d$", str(pretemp)):  # matched 0 - 9
-            temp = '+' + str(pretemp.zfill(2)) + '.' + '0'
+            temp = '+' + str(pretemp).zfill(2) + '.' + '0'
         elif re.match("^\d\.\d*$", str(pretemp)):
             a = str(pretemp).split('.')
             b = a[0].zfill(2)
@@ -50,12 +50,12 @@ def control():
             temp = '+' + str(pretemp)[:4]
         elif re.match("^-\d$", str(pretemp)):
             a = str(pretemp).replace('-', '')
-            temp = '-' + str(a.zfill(2)) + '.0'
+            temp = '-' + str(a).zfill(2) + '.0'
         elif re.match("^-\d{1,2}\.\d*$", str(pretemp)):
             # matched -1.8888
             a = str(pretemp).replace('-', '')
             b = str(a).split('.')
-            c = str(b[0]).zfill(2)
+            c = b[0].zfill(2)
             temp = '-' + c + '.' + b[1][:1]
         elif re.match("-\d{2}\.\d*$", str(pretemp)):
             temp = str(pretemp)[:5]

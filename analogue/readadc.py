@@ -3,7 +3,7 @@ import logging
 
 
 ## initialise logger
-#logger = logging.getLogger('analogue')
+logger = logging.getLogger('analogue')
 
 try:
     ADC.setup()
@@ -20,7 +20,7 @@ except Exception as e:
 
 def read():
 
-#    logger.debug("Analogue.readadc called")
+    logger.debug("Analogue.readadc called")
 
     _reading = None
 
@@ -55,10 +55,10 @@ def read():
         r3 = "{0:04d}".format(b3)
     except IOError:
         _reading = '0000', '0000', '0000', '0000'
-#        logger.debug("%s %s", "adc IO Error ", e)
+        logger.debug("%s %s", "adc IO Error ", e)
     except RuntimeError:
         _reading = '0000', '0000', '0000', '0000'
-#        logger.debug("%s %s", "adc RuntimeError ", e)
+        logger.debug("%s %s", "adc RuntimeError ", e)
     else:
         _reading = r0, r1, r2, r3
 

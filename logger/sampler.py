@@ -23,7 +23,7 @@ def mylogger():
     global next_call
     rate = int(config.get('capture', 'rate').lstrip("0"))
     #next_call = next_call + int(config.get('capture', 'rate').lstrip("0"))
-    next_call = + rate
+    next_call += rate
     threading.Timer(next_call - time.time(), mylogger).start()
 
     #get name of last data file and set assign to datafile

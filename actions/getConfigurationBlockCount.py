@@ -42,13 +42,13 @@ def control(buffer0):
             logger.debug("%s %s", "last block appears to be ", lastblock)
             value = hex(lastblock).split('x')[1].upper().zfill(4)
             logger.debug("%s %s", "last block value converted to hex ", value)
+        except ValueError:
+            status = 8
+            value = None
         except StandardError as e:
             status = 8
             value = None
             logger.critical("%s %s", "Unable to locate module 1 ", e)
-        except ValueError:
-            status = 8
-            value = None
         else:
             status = 0
     else:

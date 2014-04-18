@@ -23,30 +23,30 @@ def read():
         pretemp = (b0 - 500) / 10
 
         if re.match("^\d$", str(pretemp)):  # matched 0 - 9
-            temp = '+' + str(pretemp.zfill(3))
+            temp = '+' + str(pretemp).zfill(3)
         elif re.match("^\d\.\d*$", str(pretemp)):
             a = str(pretemp).split('.')
             b = a[0].zfill(3)
             temp = '+' + str(b)
         elif re.match("^\d{2}$", str(pretemp)):
-            temp = '+' + str(pretemp.zfill(3))
+            temp = '+' + str(pretemp).zfill(3)
         elif re.match("^\d{2}\.\d*$", str(pretemp)):
             a = str(pretemp).split('.')
             b = a[0].zfill(3)
             temp = '+' + str(b)
         elif re.match("^-\d{1,2}$", str(pretemp)):
             a = str(pretemp).replace('-', '')
-            temp = '-' + str(a.zfill(3))
+            temp = '-' + str(a).zfill(3)
         elif re.match("^-\d\.\d*$", str(pretemp)):
             # matched -1.8888
             a = str(pretemp).replace('-', '')
             b = str(a).split('.')
-            c = str(b[0]).zfill(3)
+            c = b[0].zfill(3)
             temp = '-' + c
         elif re.match("-\d{2}\.\d*$", str(pretemp)):
             a = str(pretemp).replace('-', '')
             b = str(a).split('.')
-            c = str(b[0]).zfill(3)
+            c = b[0].zfill(3)
             temp = '-' + c
         else:
             temp = '+000'

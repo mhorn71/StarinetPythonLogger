@@ -17,28 +17,28 @@ config.read("StarinetBeagleLogger.conf")
 
 try:
     ADC.setup()
-except Exception as e:
+except IOError as e:
     print 'Adc failed - did you start as root?', e
     pass
 
 try:
     ADC.read("P9_40")
-except Exception as e:
+except IOError as e:
     pass
 
 mybuffer = 570
 my_queue = Queue.Queue()
 
 
-class readFromUDPSocket(threading.Thread):
+class ReadFromUDPSocket(threading.Thread):
 
     def __init__(self, my_queue):
-        logger.info("readfromUDPSocket __init__ initialised.")
+        logger.info("ReadFromUDPSocket __init__ initialised.")
         threading.Thread.__init__(self)
         self.my_queue = my_queue
 
     def run(self):
-        logger.debug("readfromUDPSocket run initialised.")
+        logger.debug("ReadFromUDPSocket run initialised.")
         while True:
 
             buffer1, addr = socketUDP.recvfrom(mybuffer)
@@ -50,11 +50,11 @@ class readFromUDPSocket(threading.Thread):
                 self.my_queue.join()
 
 
-class process(threading.Thread):
+class Process(threading.Thread):
 
     def __init__(self, my_queue):
 
-        logger.info("process __init__ initialised.")
+        logger.info("Process __init__ initialised.")
 
         threading.Thread.__init__(self)
         self.my_queue = my_queue
@@ -63,7 +63,7 @@ class process(threading.Thread):
 
     def run(self):
 
-        logger.debug("process run initialised.")
+        logger.debug("Process run initialised.")
 
         while True:
             buffer3 = self.my_queue.get()
@@ -95,15 +95,15 @@ if __name__ == '__main__':
         logger.info("%s %s", "Initiated IPv4 Socket bound to port ", config.get("network", "port"))
 
     # Instantiate & start threads
-    myServer = readFromUDPSocket(my_queue)
-    myInterpreter = process(my_queue)
+    myServer = ReadFromUDPSocket(my_queue)
+    myInterpreter = Process(my_queue)
     myServer.setDaemon(True)
     myInterpreter.setDaemon(True)
 
     myServer.start()
     myInterpreter.start()
 
-while 1:
-    pass
+    while 1:
+        pass
 
-socketUDP.close()
+    socketUDP.close()

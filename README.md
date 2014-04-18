@@ -7,7 +7,7 @@ Beaglebone Black Python Starinet four channel data logger for the UKRAA Starbase
 Install Instructions
 ====================
 
-You need to install the following two additional python packages.
+You need to install the following additional python packages.
 
     The Adafruit BBIO Library 
     -------------------------
@@ -16,6 +16,10 @@ You need to install the following two additional python packages.
     crcmod
     ------
     https://pypi.python.org/pypi/crcmod/1.7
+
+    psutils
+    -------
+    https://code.google.com/p/psutil/
 
 
 You need to add the following additional hardware on ADC Channel AIN6
@@ -26,7 +30,8 @@ Software install
 
     1.) place all files in there own folder
 
-    2.) create under the memory folder the following additional folders;
+    2.) create the following folders in the folder you extract the code too.
+        run
         memory/data
         memory/module
         memory/module/0
