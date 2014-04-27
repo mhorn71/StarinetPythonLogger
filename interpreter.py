@@ -155,7 +155,7 @@ def processor(buffer0):
                         elif re.match('03080000', command):  # capturePublisher
                             x = capturePublisher.control(data[1])
                         elif re.match('03090000', command):  # setPublisher
-                            x = setPublisher.control(data[1])
+                            x = setPublisher.control(data[1], data[2], data[3], data[4], data[5], data[6])
                         else:
                             x = 20, None 
 
