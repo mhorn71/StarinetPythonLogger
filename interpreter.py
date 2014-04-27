@@ -103,7 +103,7 @@ def processor(buffer0):
                             x = getRate.control()
                         elif re.match('03020000', command):  # getDataBlockCount
                             x = getDataBlockCount.control()
-                        elif re.match('03100000', command):  getPublisher
+                        elif re.match('030A0000', command):  # getPublisher
                             x = getPublisher.control()
                         ############ Logger Plugin ############
                         elif re.match('04000000', command):  # getRealTimeData
