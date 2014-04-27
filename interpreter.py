@@ -21,6 +21,9 @@ import actions.getMACAddress as getMACAddress
 import actions.setRate as setRate
 import actions.setConfigurationBlock as setConfigurationBlock
 import actions.getConfigurationBlock as getConfigurationBlock
+import actions.capturePublisher as capturePublisher
+import actions.setPublisher as setPublisher
+import actions.getPublisher as getPublisher
 import actions.getConfigurationBlockCount as getConfigurationBlockCount
 import utilities.samplerstatus as samplerstatus
 
@@ -100,6 +103,8 @@ def processor(buffer0):
                             x = getRate.control()
                         elif re.match('03020000', command):  # getDataBlockCount
                             x = getDataBlockCount.control()
+                        elif re.match('03100000', command):  getPublisher
+                            x = getPublisher.control()
                         ############ Logger Plugin ############
                         elif re.match('04000000', command):  # getRealTimeData
                             x = getRealtimeData.control()
@@ -147,6 +152,10 @@ def processor(buffer0):
                             x = setRate.control(data[1])
                         elif re.match('03060000', command):  # capture
                             x = capture.control(data[1])
+                        elif re.match('03080000', command):  # capturePublisher
+                            x = capturePublisher.control(data[1])
+                        elif re.match('03090000', command):  # setPublisher
+                            x = setPublisher.control(data[1])
                         else:
                             x = 20, None 
 
