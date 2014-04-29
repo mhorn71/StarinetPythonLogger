@@ -29,7 +29,7 @@ def control(buffer0):
         logger.debug("Entered true routine")
         if publisherstatus.status() == 0:
             logger.debug("%s %s", "publisherstatus reports combined active", str(publisherstatus.status()))
-            status = 8002
+            status = 2  # needs status 9000
         elif publisherstatus.status() == 1:
             logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
 
