@@ -17,9 +17,12 @@ def status():
 
     value = None
 
+    logger.debug("%s %s", "pidfile", pidfile)
+
     try:
         f = open(pidfile, 'r')
         p = int(f.readline())
+        logger.debug("%s %s", "pid number", p)
         proc = psutil.Process(p)
         f.close()
     except IOError:
