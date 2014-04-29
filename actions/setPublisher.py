@@ -1,4 +1,5 @@
 __author__ = 'mark'
+import utilities.publisherstatus as publisherstatus
 import utilities.samplerstatus as samplerstatus
 import ConfigParser
 import logging
@@ -14,8 +15,8 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5):
 
     logger.debug("setPublisher called")
 
-    if samplerstatus.status() == 8000:
-        status = 2
+    if publisherstatus.status() == 0:
+        status = 2  # ABORT
         value = None
     else:
         try:
@@ -29,10 +30,10 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5):
                 config.write(configfile)
         except IOError as e:
             logger.debug("%s %s", "setPulisher IOError ", e)
-            status = 4
+            status = 4  # PREMATURE_TERMINATION
             value = e
         else:
-            status = 0
+            status = 0  # SUCCESS
             value = None
     logger.debug("%s %s", "setPublisher returned ", status)
 
