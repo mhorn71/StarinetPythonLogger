@@ -9,11 +9,11 @@ logger = logging.getLogger('utilities.publisherstatus')
 config = ConfigParser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
-## the following status will return: 0 = Not Running, 1 = Running, 2 = Error
+## the following status will return: 1 = Not Running, 0 = Running, 2 = Error
 
 def status():
 
-    pidfile = config.get('publisherstatus', 'pidfile')
+    pidfile = config.get('publisher', 'pidfile')
 
     value = None
 
@@ -30,7 +30,7 @@ def status():
         value = 1
     except ValueError as e:
         logger.debug("psuti.Process returned no value from pidfile")
-        os.remove(config.get('paths', 'pidfile'))
+        os.remove(config.get('publisher', 'pidfile'))
         value = 1
     else:
         logger.debug("%s %s", "proc.cmdline reports ", proc.cmdline())
@@ -38,7 +38,7 @@ def status():
             b = proc.cmdline()[1]
         except IndexError as e:
             logger.debug("proc.cmdline returned no value from pidfile")
-            os.remove(config.get('paths', 'pidfile'))
+            os.remove(config.get('publisher', 'pidfile'))
             value = 1
         else:
             if b == 'publisher/combined.py':
@@ -57,7 +57,7 @@ def status():
                     logger.debug("%s %s", "Unable to remove pid file fatal error", e)
                     value = 2
                 else:
-                    value = 1
+                    value = 0
 
         logger.debug("%s %s", "Status = ", str(value))
 
