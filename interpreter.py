@@ -80,40 +80,58 @@ def processor(buffer0):
                     else:
                         ########## Core Module #################
                         if re.match('00010000', command):  # ping
+                            logger.debug("Matched command ping")
                             x = ping.ping()
                         elif re.match('000A0000', command):  # getVersion
+                            logger.debug("Matched command getVersion")
                             x = getVersion.control()
                         elif re.match('000D0000', command):  # getMACAddress
+                            logger.debug("Matched command getMACAddress")
                             x = getMACAddress.control()
                         elif re.match('000E0000', command):  # getStatus
+                            logger.debug("Matched command getStatus")
                             x = getStatus.control(response_command, response_status, response_crc)
                         ############ Utilities Module ############
                         elif re.match('01010000', command):  # getTemperature
+                            logger.debug("Matched command getTemperature")
                             x = getTemperature.control()
                         elif re.match('010D0000', command):  # getClockDate
+                            logger.debug("Matched command getClockDate")
                             x = getClockDate.control()
                         elif re.match('01070000', command):  # getHostname
+                            logger.debug("Matched command getHostname")
                             x = getHostname.control()
                         elif re.match('010E0000', command):  # getClockTime
+                            logger.debug("Matched command getClockTime")
                             x = getClockTime.control()
                         ############# Data Capture Module ############
                         elif re.match('03000000', command):  # getSpace
+                            logger.debug("Matched command getSpace")
                             x = getSpace.control()
                         elif re.match('03040000', command):  # getRate return capture interval
+                            logger.debug("Matched command getRate")
                             x = getRate.control()
                         elif re.match('03020000', command):  # getDataBlockCount
+                            logger.debug("Matched command getDataBlockCount")
                             x = getDataBlockCount.control()
                         elif re.match('030A0000', command):  # getPublisher
+                            logger.debug("Matched command getPublisher")
                             x = getPublisher.control()
                         ############ Logger Plugin ############
                         elif re.match('04000000', command):  # getRealTimeData
+                            logger.debug("Matched command getRealTimeData")
                             x = getRealtimeData.control()
                         else:
+                            logger.debug("Matched command - NO MATCH")
                             x = 20, None 
 
     elif re.match("^\x02*[0-9a-zA-Z]{10}\x1F*(([0-9a-zA-Z]*)(\x1F)*)*\x04*", buffer0):  # Matched Cmd with parameters
 
         logger.debug("Matched command with parameters")
+        logger.debug("%s %s", "Current current response_command - ", response_command)
+        logger.debug("%s %s", "Current current response_status - ", response_status)
+        logger.debug("%s %s", "Current current response_value - ", response_value)
+        logger.debug("%s %s", "Current current response_crc - ", response_crc)
 
         try:
             data = buffer0.strip('\x02\x1F\x03\x04\r\n').split('\x1F')  # Strip off ctrl characters and split on <us>
@@ -137,26 +155,36 @@ def processor(buffer0):
                     else:
                         ############ Core Module ############
                         if re.match('00050000', command):  # getConfigurationBlockCount
+                            logger.debug("Matched command getConfigurationBlockCount")
                             x = getConfigurationBlockCount.control(data[1])
                         elif re.match('00060000', command):  # getConfigurationBlock
+                            logger.debug("Matched command getConfigurationBlock")
                             x = getConfigurationBlock.control(data[1], data[2], data[3])
                         elif re.match('00070000', command):  # setConfigurationBlock
+                            logger.debug("Matched command setConfigurationBlock")
                             x = setConfigurationBlock.control(data[1], data[2], data[3])
                         ############ Analogue Module #############
                         elif re.match('02000000', command):  # getA2D
+                            logger.debug("Matched command getA2D")
                             x = getA2D.control(data[1])
                         ############### DataCapture Module ############
                         elif re.match('03030000', command):  # getDataBlock
+                            logger.debug("Matched command getDataBlock")
                             x = getDataBlock.control(data[1])
                         elif re.match('03050000', command):  # setRate set capture interval
+                            logger.debug("Matched command setRate")
                             x = setRate.control(data[1])
                         elif re.match('03060000', command):  # capture
+                            logger.debug("Matched command capture")
                             x = capture.control(data[1])
                         elif re.match('03080000', command):  # capturePublisher
+                            logger.debug("Matched command capturePublisher")
                             x = capturePublisher.control(data[1])
                         elif re.match('03090000', command):  # setPublisher
+                            logger.debug("Matched command setPublisher")
                             x = setPublisher.control(data[1], data[2], data[3], data[4], data[5], data[6])
                         else:
+                            logger.debug("Matched command - NO MATCH")
                             x = 20, None 
 
     if (x[0] is not None) and (x[1] is not None):
