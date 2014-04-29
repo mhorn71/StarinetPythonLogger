@@ -28,10 +28,10 @@ def control(buffer0):
 
         logger.debug("Entered true routine")
         if publisherstatus.status() == 0:
-            logger.debug("%s %s", "publisherstatus reports sampler active", str(publisherstatus.status()))
+            logger.debug("%s %s", "publisherstatus reports combined active", str(publisherstatus.status()))
             status = 8002
         elif publisherstatus.status() == 1:
-            logger.debug("%s %s", "publisherstatus reports sampler not active", str(publisherstatus.status()))
+            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
 
             if samplerstatus.status() == 8000:
                 try:
@@ -42,7 +42,7 @@ def control(buffer0):
                     status = 4
                 else:
                     try:
-                        pidfile = open(config.get('paths', 'pidfile'), 'w')
+                        pidfile = open(config.get('publisher', 'pidfile'), 'w')
                         pidfile.write(str(pro.pid))
                         pidfile.close()
                     except IOError as e:
@@ -64,12 +64,12 @@ def control(buffer0):
         logger.debug("Entered false routine")
 
         if publisherstatus.status() == 1:
-            logger.debug("%s %s", "publisherstatus reports sampler not active", str(publisherstatus.status()))
+            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
             status = 0
         elif publisherstatus.status() == 0:
-            logger.debug("%s %s", "publisherstatus reports sampler active", str(publisherstatus.status()))
+            logger.debug("%s %s", "publisherstatus reports combined active", str(publisherstatus.status()))
             try:
-                pidfile = open(config.get('paths', 'pidfile'), 'r')
+                pidfile = open(config.get('publisher', 'pidfile'), 'r')
                 pid = int(pidfile.read())
                 pidfile.close()
                 logger.debug("%s %s %s", "publisher.combined pidfile and pid - ", str(pidfile), str(pid))
@@ -84,7 +84,7 @@ def control(buffer0):
                     status = 4
                 else:
                     try:
-                        os.remove(str(config.get('paths', 'pidfile')))
+                        os.remove(str(config.get('publisher', 'pidfile')))
                     except OSError as e:
                         logger.critical("%s %s", "Unable to remove pid file fatal error", e)
                         status = 4
