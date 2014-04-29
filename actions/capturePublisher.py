@@ -1,6 +1,7 @@
 import os.path
 import subprocess
 import utilities.publisherstatus as publisherstatus
+import utilities.samplerstatus as samplerstatus
 import ConfigParser
 import signal
 import logging
@@ -31,25 +32,29 @@ def control(buffer0):
             status = 8002
         elif publisherstatus.status() == 1:
             logger.debug("%s %s", "publisherstatus reports sampler not active", str(publisherstatus.status()))
-            
-            try:
-                pro = subprocess.Popen(["/usr/bin/python", "publisher/combined.py"])
-            except IOError as e:
-                logger.critical("%s %s", "premature termination", e)
-                logger.critical("Unable to start capture")
-                status = 4
-            else:
+
+            if samplerstatus.status() == 8000:
                 try:
-                    pidfile = open(config.get('paths', 'pidfile'), 'w')
-                    pidfile.write(str(pro.pid))
-                    pidfile.close()
-                except IOError as e:   
+                    pro = subprocess.Popen(["/usr/bin/python", "publisher/combined.py"])
+                except IOError as e:
                     logger.critical("%s %s", "premature termination", e)
-                    logger.critical("Unable to create pid file")
+                    logger.critical("Unable to start capturePublisher")
                     status = 4
                 else:
-                    logger.debug("Started publisher.combined ....")
-                    status = 0
+                    try:
+                        pidfile = open(config.get('paths', 'pidfile'), 'w')
+                        pidfile.write(str(pro.pid))
+                        pidfile.close()
+                    except IOError as e:
+                        logger.critical("%s %s", "premature termination", e)
+                        logger.critical("Unable to create pid file")
+                        status = 4
+                    else:
+                        logger.debug("Started publisher.combined ....")
+                        status = 0
+            else:
+                logger.debug("capture not active command capturePublisher aborted")
+                status = 2
         else:
             logger.debug("premature termination")
             status = 4
