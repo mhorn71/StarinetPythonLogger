@@ -32,21 +32,6 @@ def control(buffer0):
         elif publisherstatus.status() == 1:
             logger.debug("%s %s", "publisherstatus reports sampler not active", str(publisherstatus.status()))
             
-            folder = config.get('paths', 'datafolder')
-
-            for the_file in os.listdir(folder):
-                file_path = os.path.join(folder, the_file)
-                try:
-                    if os.path.isfile(file_path):
-                            os.unlink(file_path)
-                    logger.debug("%s %s", "Removing data file ", file_path)
-                except OSError as e:
-                        logger.critical("%s %s", "premature termination", e)
-                        status = 4
-                    
-            f = open(config.get("paths", "datafolder") + '0000', 'wb')
-            f.close()
-            
             try:
                 pro = subprocess.Popen(["/usr/bin/python", "publisher/combined.py"])
             except IOError as e:
