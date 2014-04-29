@@ -26,10 +26,10 @@ def control(buffer0):
     if buffer0 == 'true':
 
         logger.debug("Entered true routine")
-        if publisherstatus.status() == 1:
+        if publisherstatus.status() == 0:
             logger.debug("%s %s", "publisherstatus reports sampler active", str(publisherstatus.status()))
             status = 8002
-        elif publisherstatus.status() == 0:
+        elif publisherstatus.status() == 1:
             logger.debug("%s %s", "publisherstatus reports sampler not active", str(publisherstatus.status()))
             
             folder = config.get('paths', 'datafolder')
@@ -48,7 +48,7 @@ def control(buffer0):
             f.close()
             
             try:
-                pro = subprocess.Popen(["/usr/bin/python", "logger/sampler.py"])
+                pro = subprocess.Popen(["/usr/bin/python", "publisher/combined.py"])
             except IOError as e:
                 logger.critical("%s %s", "premature termination", e)
                 logger.critical("Unable to start capture")
@@ -63,7 +63,7 @@ def control(buffer0):
                     logger.critical("Unable to create pid file")
                     status = 4
                 else:
-                    logger.debug("Started logger/sampler ....")
+                    logger.debug("Started publisher.combined ....")
                     status = 0
         else:
             logger.debug("premature termination")
@@ -73,16 +73,16 @@ def control(buffer0):
 
         logger.debug("Entered false routine")
 
-        if publisherstatus.status() == 0:
+        if publisherstatus.status() == 1:
             logger.debug("%s %s", "publisherstatus reports sampler not active", str(publisherstatus.status()))
             status = 0
-        elif publisherstatus.status() == 1:
+        elif publisherstatus.status() == 0:
             logger.debug("%s %s", "publisherstatus reports sampler active", str(publisherstatus.status()))
             try:
                 pidfile = open(config.get('paths', 'pidfile'), 'r')
                 pid = int(pidfile.read())
                 pidfile.close()
-                logger.debug("%s %s %s", "logger/sampler pidfile and pid - ", str(pidfile), str(pid))
+                logger.debug("%s %s %s", "publisher.combined pidfile and pid - ", str(pidfile), str(pid))
             except IOError as e:
                 logger.critical("%s %s", "Unable to assign pid to pro.pid capturePublisher.py", e)
                 status = 4
@@ -90,7 +90,7 @@ def control(buffer0):
                 try:
                     os.kill(pid, signal.SIGTERM)
                 except OSError as e:
-                    logger.debug("%s %s", "Unable to kill process publisher/combined", e)
+                    logger.debug("%s %s", "Unable to kill process publisher.combined", e)
                     status = 4
                 else:
                     try:
