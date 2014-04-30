@@ -21,6 +21,10 @@ You need to install the following additional python packages.
     -------
     https://code.google.com/p/psutil/
 
+    matplotlib
+    ----------
+    https://github.com/matplotlib/matplotlib
+
 
 You need to add the following additional hardware on ADC Channel AIN6
 
