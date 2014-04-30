@@ -2,6 +2,7 @@ import os.path
 import subprocess
 import psutil
 import utilities.samplerstatus as samplerstatus
+import utilities.publisherstatus as publisherstatus
 import ConfigParser
 import signal
 import logging
@@ -79,6 +80,29 @@ def control(buffer0):
             status = 0
         elif samplerstatus.status() == 8000:
             logger.debug("%s %s", "samplerstatus reports sampler active", str(samplerstatus.status()))
+
+            if publisherstatus.status() == 0:
+                logger.debug("%s %s", "publisher running terminating first", str(publisherstatus.status()))
+                try:
+                    pidfile = open(config.get('publisher', 'pidfile'), 'r')
+                    pid = int(pidfile.read())
+                    pidfile.close()
+                    logger.debug("%s %s %s", "publisher.combined pidfile and pid - ", str(pidfile), str(pid))
+                except IOError as e:
+                    logger.critical("%s %s", "Unable to assign pid to pro.pid capturePublisher.py", e)
+                else:
+                    try:
+                        os.kill(pid, signal.SIGTERM)
+                    except OSError as e:
+                        logger.debug("%s %s", "Unable to kill process publisher.combined", e)
+                    else:
+                        try:
+                            os.remove(str(config.get('publisher', 'pidfile')))
+                        except OSError as e:
+                            logger.critical("%s %s", "Unable to remove pid file fatal error", e)
+                        else:
+                            pass
+
             try:
                 pidfile = open(config.get('paths', 'pidfile'), 'r')
                 pid = int(pidfile.read())
