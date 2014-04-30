@@ -10,6 +10,7 @@ import ConfigParser
 import re
 import datetime
 import threading
+import ftplib
 
 config = ConfigParser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
@@ -18,6 +19,7 @@ config.read("StarinetBeagleLogger.conf")
 next_call = time.time()
 
 ptn = 0
+
 
 def mypublisher():
 
@@ -47,94 +49,117 @@ def mypublisher():
     temperature = []
     sampletime = []
 
+    def myftp():
+        try:
+            ftplib.FTP.set_debuglevel(0)  # set to 1 or 2 for debug depending verbosity required.
+            session = ftplib.FTP(config.get('publisher', 'server'),config.get('publisher', 'username'),
+                                 config.get('publisher', 'password'))
+            file = open('chart.png','rb')                  # file to send
+            session.storbinary('STOR chart.png', file)     # send the file
+            file.close()                                    # close file and FTP
+            session.quit()
+        except ftplib.all_errors:
+            pass
+
     # combined chart
     def combined(sampletime,channel0,channel1,channel2,channel3,temperature):
 
         #print "channel0 - ", channel0
+        try:
+            # initialise plt
+            fig, ax1 = plt.subplots(figsize=(10,5))
 
-        # initialise plt
-        fig, ax1 = plt.subplots(figsize=(10,5))
+            # plot channels
+            ax1.plot(sampletime, channel0, 'b-', label='Channel 0')
+            ax1.plot(sampletime, channel1, 'g-', label='Channel 1')
+            ax1.plot(sampletime, channel2, 'c-', label='Channel 2')
+            ax1.plot(sampletime, channel3, 'y-', label='Channel 3')
+            ax1.set_xlabel('UTC')
+            ax1.set_ylabel('mV')
+            ax1.set_ylim(0, 1800)
 
-        # plot channels
-        ax1.plot(sampletime, channel0, 'b-', label='Channel 0')
-        ax1.plot(sampletime, channel1, 'g-', label='Channel 1')
-        ax1.plot(sampletime, channel2, 'c-', label='Channel 2')
-        ax1.plot(sampletime, channel3, 'y-', label='Channel 3')
-        ax1.set_xlabel('UTC')
-        ax1.set_ylabel('mV')
-        ax1.set_ylim(0, 1800)
+            ax2 = ax1.twinx()
+            ax2.plot(sampletime, temperature, 'r-', label='Temp')
+            ax2.set_ylabel('Celsius')
+            ax2.set_ylim(-10, 80)
 
-        ax2 = ax1.twinx()
-        ax2.plot(sampletime, temperature, 'r-', label='Temp')
-        ax2.set_ylabel('Celsius')
-        ax2.set_ylim(-10, 80)
+            # set title
+            #plt.title('Starinet Beagle 4 Channel Logger')
 
-        # set title
-        #plt.title('Starinet Beagle 4 Channel Logger')
+            # show legend
+            ax1.legend(loc = 'upper left')
+            ax2.legend(loc = 'upper right')
 
-        # show legend
-        ax1.legend(loc = 'upper left')
-        ax2.legend(loc = 'upper right')
+            # set grid
+            plt.grid()
 
-        # set grid
-        plt.grid()
+            # set tight layout
+            plt.tight_layout()
 
-        # set tight layout
-        plt.tight_layout()
+            #plt.show()
+            plt.savefig("chart.png")
 
-        #plt.show()
-        plt.savefig("chart.png")
-
-        print "\nNew publisher thread finished at", datetime.datetime.now(), " next thread number ", ptn
+            print "\nNew publisher thread finished at", datetime.datetime.now(), " next thread number ", ptn
+        except Exception:
+            pass
+        else:
+            myftp()
 
     # stacked chart
 
     def stacked(sampletime,channel0,channel1,channel2,channel3,temperature):
-        plt.figure(figsize=(7, 9), dpi=70)
 
-        #print "sampltime - ", sampletime
+        try:
+            plt.figure(figsize=(7, 9), dpi=70)
 
-        # Channels
-        ax1 = plt.subplot(5, 1, 1)
-        ax1.plot_date(sampletime, channel0, 'b-', label='_nolegend_')
-        ax1.set_title("Channel 0")
-        ax1.set_xlabel("UTC")
-        ax1.set_ylabel("mV")
-        ax1.locator_params(axis='y',nbins=4)
-        
-        ax2 = plt.subplot(5, 1, 2)
-        ax2.plot_date(sampletime, channel1, 'g-', label='_nolegend_')
-        ax2.set_title("Channel 1")
-        ax2.set_xlabel("UTC")
-        ax2.set_ylabel("mV")
-        ax2.locator_params(axis='y',nbins=4)
-        
-        
-        ax3 = plt.subplot(5, 1, 3)
-        ax3.plot_date(sampletime, channel2, 'c-', label='_nolegend_')
-        ax3.set_title("Channel 2")
-        ax3.set_xlabel("UTC")
-        ax3.set_ylabel("mV")
-        ax3.locator_params(axis='y',nbins=4)
-        
-        ax4 = plt.subplot(5, 1, 4)
-        ax4.plot_date(sampletime, channel3, 'y-', label='_nolegend_')
-        ax4.set_title("Channel 3")
-        ax4.set_xlabel("UTC")
-        ax4.set_ylabel("mV")
-        ax4.locator_params(axis='y',nbins=4)
-        
-        ax5 = plt.subplot(5, 1, 5)
-        ax5.plot_date(sampletime, temperature, 'r-', label='_nolegend_')
-        ax5.set_title("Instrument Temperature")
-        ax5.set_xlabel("UTC")
-        ax5.set_ylabel("Celsius")
-        plt.legend()
-        
-        plt.tight_layout()
-        
-        #plt.show()
-        plt.savefig("chart.png")
+            #print "sampltime - ", sampletime
+
+            # Channels
+            ax1 = plt.subplot(5, 1, 1)
+            ax1.plot_date(sampletime, channel0, 'b-', label='_nolegend_')
+            ax1.set_title("Channel 0")
+            ax1.set_xlabel("UTC")
+            ax1.set_ylabel("mV")
+            ax1.locator_params(axis='y',nbins=4)
+
+            ax2 = plt.subplot(5, 1, 2)
+            ax2.plot_date(sampletime, channel1, 'g-', label='_nolegend_')
+            ax2.set_title("Channel 1")
+            ax2.set_xlabel("UTC")
+            ax2.set_ylabel("mV")
+            ax2.locator_params(axis='y',nbins=4)
+
+
+            ax3 = plt.subplot(5, 1, 3)
+            ax3.plot_date(sampletime, channel2, 'c-', label='_nolegend_')
+            ax3.set_title("Channel 2")
+            ax3.set_xlabel("UTC")
+            ax3.set_ylabel("mV")
+            ax3.locator_params(axis='y',nbins=4)
+
+            ax4 = plt.subplot(5, 1, 4)
+            ax4.plot_date(sampletime, channel3, 'y-', label='_nolegend_')
+            ax4.set_title("Channel 3")
+            ax4.set_xlabel("UTC")
+            ax4.set_ylabel("mV")
+            ax4.locator_params(axis='y',nbins=4)
+
+            ax5 = plt.subplot(5, 1, 5)
+            ax5.plot_date(sampletime, temperature, 'r-', label='_nolegend_')
+            ax5.set_title("Instrument Temperature")
+            ax5.set_xlabel("UTC")
+            ax5.set_ylabel("Celsius")
+            plt.legend()
+
+            plt.tight_layout()
+
+            #plt.show()
+            plt.savefig("chart.png")
+        except Exception:
+            pass
+        else:
+            myftp()
+
 
     # find all files in memory/data and get creation time
 
