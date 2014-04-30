@@ -11,6 +11,8 @@ import re
 import datetime
 import threading
 import ftplib
+import gc
+from guppy import hpy
 
 config = ConfigParser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
@@ -27,15 +29,18 @@ def mypublisher():
 
     print "\nNew publisher thread started at", datetime.datetime.now(), "thread number ", ptn
     print "Number of active threads ", threading.active_count()
+
+    h = hpy()
+    print h.heap()
   
     ptn += 1
 
     #immediatly set schedule of next sample.
     global next_call
     interval = int(config.get('publisher', 'interval').lstrip("0"))
-    print "Interval set to - ", interval
+    #print "Interval set to - ", interval
     rate = interval * 60
-    print "Rate has been converted to seconds - ", rate
+    #print "Rate has been converted to seconds - ", rate
     next_call += rate
     threading.Timer(next_call - time.time(), mypublisher).start()
 
@@ -59,6 +64,8 @@ def mypublisher():
             session.quit()
         except ftplib.all_errors:
             pass
+        else:
+            gc.collect()
 
     # combined chart
     def combined(sampletime,channel0,channel1,channel2,channel3,temperature):
@@ -98,7 +105,7 @@ def mypublisher():
             #plt.show()
             plt.savefig("chart.png")
 
-            print "\nNew publisher thread finished at", datetime.datetime.now(), " next thread number ", ptn
+            #print "\nNew publisher thread finished at", datetime.datetime.now(), " next thread number ", ptn
         except Exception:
             pass
         else:
@@ -175,9 +182,8 @@ def mypublisher():
         return file_list
 
     for _file in get_information(config.get('paths', 'datafolder')):
-    #for _file in get_information('/home/ubuntu/StarinetPythonLogger/memory/data'):
 
-        print "_file is set to ", _file
+        #print "_file is set to ", _file
 
         timenow = time.time()  # get the current Unix time
         timespan = 86400  # time in seconds (24 Hours) of chart
