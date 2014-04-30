@@ -51,7 +51,6 @@ def mypublisher():
 
     def myftp():
         try:
-            ftplib.FTP.set_debuglevel(0)  # set to 1 or 2 for debug depending verbosity required.
             session = ftplib.FTP(config.get('publisher', 'server'),config.get('publisher', 'username'),
                                  config.get('publisher', 'password'))
             file = open('chart.png','rb')                  # file to send
