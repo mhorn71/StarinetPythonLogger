@@ -43,7 +43,7 @@ def mylogger():
     junk = f.readline()
 
     if f.tell() == 0:
-        print "Data File appears to be 0 bytes", f.tell()
+        #print "Data File appears to be 0 bytes", f.tell()
         f.close()
         f = open(config.get("paths", "datafolder") + datafile, 'ab')
         samplerdata = ''.join(readadc.read())
@@ -53,10 +53,10 @@ def mylogger():
         f.write(data)
         f.close()
     elif f.tell() == 512:
-        print "Data File was greater than 0 and greater than 512", f.tell()
+        #print "Data File was greater than 0 and greater than 512", f.tell()
         f.close()
         datafile = hex(lastfilenumber).split('x')[1].upper().zfill(4)  # change filenumber to hex
-        print "NEW DATA FILE IS CALLED : ", datafile
+        #print "NEW DATA FILE IS CALLED : ", datafile
 
         if datafile == 'FFFE':
             try:
@@ -84,11 +84,11 @@ def mylogger():
         f.write(data)
         f.close()
     else:
-        print "Datafile size between 0 - 512 bytes", f.tell()
+        #print "Datafile size between 0 - 512 bytes", f.tell()
         f.close()
         f = open(config.get("paths", "datafolder") + datafile, 'ab')
         samplerdata = ''.join(readadc.read())
-        print "samplerdata = ", repr(samplerdata)
+        #print "samplerdata = ", repr(samplerdata)
         data = str(samplerdata)
         f.write(data)
         f.close()
