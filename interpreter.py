@@ -24,6 +24,8 @@ import actions.getConfigurationBlock as getConfigurationBlock
 import actions.capturePublisher as capturePublisher
 import actions.setPublisher as setPublisher
 import actions.getPublisher as getPublisher
+import actions.setPublisherLabels as setPublisherLabels
+import actions.getPublisherLabels as getPublisherLabels
 import actions.getConfigurationBlockCount as getConfigurationBlockCount
 import utilities.samplerstatus as samplerstatus
 
@@ -101,6 +103,9 @@ def processor(buffer0):
                         elif re.match('01070000', command):  # getHostname
                             logger.debug("Matched command getHostname")
                             x = getHostname.control()
+                        elif re.match('01090000', command):  # getPublisherLabels
+                            logger.debug("Matched command getPublisherLabels")
+                            x = getPublisherLabels()
                         elif re.match('010E0000', command):  # getClockTime
                             logger.debug("Matched command getClockTime")
                             x = getClockTime.control()
@@ -163,6 +168,10 @@ def processor(buffer0):
                         elif re.match('00070000', command):  # setConfigurationBlock
                             logger.debug("Matched command setConfigurationBlock")
                             x = setConfigurationBlock.control(data[1], data[2], data[3])
+                        ############ Utilities Module ############
+                        elif re.match('010A0000', command):  # setPublisherLabels
+                            logger.debug("Matched command setPublisherLabels")
+                            x = setPublisherLabels(data[1], data[2], data[3], data[4])
                         ############ Analogue Module #############
                         elif re.match('02000000', command):  # getA2D
                             logger.debug("Matched command getA2D")
