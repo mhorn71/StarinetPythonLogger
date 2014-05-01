@@ -7,6 +7,7 @@ import threading
 import readadc
 import temperature
 import signal
+###from guppy import hpy
 
 ## initialise config parser
 config = ConfigParser.RawConfigParser()
@@ -18,6 +19,10 @@ next_call = time.time()
 
 def mylogger():
     #print "Started mylogger"
+
+    #guppy bits.
+    ##h = hpy()
+    ##print h
 
     #immediatly set schedule of next sample.
     global next_call
@@ -94,4 +99,3 @@ def mylogger():
         f.close()
 
 mylogger()
-
