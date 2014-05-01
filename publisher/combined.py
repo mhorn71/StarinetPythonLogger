@@ -1,7 +1,7 @@
 __author__ = 'mark'
 import matplotlib
 
-matplotlib.use('Agg')
+matplotlib.use('Agg')  ## do this before import matplotlib.pyplot so tkinter doesn't cause an error.
 
 import matplotlib.pyplot as plt
 import os
@@ -70,7 +70,6 @@ def mypublisher():
     # combined chart
     def combined(sampletime,channel0,channel1,channel2,channel3,temperature):
 
-        #print "channel0 - ", channel0
         try:
             # initialise plt
             fig, ax1 = plt.subplots(figsize=(10,5))
@@ -89,9 +88,6 @@ def mypublisher():
             ax2.set_ylabel('Celsius')
             ax2.set_ylim(-10, 80)
 
-            # set title
-            #plt.title('Starinet Beagle 4 Channel Logger')
-
             # show legend
             ax1.legend(loc = 'upper left')
             ax2.legend(loc = 'upper right')
@@ -105,16 +101,12 @@ def mypublisher():
             #plt.show()
             plt.savefig("chart.png")
 
-            # experimental plt.clf() see if it helps with memory usage.
+            # clear last figure clf() see if it helps with memory usage.
             fig.clf()
 
-            # experimental plt.close see if it helps with memory?
+            # close all figures to see if it helps with memory?
             plt.close('all')
 
-            # experimental close sse if it helps with memory usage
-            #plt.clear()
-
-            #print "\nNew publisher thread finished at", datetime.datetime.now(), " next thread number ", ptn
         except Exception as e:
             print "We had a matplotlib error - ", e
         else:
@@ -180,7 +172,6 @@ def mypublisher():
             print "stacked Exception - ", e
         else:
             myftp()
-
 
     # find all files in memory/data and get creation time
 
