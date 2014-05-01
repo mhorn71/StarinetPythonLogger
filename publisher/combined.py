@@ -12,7 +12,7 @@ import datetime
 import threading
 import ftplib
 import gc
-from guppy import hpy
+# from guppy import hpy   ## install guppy if you want heap mem diags
 
 config = ConfigParser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
@@ -30,8 +30,8 @@ def mypublisher():
     print "\nNew publisher thread started at", datetime.datetime.now(), "thread number ", ptn
     print "Number of active threads ", threading.active_count()
 
-    h = hpy()
-    print h.heap()
+    #  enable for heap mem diags h = hpy()
+    #  enable for heap mem diags print h.heap()
   
     ptn += 1
 
@@ -62,8 +62,8 @@ def mypublisher():
             session.storbinary('STOR chart.png', file)     # send the file
             file.close()                                    # close file and FTP
             session.quit()
-        except ftplib.all_errors:
-            pass
+        except ftplib.all_errors as e:
+            print "We had an FTP Error - ", e
         else:
             gc.collect()
 
@@ -105,9 +105,18 @@ def mypublisher():
             #plt.show()
             plt.savefig("chart.png")
 
+            # experimental plt.clf() see if it helps with memory usage.
+            fig.clf()
+
+            # experimental plt.close see if it helps with memory?
+            plt.close('all')
+
+            # experimental close sse if it helps with memory usage
+            #plt.clear()
+
             #print "\nNew publisher thread finished at", datetime.datetime.now(), " next thread number ", ptn
-        except Exception:
-            pass
+        except Exception as e:
+            print "We had a matplotlib error - ", e
         else:
             myftp()
 
@@ -155,14 +164,20 @@ def mypublisher():
             ax5.set_title("Instrument Temperature")
             ax5.set_xlabel("UTC")
             ax5.set_ylabel("Celsius")
-            plt.legend()
+            #plt.legend()
 
             plt.tight_layout()
 
             #plt.show()
             plt.savefig("chart.png")
-        except Exception:
-            pass
+
+            # experimental plt.clf() see if it helps with memory usage.
+            plt.clf()
+
+            # experimental plt.close see if it helps with memory?
+            plt.close('all')
+        except Exception as e:
+            print "stacked Exception - ", e
         else:
             myftp()
 
@@ -230,17 +245,6 @@ def mypublisher():
         combined(sampletime,channel0,channel1,channel2,channel3,temperature)
     elif config.get('publisher', 'chart') == "stacked":
         stacked(sampletime,channel0,channel1,channel2,channel3,temperature)
-
-                #for x in temperature:
-                #    print str(x) + '\n'
-
-                ##print "channel0 = ", channel0
-                ##print "channel1 = ", channel1
-                ##print "channel2 = ", channel2
-                ##print "channel3 = ", channel3
-                ##print "temperature = ", temperature
-
-
 
 
 mypublisher()
