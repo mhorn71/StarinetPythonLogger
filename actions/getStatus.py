@@ -13,18 +13,18 @@ def control(buffer0, buffer1, buffer2):  # buffer0 = reponse_command, buffer1 = 
 
     logger.debug("%s %s %s %s", "getStatus called", buffer0, buffer1, buffer2)
 
-    status_code = {'0000': 'SUCCESS',
-                   '0001': 'TIMEOUT',
-                   '0002': 'ABORT',
-                   '0004': 'PREMATURE_TERMINATION',
-                   '0008': 'INVALID_PARAMETER',
-                   '0010': 'INVALID_MESSAGE',
-                   '0020': 'INVALID_COMMAND',
-                   '0040': 'INVALID_MODULE',
-                   '0080': 'INVALID_INSTRUMENT',
-                   '0200': 'CRC_ERROR',
-                   '0400': 'INVALID_XML',
-                   '8000': 'CAPTURE_ACTIVE'}
+    #status_code = {'0000': 'SUCCESS',
+    #               '0001': 'TIMEOUT',
+    #               '0002': 'ABORT',
+    #               '0004': 'PREMATURE_TERMINATION',
+    #               '0008': 'INVALID_PARAMETER',
+    #               '0010': 'INVALID_MESSAGE',
+    #               '0020': 'INVALID_COMMAND',
+    #               '0040': 'INVALID_MODULE',
+    #               '0080': 'INVALID_INSTRUMENT',
+    #               '0200': 'CRC_ERROR',
+    #               '0400': 'INVALID_XML',
+    #               '8000': 'CAPTURE_ACTIVE'}
 
     if buffer0 is not None:
         basecommand = buffer0[2:]

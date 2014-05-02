@@ -1,6 +1,5 @@
 import os.path
 import subprocess
-import psutil
 import utilities.samplerstatus as samplerstatus
 import utilities.publisherstatus as publisherstatus
 import ConfigParser

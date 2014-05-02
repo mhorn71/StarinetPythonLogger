@@ -45,7 +45,7 @@ def mylogger():
     #set the first sample time stamp
     stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    junk = f.readline()
+    f.readline()
 
     if f.tell() == 0:
         #print "Data File appears to be 0 bytes", f.tell()
@@ -79,7 +79,7 @@ def mylogger():
                     try:
                         os.remove(str(config.get('paths', 'pidfile')))
                     except OSError as e:
-                        print "Unable to remove pid file fatal error"
+                        print "Unable to remove pid file fatal error", e
 
         f = open(config.get("paths", "datafolder") + datafile, 'wb')
         samplerdata = ''.join(readadc.read())

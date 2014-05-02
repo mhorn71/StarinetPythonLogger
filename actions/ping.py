@@ -1,9 +1,5 @@
-import os.path
-import subprocess
-import psutil
 import utilities.samplerstatus as samplerstatus
 import ConfigParser
-import signal
 import logging
 
 

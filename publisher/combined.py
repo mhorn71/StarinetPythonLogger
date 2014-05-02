@@ -92,6 +92,9 @@ def mypublisher():
             ax1.legend(loc = 'upper left')
             ax2.legend(loc = 'upper right')
 
+            # auto format date axis
+            fig.autofmt_xdate()
+
             # set grid
             plt.grid()
 
