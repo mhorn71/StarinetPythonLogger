@@ -120,46 +120,52 @@ def mypublisher():
     def stacked(sampletime,channel0,channel1,channel2,channel3,temperature):
 
         try:
-            plt.figure(figsize=(7, 9), dpi=70)
+            plt.figure(figsize=(7, 11), dpi=70)
 
             #print "sampltime - ", sampletime
 
             # Channels
             ax1 = plt.subplot(5, 1, 1)
-            ax1.plot_date(sampletime, channel0, 'b-', label='_nolegend_')
+            ax1.plot_date(sampletime, channel0, 'b-')
             ax1.set_title("Channel 0")
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
             ax1.locator_params(axis='y',nbins=4)
+            plt.xticks(rotation=30)
 
             ax2 = plt.subplot(5, 1, 2)
-            ax2.plot_date(sampletime, channel1, 'g-', label='_nolegend_')
+            ax2.plot_date(sampletime, channel1, 'g-')
             ax2.set_title("Channel 1")
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
             ax2.locator_params(axis='y',nbins=4)
+            plt.xticks(rotation=30)
 
 
             ax3 = plt.subplot(5, 1, 3)
-            ax3.plot_date(sampletime, channel2, 'c-', label='_nolegend_')
+            ax3.plot_date(sampletime, channel2, 'c-')
             ax3.set_title("Channel 2")
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
             ax3.locator_params(axis='y',nbins=4)
+            plt.xticks(rotation=30)
 
             ax4 = plt.subplot(5, 1, 4)
-            ax4.plot_date(sampletime, channel3, 'y-', label='_nolegend_')
+            ax4.plot_date(sampletime, channel3, 'y-')
             ax4.set_title("Channel 3")
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
             ax4.locator_params(axis='y',nbins=4)
+            plt.xticks(rotation=30)
 
             ax5 = plt.subplot(5, 1, 5)
-            ax5.plot_date(sampletime, temperature, 'r-', label='_nolegend_')
+            ax5.plot_date(sampletime, temperature, 'r-')
             ax5.set_title("Instrument Temperature")
             ax5.set_xlabel("UTC")
             ax5.set_ylabel("Celsius")
-            #plt.legend()
+            ax5.locator_params(axis='y',nbins=4)
+            plt.xticks(rotation=30)
+
 
             plt.tight_layout()
 
