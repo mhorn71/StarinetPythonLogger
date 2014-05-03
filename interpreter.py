@@ -105,7 +105,7 @@ def processor(buffer0):
                             x = getHostname.control()
                         elif re.match('01090000', command):  # getPublisherLabels
                             logger.debug("Matched command getPublisherLabels")
-                            x = getPublisherLabels()
+                            x = getPublisherLabels.control()
                         elif re.match('010E0000', command):  # getClockTime
                             logger.debug("Matched command getClockTime")
                             x = getClockTime.control()
@@ -171,7 +171,7 @@ def processor(buffer0):
                         ############ Utilities Module ############
                         elif re.match('010A0000', command):  # setPublisherLabels
                             logger.debug("Matched command setPublisherLabels")
-                            x = setPublisherLabels(data[1], data[2], data[3], data[4])
+                            x = setPublisherLabels.control(data[1], data[2], data[3], data[4])
                         ############ Analogue Module #############
                         elif re.match('02000000', command):  # getA2D
                             logger.debug("Matched command getA2D")
