@@ -5,6 +5,7 @@ import interpreter
 import logging
 import logging.config
 import ConfigParser
+import time
 import Adafruit_BBIO.ADC as ADC
 
 ## initialise logger
@@ -40,7 +41,6 @@ class ReadFromUDPSocket(threading.Thread):
     def run(self):
         logger.debug("ReadFromUDPSocket run initialised.")
         while True:
-
             buffer1, addr = socketUDP.recvfrom(mybuffer)
             logger.debug("%s %s", "received data - ", repr(buffer1))
 
@@ -104,6 +104,6 @@ if __name__ == '__main__':
     myInterpreter.start()
 
     while 1:
-        pass
+        time.sleep(1)
 
     socketUDP.close()
