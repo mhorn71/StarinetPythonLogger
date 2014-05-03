@@ -31,6 +31,7 @@ def control(buffer0):
         if publisherstatus.status() == 0:
             logger.debug("%s %s", "publisherstatus reports combined active", str(publisherstatus.status()))
             status = 2  # needs status 9000
+            value = 'capturePublisher_ACTIVE'
         elif publisherstatus.status() == 1:
             logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
 
@@ -41,6 +42,7 @@ def control(buffer0):
                     logger.critical("%s %s", "premature termination", e)
                     logger.critical("Unable to start capturePublisher")
                     status = 4
+                    value = e
                 else:
                     try:
                         pidfile = open(config.get('publisher', 'pidfile'), 'w')
@@ -50,15 +52,18 @@ def control(buffer0):
                         logger.critical("%s %s", "premature termination", e)
                         logger.critical("Unable to create pid file")
                         status = 4
+                        value = e
                     else:
                         logger.debug("Started publisher.combined ....")
                         status = 0
             else:
                 logger.debug("capture not active command capturePublisher aborted")
                 status = 2
+                value = 'capture not active'
         else:
             logger.debug("premature termination")
             status = 4
+            value = 'unable to ascertain publisher status'
 
     elif buffer0 == 'false':
 
@@ -77,6 +82,7 @@ def control(buffer0):
             except IOError as e:
                 logger.critical("%s %s", "Unable to assign pid to pro.pid capturePublisher.py", e)
                 status = 4
+                value = e
             else:
                 try:
                     os.kill(pid, signal.SIGTERM)
