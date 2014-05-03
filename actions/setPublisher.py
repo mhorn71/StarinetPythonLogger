@@ -17,7 +17,7 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5):
 
     if publisherstatus.status() == 0:
         status = 2  # ABORT
-        value = None
+        value = 'capturePublisher_ACTIVE'
     else:
         try:
             config.set('publisher', 'chart', buffer0)  # update
@@ -29,7 +29,7 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5):
             with open('StarinetBeagleLogger.conf', 'wb') as configfile:
                 config.write(configfile)
         except IOError as e:
-            logger.debug("%s %s", "setPulisher IOError ", e)
+            logger.debug("%s %s", "setPublisher IOError ", e)
             status = 4  # PREMATURE_TERMINATION
             value = e
         else:
