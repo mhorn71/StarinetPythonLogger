@@ -12,6 +12,8 @@ import datetime
 import threading
 import ftplib
 import gc
+from matplotlib.ticker import MaxNLocator
+
 # from guppy import hpy   ## install guppy if you want heap mem diags
 
 config = ConfigParser.RawConfigParser()
@@ -130,7 +132,7 @@ def mypublisher():
             ax1.set_title("Channel 0")
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
-            ax1.locator_params(axis='y',nbins=4)
+            ax1.yaxis.set_major_locator(MaxNLocator(5))
             ax1.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -139,7 +141,7 @@ def mypublisher():
             ax2.set_title("Channel 1")
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
-            ax2.locator_params(axis='y',nbins=4)
+            ax2.yaxis.set_major_locator(MaxNLocator(5))
             ax2.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -149,7 +151,7 @@ def mypublisher():
             ax3.set_title("Channel 2")
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
-            ax3.locator_params(axis='y',nbins=4)
+            ax3.yaxis.set_major_locator(MaxNLocator(5))
             ax3.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -158,7 +160,7 @@ def mypublisher():
             ax4.set_title("Channel 3")
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
-            ax4.locator_params(axis='y',nbins=4)
+            ax4.yaxis.set_major_locator(MaxNLocator(5))
             ax4.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -167,7 +169,7 @@ def mypublisher():
             ax5.set_title("Instrument Temperature")
             ax5.set_xlabel("UTC")
             ax5.set_ylabel("Celsius")
-            ax5.locator_params(axis='y',nbins=4)
+            ax5.yaxis.set_major_locator(MaxNLocator(5))
             ax5.margins(0,.1)
             plt.xticks(rotation=30)
 
