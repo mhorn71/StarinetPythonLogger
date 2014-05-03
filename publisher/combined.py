@@ -169,7 +169,7 @@ def mypublisher():
             ax5.set_title("Instrument Temperature")
             ax5.set_xlabel("UTC")
             ax5.set_ylabel("Celsius")
-            ax5.yaxis.set_major_locator(MaxNLocator(5))
+            ax5.yaxis.set_major_locator(MaxNLocator(5,integer=True))
             ax5.margins(0,.1)
             plt.xticks(rotation=30)
 
