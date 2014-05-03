@@ -77,10 +77,10 @@ def mypublisher():
             fig, ax1 = plt.subplots(figsize=(10,5))
 
             # plot channels
-            ax1.plot(sampletime, channel0, 'b-', label='Channel 0')
-            ax1.plot(sampletime, channel1, 'g-', label='Channel 1')
-            ax1.plot(sampletime, channel2, 'c-', label='Channel 2')
-            ax1.plot(sampletime, channel3, 'y-', label='Channel 3')
+            ax1.plot(sampletime, channel0, 'b-', label=config.get("publisher", "channel0"))
+            ax1.plot(sampletime, channel1, 'g-', label=config.get("publisher", "channel1"))
+            ax1.plot(sampletime, channel2, 'c-', label=config.get("publisher", "channel2"))
+            ax1.plot(sampletime, channel3, 'y-', label=config.get("publisher", "channel3"))
             ax1.set_xlabel('UTC')
             ax1.set_ylabel('mV')
             ax1.set_ylim(0, 1800)
@@ -129,7 +129,7 @@ def mypublisher():
             # Channels
             ax1 = plt.subplot(5, 1, 1)
             ax1.plot_date(sampletime, channel0, 'b-')
-            ax1.set_title("Channel 0")
+            ax1.set_title(config.get("publisher", "channel0"))
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
             ax1.yaxis.set_major_locator(MaxNLocator(5))
@@ -138,7 +138,7 @@ def mypublisher():
 
             ax2 = plt.subplot(5, 1, 2)
             ax2.plot_date(sampletime, channel1, 'g-')
-            ax2.set_title("Channel 1")
+            ax2.set_title(config.get("publisher", "channel1"))
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
             ax2.yaxis.set_major_locator(MaxNLocator(5))
@@ -148,7 +148,7 @@ def mypublisher():
 
             ax3 = plt.subplot(5, 1, 3)
             ax3.plot_date(sampletime, channel2, 'c-')
-            ax3.set_title("Channel 2")
+            ax3.set_title(config.get("publisher", "channel2"))
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
             ax3.yaxis.set_major_locator(MaxNLocator(5))
@@ -157,7 +157,7 @@ def mypublisher():
 
             ax4 = plt.subplot(5, 1, 4)
             ax4.plot_date(sampletime, channel3, 'y-')
-            ax4.set_title("Channel 3")
+            ax4.set_title(config.get("publisher", "channel3"))
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
             ax4.yaxis.set_major_locator(MaxNLocator(5))
