@@ -131,6 +131,7 @@ def mypublisher():
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
             ax1.locator_params(axis='y',nbins=4)
+            ax1.margins(0,.1)
             plt.xticks(rotation=30)
 
             ax2 = plt.subplot(5, 1, 2)
@@ -139,6 +140,7 @@ def mypublisher():
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
             ax2.locator_params(axis='y',nbins=4)
+            ax2.margins(0,.1)
             plt.xticks(rotation=30)
 
 
@@ -148,6 +150,7 @@ def mypublisher():
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
             ax3.locator_params(axis='y',nbins=4)
+            ax3.margins(0,.1)
             plt.xticks(rotation=30)
 
             ax4 = plt.subplot(5, 1, 4)
@@ -156,6 +159,7 @@ def mypublisher():
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
             ax4.locator_params(axis='y',nbins=4)
+            ax4.margins(0,.1)
             plt.xticks(rotation=30)
 
             ax5 = plt.subplot(5, 1, 5)
@@ -164,6 +168,7 @@ def mypublisher():
             ax5.set_xlabel("UTC")
             ax5.set_ylabel("Celsius")
             ax5.locator_params(axis='y',nbins=4)
+            ax5.margins(0,.1)
             plt.xticks(rotation=30)
 
 
