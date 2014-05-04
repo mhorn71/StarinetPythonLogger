@@ -22,20 +22,20 @@ config.read("StarinetBeagleLogger.conf")
 ## initialise next_call
 next_call = time.time()
 
-ptn = 0
+#ptn = 0
 
 
 def mypublisher():
 
-    global ptn
+    #global ptn
 
-    print "\nNew publisher thread started at", datetime.datetime.now(), "thread number ", ptn
-    print "Number of active threads ", threading.active_count()
+    #print "\nNew publisher thread started at", datetime.datetime.now(), "thread number ", ptn
+    #print "Number of active threads ", threading.active_count()
 
     #  enable for heap mem diags h = hpy()
     #  enable for heap mem diags print h.heap()
   
-    ptn += 1
+    #ptn += 1
 
     #immediatly set schedule of next sample.
     global next_call
@@ -83,12 +83,13 @@ def mypublisher():
             ax1.plot(sampletime, channel3, 'y-', label=config.get("publisher", "channel3"))
             ax1.set_xlabel('UTC')
             ax1.set_ylabel('mV')
-            ax1.set_ylim(0, 1800)
+            ax1.yaxis.set_major_locator(MaxNLocator(1,integer=True))
+            ax1.margins(0, 1)
 
             ax2 = ax1.twinx()
             ax2.plot(sampletime, temperature, 'r-', label='Temp')
             ax2.set_ylabel('Celsius')
-            ax2.set_ylim(-10, 80)
+            ax2.margins(0, 1)
 
             # show legend
             ax1.legend(loc = 'upper left')
@@ -132,7 +133,7 @@ def mypublisher():
             ax1.set_title(config.get("publisher", "channel0"))
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
-            ax1.yaxis.set_major_locator(MaxNLocator(5))
+            ax1.yaxis.set_major_locator(MaxNLocator(5,integer=True))
             ax1.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -141,7 +142,7 @@ def mypublisher():
             ax2.set_title(config.get("publisher", "channel1"))
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
-            ax2.yaxis.set_major_locator(MaxNLocator(5))
+            ax2.yaxis.set_major_locator(MaxNLocator(5,integer=True))
             ax2.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -151,7 +152,7 @@ def mypublisher():
             ax3.set_title(config.get("publisher", "channel2"))
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
-            ax3.yaxis.set_major_locator(MaxNLocator(5))
+            ax3.yaxis.set_major_locator(MaxNLocator(5,integer=True))
             ax3.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -160,7 +161,7 @@ def mypublisher():
             ax4.set_title(config.get("publisher", "channel3"))
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
-            ax4.yaxis.set_major_locator(MaxNLocator(5))
+            ax4.yaxis.set_major_locator(MaxNLocator(5,integer=True))
             ax4.margins(0,.1)
             plt.xticks(rotation=30)
 
