@@ -89,18 +89,22 @@ def control(buffer0):
                 except OSError as e:
                     logger.debug("%s %s", "Unable to kill process publisher.combined", e)
                     status = 4
+                    value = e
                 else:
                     try:
                         os.remove(str(config.get('publisher', 'pidfile')))
                     except OSError as e:
                         logger.critical("%s %s", "Unable to remove pid file fatal error", e)
                         status = 4
+                        value = e
                     else:
                         status = 0
 
     else:
         logger.critical("invalid parameter")
         status = 8
+
+    status = status + samplerstatus.status()
 
     return status, value
 
