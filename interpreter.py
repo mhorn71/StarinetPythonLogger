@@ -119,7 +119,7 @@ def processor(buffer0):
                         elif re.match('03020000', command):  # getDataBlockCount
                             logger.debug("Matched command getDataBlockCount")
                             x = getDataBlockCount.control()
-                        elif re.match('030A0000', command):  # getPublisher
+                        elif re.match('030B0000', command):  # getPublisher
                             logger.debug("Matched command getPublisher")
                             x = getPublisher.control()
                         ############ Logger Plugin ############
@@ -189,7 +189,7 @@ def processor(buffer0):
                         elif re.match('03080000', command):  # capturePublisher
                             logger.debug("Matched command capturePublisher")
                             x = capturePublisher.control(data[1])
-                        elif re.match('03090000', command):  # setPublisher
+                        elif re.match('030C0000', command):  # setPublisher
                             logger.debug("Matched command setPublisher")
                             x = setPublisher.control(data[1], data[2], data[3], data[4], data[5], data[6])
                         else:
