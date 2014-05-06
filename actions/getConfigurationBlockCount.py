@@ -52,7 +52,7 @@ def control(buffer0):
         else:
             status = 0
     else:
-        logger.critical("invalid module")
+        logger.critical("%s %s", "Invalid module - ", buffer0)
         status = 40
         value = None
 
