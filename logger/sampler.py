@@ -7,40 +7,41 @@ import threading
 import readadc
 import temperature
 import signal
-###from guppy import hpy
 
 ## initialise config parser
 config = ConfigParser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
+## initialise globals
+rate = int(config.get('capture', 'rate').lstrip("0"))
+strrate = config.get('capture', 'rate')
+datafolder = config.get("paths", "datafolder")
+datafile = '0000'
+
 ## initialise next_call
 next_call = time.time()
+lock = threading.Lock()
+
+ptn = 0
 
 
 def mylogger():
-    #print "Started mylogger"
+    
+    lock.acquire()
 
-    #guppy bits.
-    ##h = hpy()
-    ##print h
+    global ptn
+    global next_call
+    global rate
+    global datafolder
+    global datafile 
+    global strrate
 
     #immediatly set schedule of next sample.
-    global next_call
-    rate = int(config.get('capture', 'rate').lstrip("0"))
-    #next_call = next_call + int(config.get('capture', 'rate').lstrip("0"))
     next_call += rate
     threading.Timer(next_call - time.time(), mylogger).start()
 
-    #get name of last data file and set assign to datafile
-    files = os.listdir(config.get("paths", "datafolder"))
-    name_n_timestamp = dict([(x, os.stat(config.get("paths", "datafolder")+x).st_mtime) for x in files])
-    datafile = max(name_n_timestamp, key=lambda k: name_n_timestamp.get(k))
-
-    #set number of last file
-    lastfilenumber = len(files)
-
     #open datafile
-    f = open(config.get("paths", "datafolder") + datafile, 'rb')
+    f = open(datafolder + datafile, 'rb')
 
     #set the first sample time stamp
     stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -48,20 +49,15 @@ def mylogger():
     f.readline()
 
     if f.tell() == 0:
-        #print "Data File appears to be 0 bytes", f.tell()
-        f.close()
-        f = open(config.get("paths", "datafolder") + datafile, 'ab')
+        f = open(datafolder + datafile, 'ab')
         samplerdata = ''.join(readadc.read())
-        #print "samplerdata = ", repr(samplerdata)
-        data = str(stamp) + ' ' + temperature.read() + ' ' + str(config.get('capture', 'rate')) + '   ' + \
+        data = str(stamp) + ' ' + temperature.read() + ' ' + strrate + '   ' + \
             str(samplerdata)
         f.write(data)
         f.close()
     elif f.tell() == 512:
-        #print "Data File was greater than 0 and greater than 512", f.tell()
-        f.close()
-        datafile = hex(lastfilenumber).split('x')[1].upper().zfill(4)  # change filenumber to hex
-        #print "NEW DATA FILE IS CALLED : ", datafile
+        ptn += 1
+        datafile = hex(ptn).split('x')[1].upper().zfill(4)  # change filenumber to hex
 
         if datafile == 'FFFE':
             try:
@@ -81,21 +77,20 @@ def mylogger():
                     except OSError as e:
                         print "Unable to remove pid file fatal error", e
 
-        f = open(config.get("paths", "datafolder") + datafile, 'wb')
+        f = open(datafolder + datafile, 'wb')
         samplerdata = ''.join(readadc.read())
-        #print "samplerdata = ", repr(samplerdata)
-        data = str(stamp) + ' ' + temperature.read() + ' ' + str(config.get('capture', 'rate')) + '   ' + \
+        data = str(stamp) + ' ' + temperature.read() + ' ' + strrate + '   ' + \
             str(samplerdata)
         f.write(data)
         f.close()
     else:
-        #print "Datafile size between 0 - 512 bytes", f.tell()
-        f.close()
-        f = open(config.get("paths", "datafolder") + datafile, 'ab')
+        f = open(datafolder + datafile, 'ab')
         samplerdata = ''.join(readadc.read())
-        #print "samplerdata = ", repr(samplerdata)
         data = str(samplerdata)
         f.write(data)
         f.close()
+        
+    lock.release()
+
 
 mylogger()
