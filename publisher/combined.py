@@ -83,13 +83,13 @@ def mypublisher():
             ax1.plot(sampletime, channel3, 'y-', label=config.get("publisher", "channel3"))
             ax1.set_xlabel('UTC')
             ax1.set_ylabel('mV')
-            ax1.yaxis.set_major_locator(MaxNLocator(1,integer=True))
+            ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax1.margins(0, 1)
 
             ax2 = ax1.twinx()
             ax2.plot(sampletime, temperature, 'r-', label='Temp')
             ax2.set_ylabel('Celsius')
-            ax2.yaxis.set_major_locator(MaxNLocator(1,integer=True))
+            ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax2.margins(0, 1)
 
             # show legend
