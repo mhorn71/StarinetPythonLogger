@@ -14,6 +14,7 @@ config.read("StarinetBeagleLogger.conf")
 def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5):
 
     logger.debug("setPublisher called")
+    logger.debug("%s %s %s %s %s %s", buffer0, buffer1, buffer2, buffer3, buffer4, buffer5)
 
     if publisherstatus.status() == 0:
         status = 2  # ABORT
