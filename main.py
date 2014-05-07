@@ -74,7 +74,7 @@ class Process(threading.Thread):
             if x is not None:
                 #buffer4 = '\x0200000100000000127A\x04\r\n'  # Temp line just for testing.
                 buffer4 = x
-                logger.debug("%s %s", "buffer4 has ", repr(buffer4))
+                logger.debug("%s %s", "return data ", repr(buffer4))
                 socketUDP.sendto(buffer4, buffer3[1])
                 self.my_queue.task_done()
             else:
