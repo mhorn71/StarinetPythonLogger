@@ -19,6 +19,13 @@ from matplotlib.ticker import MaxNLocator
 config = ConfigParser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
+label0 = config.get("publisherlabels", "channel0")
+label1 = config.get("publisherlabels", "channel1")
+label2 = config.get("publisherlabels", "channel2")
+label3 = config.get("publisherlabels", "channel3")
+
+samplerate = int(config.get('capture', 'rate').lstrip("0"))
+
 ## initialise next_call
 next_call = time.time()
 
@@ -27,15 +34,12 @@ next_call = time.time()
 
 def mypublisher():
 
-    #global ptn
-
-    #print "\nNew publisher thread started at", datetime.datetime.now(), "thread number ", ptn
-    #print "Number of active threads ", threading.active_count()
-
-    #  enable for heap mem diags h = hpy()
-    #  enable for heap mem diags print h.heap()
-  
-    #ptn += 1
+    # set channel labels from globals
+    global label0
+    global label1
+    global label2
+    global label3
+    global samplerate
 
     #immediatly set schedule of next sample.
     global next_call
@@ -77,10 +81,10 @@ def mypublisher():
             fig, ax1 = plt.subplots(figsize=(10,5))
 
             # plot channels
-            ax1.plot(sampletime, channel0, 'b-', label=config.get("publisher", "channel0"))
-            ax1.plot(sampletime, channel1, 'g-', label=config.get("publisher", "channel1"))
-            ax1.plot(sampletime, channel2, 'c-', label=config.get("publisher", "channel2"))
-            ax1.plot(sampletime, channel3, 'y-', label=config.get("publisher", "channel3"))
+            ax1.plot(sampletime, channel0, 'b-', label=label0)
+            ax1.plot(sampletime, channel1, 'g-', label=label1)
+            ax1.plot(sampletime, channel2, 'c-', label=label2)
+            ax1.plot(sampletime, channel3, 'y-', label=label3)
             ax1.set_xlabel('UTC')
             ax1.set_ylabel('mV')
             ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
@@ -131,7 +135,7 @@ def mypublisher():
             # Channels
             ax1 = plt.subplot(5, 1, 1)
             ax1.plot_date(sampletime, channel0, 'b-')
-            ax1.set_title(config.get("publisher", "channel0"))
+            ax1.set_title(label0)
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
             ax1.yaxis.set_major_locator(MaxNLocator(5,integer=True))
@@ -140,7 +144,7 @@ def mypublisher():
 
             ax2 = plt.subplot(5, 1, 2)
             ax2.plot_date(sampletime, channel1, 'g-')
-            ax2.set_title(config.get("publisher", "channel1"))
+            ax2.set_title(label1)
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
             ax2.yaxis.set_major_locator(MaxNLocator(5,integer=True))
@@ -150,7 +154,7 @@ def mypublisher():
 
             ax3 = plt.subplot(5, 1, 3)
             ax3.plot_date(sampletime, channel2, 'c-')
-            ax3.set_title(config.get("publisher", "channel2"))
+            ax3.set_title(label2)
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
             ax3.yaxis.set_major_locator(MaxNLocator(5,integer=True))
@@ -159,7 +163,7 @@ def mypublisher():
 
             ax4 = plt.subplot(5, 1, 4)
             ax4.plot_date(sampletime, channel3, 'y-')
-            ax4.set_title(config.get("publisher", "channel3"))
+            ax4.set_title(label3)
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
             ax4.yaxis.set_major_locator(MaxNLocator(5,integer=True))
@@ -245,7 +249,7 @@ def mypublisher():
                 temperature.append(block[2])  # append temperature to temperature array
                 #print "temperature set to - ", block[2]
 
-                dt = dt + datetime.timedelta(seconds=1)  # create next sample datetime object based on get.config rate
+                dt = dt + datetime.timedelta(seconds=samplerate)  # create next sample datetime object based on get.config rate
                 #print "New dt is set to - ", dt
 
 
