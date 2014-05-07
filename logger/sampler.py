@@ -36,7 +36,7 @@ def mylogger():
     global datafile 
     global strrate
 
-    #immediatly set schedule of next sample.
+    # immediately set schedule of next sample.
     next_call += rate
     threading.Timer(next_call - time.time(), mylogger).start()
 

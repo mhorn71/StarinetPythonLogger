@@ -89,6 +89,7 @@ def mypublisher():
             ax2 = ax1.twinx()
             ax2.plot(sampletime, temperature, 'r-', label='Temp')
             ax2.set_ylabel('Celsius')
+            ax2.yaxis.set_major_locator(MaxNLocator(1,integer=True))
             ax2.margins(0, 1)
 
             # show legend
