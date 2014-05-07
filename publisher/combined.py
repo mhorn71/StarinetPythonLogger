@@ -87,13 +87,13 @@ def mypublisher():
             ax1.plot(sampletime, channel3, 'y-', label=label3)
             ax1.set_xlabel('UTC')
             ax1.set_ylabel('mV')
-            ax1.yaxis.set_major_locator(AutoLocator(integer=True))
+            ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax1.margins(0, 1)
 
             ax2 = ax1.twinx()
             ax2.plot(sampletime, temperature, 'r-', label='Temp')
             ax2.set_ylabel('Celsius')
-            ax2.yaxis.set_major_locator(AutoLocator(integer=True))
+            ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax2.margins(0, 1)
 
             # show legend
@@ -138,7 +138,7 @@ def mypublisher():
             ax1.set_title(label0)
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
-            ax1.yaxis.set_major_locator(AutoLocator(integer=True))
+            ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax1.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -147,7 +147,7 @@ def mypublisher():
             ax2.set_title(label1)
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
-            ax2.yaxis.set_major_locator(AutoLocator(integer=True))
+            ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax2.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -157,7 +157,7 @@ def mypublisher():
             ax3.set_title(label2)
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
-            ax3.yaxis.set_major_locator(AutoLocator(integer=True))
+            ax3.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax3.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -166,7 +166,7 @@ def mypublisher():
             ax4.set_title(label3)
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
-            ax4.yaxis.set_major_locator(AutoLocator(integer=True))
+            ax4.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax4.margins(0,.1)
             plt.xticks(rotation=30)
 
@@ -175,7 +175,7 @@ def mypublisher():
             ax5.set_title("Instrument Temperature")
             ax5.set_xlabel("UTC")
             ax5.set_ylabel("Celsius")
-            ax5.yaxis.set_major_locator(AutoLocator(integer=True))
+            ax5.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax5.margins(0,.1)
             plt.xticks(rotation=30)
 
