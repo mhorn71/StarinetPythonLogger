@@ -24,15 +24,17 @@ def control(buffer0):
 
     logger.debug("%s %s", "capturePublisher buffer0 ", buffer0)
 
+    nx = publisherstatus.status()
+
     if buffer0 == 'true':
 
         logger.debug("Entered true routine")
 
-        if publisherstatus.status() == 0:
+        if nx == 0:
             logger.debug("%s %s", "publisherstatus reports combined active", str(publisherstatus.status()))
             status = 2  # needs status 9000
             value = 'capturePublisher_ACTIVE'
-        elif publisherstatus.status() == 1:
+        elif nx == 1:
             logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
 
             if samplerstatus.status() == 8000:
@@ -69,10 +71,10 @@ def control(buffer0):
 
         logger.debug("Entered false routine")
 
-        if publisherstatus.status() == 1:
+        if nx == 1:
             logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
             status = 0
-        elif publisherstatus.status() == 0:
+        elif nx == 0:
             logger.debug("%s %s", "publisherstatus reports combined active", str(publisherstatus.status()))
             try:
                 pidfile = open(config.get('publisher', 'pidfile'), 'r')
