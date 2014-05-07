@@ -20,10 +20,10 @@ def control(buffer0, buffer1, buffer2, buffer3):
         value = 'capturePublisher_ACTIVE'
     else:
         try:
-            config.set('publisher', 'channel0', buffer0)  # update
-            config.set('publisher', 'channel1', buffer1)  # update
-            config.set('publisher', 'channel2', buffer2)  # update
-            config.set('publisher', 'channel3', buffer3)  # update
+            config.set('publisherlabels', 'channel0', buffer0)  # update
+            config.set('publisherlabels', 'channel1', buffer1)  # update
+            config.set('publisherlabels', 'channel2', buffer2)  # update
+            config.set('publisherlabels', 'channel3', buffer3)  # update
             with open('StarinetBeagleLogger.conf', 'wb') as configfile:
                 config.write(configfile)
         except IOError as e:

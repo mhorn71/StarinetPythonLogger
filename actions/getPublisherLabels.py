@@ -15,10 +15,10 @@ def control():
     logger.debug("getPublisher called")
 
     try:
-        channel0 = config.get("publisher", "channel0")
-        channel1 = config.get("publisher", "channel1")
-        channel2 = config.get("publisher", "channel2")
-        channel3 = config.get("publisher", "channel3")
+        channel0 = config.get("publisherlabels", "channel0")
+        channel1 = config.get("publisherlabels", "channel1")
+        channel2 = config.get("publisherlabels", "channel2")
+        channel3 = config.get("publisherlabels", "channel3")
     except ConfigParser.Error as e:
         status = 4
         value = e
