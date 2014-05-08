@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger('actions.getVersion')
 
 config = ConfigParser.RawConfigParser()
-config.read("StarinetBeagleLogger.conf")
+
 
 
 def control():
@@ -14,6 +14,7 @@ def control():
     logger.debug("getVersion called")
 
     try:
+        config.read("StarinetBeagleLogger.conf")
         value = config.get("version", "version")
     except ConfigParser.Error as e:
         status = 4

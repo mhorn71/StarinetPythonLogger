@@ -6,7 +6,6 @@ import logging
 logger = logging.getLogger('actions.setRate')
 
 config = ConfigParser.RawConfigParser()
-config.read("StarinetBeagleLogger.conf")
 
 
 def control(buffer0):
@@ -18,9 +17,11 @@ def control(buffer0):
         value = None
     else:
         try:
+            config.read("StarinetBeagleLogger.conf")
             config.set('capture', 'rate', buffer0)  # update
             with open('StarinetBeagleLogger.conf', 'wb') as configfile:
                 config.write(configfile)
+                configfile.close()
         except IOError as e:
             logger.debug("%s %s", "setRate IOError ", e)
             status = 4

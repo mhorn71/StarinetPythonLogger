@@ -8,7 +8,6 @@ import logging
 logger = logging.getLogger('actions.setPublisherLabels')
 
 config = ConfigParser.RawConfigParser()
-config.read("StarinetBeagleLogger.conf")
 
 
 def control(buffer0, buffer1, buffer2, buffer3):
@@ -21,12 +20,14 @@ def control(buffer0, buffer1, buffer2, buffer3):
         value = 'capturePublisher_ACTIVE'
     else:
         try:
+            config.read("StarinetBeagleLogger.conf")
             config.set('publisherlabels', 'channel0', buffer0)  # update
             config.set('publisherlabels', 'channel1', buffer1)  # update
             config.set('publisherlabels', 'channel2', buffer2)  # update
             config.set('publisherlabels', 'channel3', buffer3)  # update
             with open('StarinetBeagleLogger.conf', 'wb') as configfile:
                 config.write(configfile)
+                configfile.close()
         except IOError as e:
             logger.debug("%s %s", "setPublisherLabels IOError ", e)
             status = 4  # PREMATURE_TERMINATION

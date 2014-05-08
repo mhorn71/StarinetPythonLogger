@@ -10,11 +10,11 @@ config = ConfigParser.RawConfigParser()
 
 
 def control():
-    config.read("StarinetBeagleLogger.conf")
 
     logger.debug("getPublisher called")
 
     try:
+        config.read("StarinetBeagleLogger.conf")
         channel0 = config.get("publisherlabels", "channel0")
         channel1 = config.get("publisherlabels", "channel1")
         channel2 = config.get("publisherlabels", "channel2")

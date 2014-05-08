@@ -9,11 +9,12 @@ config = ConfigParser.RawConfigParser()
 
 
 def control():
-    config.read("StarinetBeagleLogger.conf")
+
 
     logger.debug("getRate called")
 
     try:
+        config.read("StarinetBeagleLogger.conf")
         rate = config.get("capture", "rate")
     except ConfigParser.Error as e:
         status = 4
