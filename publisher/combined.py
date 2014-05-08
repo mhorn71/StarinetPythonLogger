@@ -139,7 +139,6 @@ def mypublisher():
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
             ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax1.margins(0, 1)
             plt.xticks(rotation=30)
 
             ax2 = plt.subplot(5, 1, 2)
@@ -148,7 +147,6 @@ def mypublisher():
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
             ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax2.margins(0, 1)
             plt.xticks(rotation=30)
 
 
@@ -158,7 +156,6 @@ def mypublisher():
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
             ax3.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax3.margins(0, 1)
             plt.xticks(rotation=30)
 
             ax4 = plt.subplot(5, 1, 4)
@@ -167,7 +164,6 @@ def mypublisher():
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
             ax4.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax4.margins(0, 1)
             plt.xticks(rotation=30)
 
             ax5 = plt.subplot(5, 1, 5)
