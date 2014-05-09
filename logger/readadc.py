@@ -18,14 +18,14 @@ def read():
     _reading = None
 
     try:
-        x0 = ADC.read_raw("AIN0")
-        x0 = ADC.read_raw("AIN0")
-        x1 = ADC.read_raw("AIN1")
-        x1 = ADC.read_raw("AIN1")
-        x2 = ADC.read_raw("AIN2")
-        x2 = ADC.read_raw("AIN2")
-        x3 = ADC.read_raw("AIN3")
-        x3 = ADC.read_raw("AIN3")
+        x0 = ADC.read("AIN0")
+        x0 = ADC.read("AIN0")
+        x1 = ADC.read("AIN1")
+        x1 = ADC.read("AIN1")
+        x2 = ADC.read("AIN2")
+        x2 = ADC.read("AIN2")
+        x3 = ADC.read("AIN3")
+        x3 = ADC.read("AIN3")
 
         b0 = int(x0 * 1800)
         b1 = int(x1 * 1800)
