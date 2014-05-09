@@ -27,10 +27,10 @@ def read():
         x3 = ADC.read_raw("AIN3")
         x3 = ADC.read_raw("AIN3")
 
-        b0 = int(int(x0) * float(0.439))
-        b1 = int(int(x1) * float(0.439))
-        b2 = int(int(x2) * float(0.439))
-        b3 = int(int(x3) * float(0.439))
+        b0 = int(x0 * 1800)
+        b1 = int(x1 * 1800)
+        b2 = int(x2 * 1800)
+        b3 = int(x3 * 1800)
 
         r0 = "{0:04d}".format(b0)
         r1 = "{0:04d}".format(b1)

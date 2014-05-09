@@ -39,10 +39,10 @@ def read():
  #       print "Reading are 2 = ", x2
  #       print "Reading are 3 = ", x3
 
-        b0 = int(int(x0) * float(0.439))
-        b1 = int(int(x1) * float(0.439))
-        b2 = int(int(x2) * float(0.439))
-        b3 = int(int(x3) * float(0.439))
+        b0 = int(x0 * 1800)
+        b1 = int(x1 * 1800)
+        b2 = int(x2 * 1800)
+        b3 = int(x3 * 1800)
 
  #       print "Reading are 0 = ", b0
  #       print "Reading are 1 = ", b1
