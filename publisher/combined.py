@@ -64,6 +64,7 @@ def mypublisher():
         try:
             session = ftplib.FTP(config.get('publisher', 'server'),config.get('publisher', 'username'),
                                  config.get('publisher', 'password'))
+            session.cwd(config.get('publisher', 'remotefolder')) # Change directory
             file = open('chart.png','rb')                  # file to send
             session.storbinary('STOR chart.png', file)     # send the file
             file.close()                                    # close file and FTP
