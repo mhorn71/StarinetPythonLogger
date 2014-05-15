@@ -14,7 +14,6 @@ import ftplib
 import gc
 from matplotlib.ticker import MaxNLocator
 
-# from guppy import hpy   ## install guppy if you want heap mem diags
 
 config = ConfigParser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
@@ -28,8 +27,6 @@ samplerate = int(config.get('capture', 'rate').lstrip("0"))
 
 ## initialise next_call
 next_call = time.time()
-
-#ptn = 0
 
 
 def mypublisher():
@@ -140,7 +137,7 @@ def mypublisher():
             ax1.set_xlabel("UTC")
             ax1.set_ylabel("mV")
             ax1.set_ylim(0,1800)
-            ax1.yaxis.set_major_locator(MaxNLocator(5,integer=True))
+            ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
             plt.xticks(rotation=30)
 
             ax2 = plt.subplot(5, 1, 2)
@@ -149,7 +146,7 @@ def mypublisher():
             ax2.set_xlabel("UTC")
             ax2.set_ylabel("mV")
             ax2.set_ylim(0,1800)
-            ax2.yaxis.set_major_locator(MaxNLocator(5,integer=True))
+            ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
             plt.xticks(rotation=30)
 
 
@@ -159,7 +156,7 @@ def mypublisher():
             ax3.set_xlabel("UTC")
             ax3.set_ylabel("mV")
             ax3.set_ylim(0,1800)
-            ax3.yaxis.set_major_locator(MaxNLocator(5,integer=True))
+            ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
             plt.xticks(rotation=30)
 
             ax4 = plt.subplot(5, 1, 4)
@@ -168,7 +165,7 @@ def mypublisher():
             ax4.set_xlabel("UTC")
             ax4.set_ylabel("mV")
             ax4.set_ylim(0,1800)
-            ax4.yaxis.set_major_locator(MaxNLocator(5,integer=True))
+            ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
             plt.xticks(rotation=30)
 
             ax5 = plt.subplot(5, 1, 5)
