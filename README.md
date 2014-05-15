@@ -26,9 +26,11 @@ You need to install the following additional python packages.
     https://github.com/matplotlib/matplotlib
 
 
-You need to add the following additional hardware on ADC Channel AIN6
+You will need to attach the below hardware to ADC Channel AIN6
 
     TMP36 Temperature Sensor
+    ------------------------
+    https://learn.adafruit.com/measuring-temperature-with-a-beaglebone-black/wiring
 
 Software install
 
