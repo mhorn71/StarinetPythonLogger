@@ -26,6 +26,8 @@ import actions.setPublisher as setPublisher
 import actions.getPublisher as getPublisher
 import actions.setPublisherLabels as setPublisherLabels
 import actions.getPublisherLabels as getPublisherLabels
+import actions.setPublisherArtist as setPublisherArtist
+import actions.getPublisherArtist as getPublisherArtist
 import actions.getConfigurationBlockCount as getConfigurationBlockCount
 import utilities.samplerstatus as samplerstatus
 
@@ -109,6 +111,8 @@ def processor(buffer0):
                         elif re.match('010E0000', command):  # getClockTime
                             logger.debug("Matched command getClockTime")
                             x = getClockTime.control()
+                        elif re.match('010F0000', command): # getPublisherArtist
+                            x = getPublisherArtist.control()
                         ############# Data Capture Module ############
                         elif re.match('03000000', command):  # getSpace
                             logger.debug("Matched command getSpace")
@@ -172,6 +176,9 @@ def processor(buffer0):
                         elif re.match('010C0000', command):  # setPublisherLabels
                             logger.debug("Matched command setPublisherLabels")
                             x = setPublisherLabels.control(data[1], data[2], data[3], data[4])
+                        elif re.match('01100000', command):  # setPublisherArtist
+                            logger.debug("Matched command setPublisherArtist")
+                            x = setPublisherArtist.control(data[1], data[2], data[3], data[4], data[5], data[6])
                         ############ Analogue Module #############
                         elif re.match('02000000', command):  # getA2D
                             logger.debug("Matched command getA2D")
