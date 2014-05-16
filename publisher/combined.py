@@ -23,7 +23,36 @@ label1 = config.get("publisherlabels", "channel1")
 label2 = config.get("publisherlabels", "channel2")
 label3 = config.get("publisherlabels", "channel3")
 
+art0 = config.get("publisherartist", "channelArt0")
+art1 = config.get("publisherartist", "channelArt1")
+art2 = config.get("publisherartist", "channelArt2")
+art3 = config.get("publisherartist", "channelArt3")
+art4 = config.get("publisherartist", "temperatureArt")
+
 samplerate = int(config.get('capture', 'rate').lstrip("0"))
+
+row = 0
+
+if art0 == 'true':
+    row += 1
+    ann = row
+
+if art1 == 'true':
+    row += 1
+    bnn = row
+
+if art2 == 'true':
+    row += 1
+    cnn = row
+
+if art3 == 'true':
+    row += 1
+    dnn = row
+
+if art4 == 'true':
+    row += 1
+    enn = row
+
 
 ## initialise next_call
 next_call = time.time()
@@ -36,7 +65,18 @@ def mypublisher():
     global label1
     global label2
     global label3
+    global art0
+    global art1
+    global art2
+    global art3
+    global art4
     global samplerate
+    global row
+    global ann
+    global bnn
+    global cnn
+    global dnn
+    global enn
 
     #immediatly set schedule of next sample.
     global next_call
@@ -79,24 +119,35 @@ def mypublisher():
             fig, ax1 = plt.subplots(figsize=(10,5))
 
             # plot channels
-            ax1.plot(sampletime, channel0, 'b-', label=label0)
-            ax1.plot(sampletime, channel1, 'g-', label=label1)
-            ax1.plot(sampletime, channel2, 'c-', label=label2)
-            ax1.plot(sampletime, channel3, 'y-', label=label3)
+            if art0 == 'true':
+                ax1.plot(sampletime, channel0, 'b-', label=label0)
+
+            if art1 == 'true':
+                ax1.plot(sampletime, channel1, 'g-', label=label1)
+
+            if art2 == 'true':
+                ax1.plot(sampletime, channel2, 'c-', label=label2)
+
+            if art3 == 'true':
+                ax1.plot(sampletime, channel3, 'y-', label=label3)
+
             ax1.set_xlabel('UTC')
             ax1.set_ylabel('mV')
             ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax1.set_ylim(0, 1800)
 
-            ax2 = ax1.twinx()
-            ax2.plot(sampletime, temperature, 'r-', label='Temp')
-            ax2.set_ylabel('Celsius')
-            ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax2.margins(0, 1)
+            if art4 == 'true':
+                ax2 = ax1.twinx()
+                ax2.plot(sampletime, temperature, 'r-', label='Temp')
+                ax2.set_ylabel('Celsius')
+                ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+                ax2.margins(0, 1)
 
             # show legend
             ax1.legend(loc = 'upper left')
-            ax2.legend(loc = 'upper right')
+
+            if art4 == 'true':
+                ax2.legend(loc = 'upper right')
 
             # auto format date axis
             fig.autofmt_xdate()
@@ -123,59 +174,73 @@ def mypublisher():
 
     # stacked chart
 
+
     def stacked(sampletime,channel0,channel1,channel2,channel3,temperature):
 
         try:
-            plt.figure(figsize=(7, 11), dpi=70)
+            if row == 1:
+                plt.figure(figsize=(7, 2.2), dpi=70)
+            elif row == 2:
+                plt.figure(figsize=(7, 4.4), dpi=70)
+            elif row == 3:
+                plt.figure(figsize=(7, 6.6), dpi=70)
+            elif row == 4:
+                plt.figure(figsize=(7, 8.8), dpi=70)
+            elif row == 5:
+                plt.figure(figsize=(7, 11), dpi=70)
 
-            #print "sampltime - ", sampletime
+            #print "sampletime - ", sampletime
 
             # Channels
-            ax1 = plt.subplot(5, 1, 1)
-            ax1.plot_date(sampletime, channel0, 'b-')
-            ax1.set_title(label0)
-            ax1.set_xlabel("UTC")
-            ax1.set_ylabel("mV")
-            ax1.set_ylim(0,1800)
-            ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
-            plt.xticks(rotation=30)
+            if art0 == 'true':
+                ax1 = plt.subplot(row, 1, ann)
+                ax1.plot_date(sampletime, channel0, 'b-')
+                ax1.set_title(label0)
+                ax1.set_xlabel("UTC")
+                ax1.set_ylabel("mV")
+                ax1.set_ylim(0,1800)
+                ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                plt.xticks(rotation=30)
 
-            ax2 = plt.subplot(5, 1, 2)
-            ax2.plot_date(sampletime, channel1, 'g-')
-            ax2.set_title(label1)
-            ax2.set_xlabel("UTC")
-            ax2.set_ylabel("mV")
-            ax2.set_ylim(0,1800)
-            ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
-            plt.xticks(rotation=30)
+            if art1 == 'true':
+                ax2 = plt.subplot(row, 1, bnn)
+                ax2.plot_date(sampletime, channel1, 'g-')
+                ax2.set_title(label1)
+                ax2.set_xlabel("UTC")
+                ax2.set_ylabel("mV")
+                ax2.set_ylim(0,1800)
+                ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                plt.xticks(rotation=30)
 
+            if art2 == 'true':
+                ax3 = plt.subplot(row, 1, cnn)
+                ax3.plot_date(sampletime, channel2, 'c-')
+                ax3.set_title(label2)
+                ax3.set_xlabel("UTC")
+                ax3.set_ylabel("mV")
+                ax3.set_ylim(0,1800)
+                ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                plt.xticks(rotation=30)
 
-            ax3 = plt.subplot(5, 1, 3)
-            ax3.plot_date(sampletime, channel2, 'c-')
-            ax3.set_title(label2)
-            ax3.set_xlabel("UTC")
-            ax3.set_ylabel("mV")
-            ax3.set_ylim(0,1800)
-            ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
-            plt.xticks(rotation=30)
+            if art3 == 'true':
+                ax4 = plt.subplot(row, 1, dnn)
+                ax4.plot_date(sampletime, channel3, 'y-')
+                ax4.set_title(label3)
+                ax4.set_xlabel("UTC")
+                ax4.set_ylabel("mV")
+                ax4.set_ylim(0,1800)
+                ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                plt.xticks(rotation=30)
 
-            ax4 = plt.subplot(5, 1, 4)
-            ax4.plot_date(sampletime, channel3, 'y-')
-            ax4.set_title(label3)
-            ax4.set_xlabel("UTC")
-            ax4.set_ylabel("mV")
-            ax4.set_ylim(0,1800)
-            ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
-            plt.xticks(rotation=30)
-
-            ax5 = plt.subplot(5, 1, 5)
-            ax5.plot_date(sampletime, temperature, 'r-')
-            ax5.set_title("Instrument Temperature")
-            ax5.set_xlabel("UTC")
-            ax5.set_ylabel("Celsius")
-            ax5.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax5.margins(0, 1)
-            plt.xticks(rotation=30)
+            if art4 == 'true':
+                ax5 = plt.subplot(row, 1, enn)
+                ax5.plot_date(sampletime, temperature, 'r-')
+                ax5.set_title("Instrument Temperature")
+                ax5.set_xlabel("UTC")
+                ax5.set_ylabel("Celsius")
+                ax5.yaxis.set_major_locator(MaxNLocator(integer=True))
+                ax5.margins(0, 1)
+                plt.xticks(rotation=30)
 
 
             plt.tight_layout()
@@ -250,10 +315,10 @@ def mypublisher():
                 dt = dt + datetime.timedelta(seconds=samplerate)  # create next sample datetime object based on get.config rate
                 #print "New dt is set to - ", dt
 
-    if config.get('publisher', 'chart') == 'combined':
+    if config.get('publisherartist', 'chart') == 'combined':
         print "Combined was selected"
         combined(sampletime,channel0,channel1,channel2,channel3,temperature)
-    elif config.get('publisher', 'chart') == "stacked":
+    elif config.get('publisherartist', 'chart') == "stacked":
         stacked(sampletime,channel0,channel1,channel2,channel3,temperature)
 
 
