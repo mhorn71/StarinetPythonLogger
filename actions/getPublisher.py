@@ -14,7 +14,6 @@ def control():
 
     try:
         config.read("StarinetBeagleLogger.conf")
-        chart = config.get("publisher", "chart")
         interval = config.get("publisher", "interval")
         server = config.get("publisher", "server")
         username = config.get("publisher", "username")
@@ -26,7 +25,7 @@ def control():
         logger.critical("%s %s", "Unable to get publisher parameters from config", e)
     else:
         status = 0
-        value = chart + ',' + str(interval) + ',' + server + ',' + username + ',' + password + ',' + str(remotefolder)
+        value = str(interval) + ',' + server + ',' + username + ',' + password + ',' + str(remotefolder)
         logger.debug("%s %s", "returning value ", value)
 
     status = status + samplerstatus.status()
