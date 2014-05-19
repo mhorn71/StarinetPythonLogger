@@ -22,12 +22,11 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5):
     else:
         try:
             config.read("StarinetBeagleLogger.conf")
-            config.set('publisher', 'chart', buffer0)  # update
-            config.set('publisher', 'interval', buffer1)  # update
-            config.set('publisher', 'server', buffer2)  # update
-            config.set('publisher', 'username', buffer3)  # update
-            config.set('publisher', 'password', buffer4)  # update
-            config.set('publisher', 'remotefolder', buffer5)  # update
+            config.set('publisher', 'interval', buffer0)  # update
+            config.set('publisher', 'server', buffer1)  # update
+            config.set('publisher', 'username', buffer2)  # update
+            config.set('publisher', 'password', buffer3)  # update
+            config.set('publisher', 'remotefolder', buffer4)  # update
             with open('StarinetBeagleLogger.conf', 'wb') as configfile:
                 config.write(configfile)
                 configfile.close()
