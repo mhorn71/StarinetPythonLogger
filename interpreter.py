@@ -105,14 +105,9 @@ def processor(buffer0):
                         elif re.match('01070000', command):  # getHostname
                             logger.debug("Matched command getHostname")
                             x = getHostname.control()
-                        elif re.match('010B0000', command):  # getPublisherLabels
-                            logger.debug("Matched command getPublisherLabels")
-                            x = getPublisherLabels.control()
                         elif re.match('010E0000', command):  # getClockTime
                             logger.debug("Matched command getClockTime")
                             x = getClockTime.control()
-                        elif re.match('010F0000', command): # getPublisherArtist
-                            x = getPublisherArtist.control()
                         ############# Data Capture Module ############
                         elif re.match('03000000', command):  # getSpace
                             logger.debug("Matched command getSpace")
@@ -123,9 +118,15 @@ def processor(buffer0):
                         elif re.match('03020000', command):  # getDataBlockCount
                             logger.debug("Matched command getDataBlockCount")
                             x = getDataBlockCount.control()
-                        elif re.match('030A0000', command):  # getPublisher
+                        ############# Publisher Module ###############
+                        elif re.match('05040000', command):  # getPublisherLabels
+                            logger.debug("Matched command getPublisherLabels")
+                            x = getPublisherLabels.control()
+                        elif re.match('05030000', command):  # getPublisher
                             logger.debug("Matched command getPublisher")
                             x = getPublisher.control()
+                        elif re.match('05060000', command): # getPublisherArtist
+                            x = getPublisherArtist.control()
                         ############ Logger Plugin ############
                         elif re.match('04000000', command):  # getRealTimeData
                             logger.debug("Matched command getRealTimeData")
@@ -172,13 +173,19 @@ def processor(buffer0):
                         elif re.match('00070000', command):  # setConfigurationBlock
                             logger.debug("Matched command setConfigurationBlock")
                             x = setConfigurationBlock.control(data[1], data[2], data[3])
-                        ############ Utilities Module ############
-                        elif re.match('010C0000', command):  # setPublisherLabels
+                        ############ Publisher Module ############
+                        elif re.match('05050000', command):  # setPublisherLabels
                             logger.debug("Matched command setPublisherLabels")
                             x = setPublisherLabels.control(data[1], data[2], data[3], data[4])
-                        elif re.match('01100000', command):  # setPublisherArtist
+                        elif re.match('05070000', command):  # setPublisherArtist
                             logger.debug("Matched command setPublisherArtist")
                             x = setPublisherArtist.control(data[1], data[2], data[3], data[4], data[5], data[6])
+                        elif re.match('05010000', command):  # publisher
+                            logger.debug("Matched command publisher")
+                            x = capturePublisher.control(data[1])
+                        elif re.match('05020000', command):  # setPublisher
+                            logger.debug("Matched command setPublisher")
+                            x = setPublisher.control(data[1], data[2], data[3], data[4], data[5], data[6])
                         ############ Analogue Module #############
                         elif re.match('02000000', command):  # getA2D
                             logger.debug("Matched command getA2D")
@@ -193,12 +200,6 @@ def processor(buffer0):
                         elif re.match('03060000', command):  # capture
                             logger.debug("Matched command capture")
                             x = capture.control(data[1])
-                        elif re.match('03080000', command):  # capturePublisher
-                            logger.debug("Matched command capturePublisher")
-                            x = capturePublisher.control(data[1])
-                        elif re.match('03090000', command):  # setPublisher
-                            logger.debug("Matched command setPublisher")
-                            x = setPublisher.control(data[1], data[2], data[3], data[4], data[5], data[6])
                         else:
                             logger.debug("Matched command - NO MATCH")
                             x = 20, None 
