@@ -131,7 +131,7 @@ def mypublisher():
             if art3 == 'true':
                 ax1.plot(sampletime, channel3, 'y-', label=label3)
 
-            ax1.set_xlabel('UTC')
+            ax1.set_xlabel('Time (UTC)')
             ax1.set_ylabel('mV')
             ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax1.set_ylim(0, 1800)
@@ -196,7 +196,7 @@ def mypublisher():
                 ax1 = plt.subplot(row, 1, ann)
                 ax1.plot_date(sampletime, channel0, 'b-')
                 ax1.set_title(label0)
-                ax1.set_xlabel("UTC")
+                ax1.set_xlabel("Time (UTC)")
                 ax1.set_ylabel("mV")
                 ax1.set_ylim(0,1800)
                 ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
@@ -206,7 +206,7 @@ def mypublisher():
                 ax2 = plt.subplot(row, 1, bnn)
                 ax2.plot_date(sampletime, channel1, 'g-')
                 ax2.set_title(label1)
-                ax2.set_xlabel("UTC")
+                ax2.set_xlabel("Time (UTC)")
                 ax2.set_ylabel("mV")
                 ax2.set_ylim(0,1800)
                 ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
@@ -216,7 +216,7 @@ def mypublisher():
                 ax3 = plt.subplot(row, 1, cnn)
                 ax3.plot_date(sampletime, channel2, 'c-')
                 ax3.set_title(label2)
-                ax3.set_xlabel("UTC")
+                ax3.set_xlabel("Time (UTC)")
                 ax3.set_ylabel("mV")
                 ax3.set_ylim(0,1800)
                 ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
@@ -226,7 +226,7 @@ def mypublisher():
                 ax4 = plt.subplot(row, 1, dnn)
                 ax4.plot_date(sampletime, channel3, 'y-')
                 ax4.set_title(label3)
-                ax4.set_xlabel("UTC")
+                ax4.set_xlabel("Time (UTC)")
                 ax4.set_ylabel("mV")
                 ax4.set_ylim(0,1800)
                 ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
@@ -236,7 +236,7 @@ def mypublisher():
                 ax5 = plt.subplot(row, 1, enn)
                 ax5.plot_date(sampletime, temperature, 'r-')
                 ax5.set_title("Instrument Temperature")
-                ax5.set_xlabel("UTC")
+                ax5.set_xlabel("Time (UTC)")
                 ax5.set_ylabel("Celsius")
                 ax5.yaxis.set_major_locator(MaxNLocator(integer=True))
                 ax5.margins(0, 1)
@@ -316,7 +316,6 @@ def mypublisher():
                 #print "New dt is set to - ", dt
 
     if config.get('publisherartist', 'chart') == 'combined':
-        print "Combined was selected"
         combined(sampletime,channel0,channel1,channel2,channel3,temperature)
     elif config.get('publisherartist', 'chart') == "stacked":
         stacked(sampletime,channel0,channel1,channel2,channel3,temperature)
