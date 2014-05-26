@@ -48,4 +48,4 @@ Software install
     4.) Start as root.
 
     5.) Download Starbase from ukraa.com/builds/beta and set the IP address of your
-        beaglebone in the file BeagleStarinetLogger-instrument.xml  
+        beaglebone in the file StarinetPythonLogger-instrument.xml
