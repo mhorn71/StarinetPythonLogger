@@ -30,7 +30,7 @@ You need to install the following additional python packages.
     apt-get install python-pip
     pip install crcmod
     pip install matplotlib
-    pip install psutils
+    pip install psutil
     pip install Adafruit_BBIO
 
 
