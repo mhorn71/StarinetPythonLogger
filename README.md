@@ -31,6 +31,8 @@ You need to install the following additional python packages.
     pip install crcmod
     pip install matplotlib
     pip install psutils
+    pip install Adafruit_BBIO
+
 
 
 You will need to attach the below hardware to ADC Channel AIN6
