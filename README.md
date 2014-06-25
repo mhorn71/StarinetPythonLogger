@@ -25,11 +25,12 @@ You need to install the following additional python packages.
     ----------
     https://github.com/matplotlib/matplotlib
 
-    You can install the above using apt-get and pip as the root user or using sudo with the following commands:
+    You can install the above using apt-get and pip as the root user or using sudo with the following
+    commands:
 
     apt-get install python-pip
     pip install crcmod
-    pip install matplotlib
+    pip install python-matplotlib
     pip install psutil
     pip install Adafruit_BBIO
 
