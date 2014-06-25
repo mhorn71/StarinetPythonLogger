@@ -153,7 +153,7 @@ def mypublisher():
             fig.autofmt_xdate()
 
             # set grid
-            plt.grid()
+            ax1.grid()
 
             # set tight layout
             plt.tight_layout()
