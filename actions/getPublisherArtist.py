@@ -21,6 +21,7 @@ def control():
         channel2 = config.get("publisherartist", "channelArt2")
         channel3 = config.get("publisherartist", "channelArt3")
         temperature = config.get("publisherartist", "TemperatureArt")
+        autoscale = config.get("publisherartist", "autoscale")
     except ConfigParser.Error as e:
         status = 4
         value = e
