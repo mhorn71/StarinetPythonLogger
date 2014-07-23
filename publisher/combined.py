@@ -29,6 +29,8 @@ art2 = config.get("publisherartist", "channelArt2")
 art3 = config.get("publisherartist", "channelArt3")
 art4 = config.get("publisherartist", "temperatureArt")
 
+autoscale = config.get("publisherartist", "autoscale")
+
 samplerate = int(config.get('capture', 'rate').lstrip("0"))
 
 row = 0
@@ -77,6 +79,7 @@ def mypublisher():
     global cnn
     global dnn
     global enn
+    global autoscale
 
     #immediatly set schedule of next sample.
     global next_call
@@ -134,7 +137,11 @@ def mypublisher():
             ax1.set_xlabel('Time (UTC)')
             ax1.set_ylabel('mV')
             ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax1.set_ylim(0, 1800)
+
+            if autoscale == 'false':
+                ax1.set_ylim(0, 1800)
+            else:
+                ax1.margins(0, 1)
 
             if art4 == 'true':
                 ax2 = ax1.twinx()
@@ -198,8 +205,13 @@ def mypublisher():
                 ax1.set_title(label0)
                 ax1.set_xlabel("Time (UTC)")
                 ax1.set_ylabel("mV")
-                ax1.set_ylim(0,1800)
-                ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
+
+                if autoscale == 'false':
+                    ax1.set_ylim(0,1800)
+                    ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax1.margins(0, 1)
+
                 plt.xticks(rotation=30)
 
             if art1 == 'true':
@@ -208,8 +220,13 @@ def mypublisher():
                 ax2.set_title(label1)
                 ax2.set_xlabel("Time (UTC)")
                 ax2.set_ylabel("mV")
-                ax2.set_ylim(0,1800)
-                ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
+
+                if autoscale == 'false':
+                    ax2.set_ylim(0,1800)
+                    ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax2.margins(0, 1)
+
                 plt.xticks(rotation=30)
 
             if art2 == 'true':
@@ -218,8 +235,13 @@ def mypublisher():
                 ax3.set_title(label2)
                 ax3.set_xlabel("Time (UTC)")
                 ax3.set_ylabel("mV")
-                ax3.set_ylim(0,1800)
-                ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
+
+                if autoscale == 'false':
+                    ax3.set_ylim(0,1800)
+                    ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax3.margins(0, 1)
+
                 plt.xticks(rotation=30)
 
             if art3 == 'true':
@@ -228,8 +250,13 @@ def mypublisher():
                 ax4.set_title(label3)
                 ax4.set_xlabel("Time (UTC)")
                 ax4.set_ylabel("mV")
-                ax4.set_ylim(0,1800)
-                ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
+
+                if autoscale == 'false':
+                    ax4.set_ylim(0,1800)
+                    ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax4.margins(0, 1)
+
                 plt.xticks(rotation=30)
 
             if art4 == 'true':
