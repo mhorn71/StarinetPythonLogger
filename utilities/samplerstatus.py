@@ -37,14 +37,19 @@ def status():
             b = proc.cmdline()[1]
         except IndexError as e:
             logger.debug("proc.cmdline returned no value from pidfile")
-            os.remove(config.get('paths', 'pidfile'))
-            value = 0
+            try:
+                os.remove(config.get('paths', 'pidfile'))
+                value = 0
+            except OSError as e:
+                status = 4
+                value = e
+                logger.critical("%s %s", "Unable to remove pidfile", e)
         else:
             if b == 'logger/sampler.py':
                 if proc.status == psutil.STATUS_ZOMBIE:
                     try:
                         os.remove(config.get('paths', 'pidfile'))
-                    except IOError as e:
+                    except OSError as e:
                         logger.debug("%s %s", "Unable to remove pid file fatal error", e)
                         value = 2
                 else:
@@ -52,7 +57,7 @@ def status():
             else:
                 try:
                     os.remove(config.get('paths', 'pidfile'))
-                except IOError as e:
+                except OSError as e:
                     logger.debug("%s %s", "Unable to remove pid file fatal error", e)
                     value = 2
                 else:

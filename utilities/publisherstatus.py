@@ -41,14 +41,19 @@ def status():
             b = proc.cmdline()[1]
         except IndexError as e:
             logger.debug("proc.cmdline returned no value from pidfile")
-            os.remove(config.get('publisher', 'pidfile'))
-            value = 1
+            try:
+                os.remove(config.get('publisher', 'pidfile'))
+                value = 1
+            except OSError as e:
+                status = 4
+                value = e
+                logger.critical("%s %s", "Unable to open datafolder", e)
         else:
             if b == 'publisher/combined.py':
                 if proc.status == psutil.STATUS_ZOMBIE:
                     try:
                         os.remove(config.get('publisher', 'pidfile'))
-                    except IOError as e:
+                    except OSError as e:
                         logger.debug("%s %s", "Unable to remove pid file fatal error", e)
                         value = 2
                 else:
@@ -56,7 +61,7 @@ def status():
             else:
                 try:
                     os.remove(config.get('publisher', 'pidfile'))
-                except IOError as e:
+                except OSError as e:
                     logger.debug("%s %s", "Unable to remove pid file fatal error", e)
                     value = 2
                 else:

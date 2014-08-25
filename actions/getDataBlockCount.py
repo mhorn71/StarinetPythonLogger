@@ -25,6 +25,10 @@ def control():
         value = hex(lastblock).split('x')[1].upper().zfill(4)
     except StandardError:
         status = 800
+    except OSError as e:
+        status = 4
+        value = e
+        logger.critical("%s %s", "Unable to open datafolder", e)
     else:
         status = 0
 

@@ -31,6 +31,10 @@ def control(buffer0):
         except ValueError:
             status = 8
             value = None
+        except OSError as e:
+            status = 4
+            value = e
+            logger.critical("%s %s", "Unable to open datafolder", e)
         else:
             status = 0
     elif re.match('1', buffer0):
@@ -49,6 +53,10 @@ def control(buffer0):
             status = 8
             value = None
             logger.critical("%s %s", "Unable to locate module 1 ", e)
+        except OSError as e:
+            status = 4
+            value = e
+            logger.critical("%s %s", "Unable to open datafolder", e)
         else:
             status = 0
     else:

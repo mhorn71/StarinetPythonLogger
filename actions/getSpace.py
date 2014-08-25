@@ -23,6 +23,10 @@ def control():
         status = 4
         value = e
         logger.critical("%s %s", "Unable to open datafolder", e)
+    except OSError as e:
+        status = 4
+        value = e
+        logger.critical("%s %s", "Unable to open datafolder", e)
     except ValueError:
         value = '000'
         status = 0
