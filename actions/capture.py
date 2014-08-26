@@ -38,38 +38,33 @@ def control(buffer0):
             try:
                 for the_file in os.listdir(folder):
                     file_path = os.path.join(folder, the_file)
+                    if os.path.isfile(file_path):
+                            os.unlink(file_path)
+                    logger.debug("%s %s", "Removing data file ", file_path)
             except OSError as e:
                         logger.critical("%s %s", "premature termination", e)
                         status = 4
             else:
+                f = open(config.get("paths", "datafolder") + '0000', 'wb')
+                f.close()
                 try:
-                    if os.path.isfile(file_path):
-                            os.unlink(file_path)
-                    logger.debug("%s %s", "Removing data file ", file_path)
-                except OSError as e:
-                        logger.critical("%s %s", "premature termination", e)
-                        status = 4
+                    pro = subprocess.Popen(["/usr/bin/python", "logger/sampler.py"])
+                except IOError as e:
+                    logger.critical("%s %s", "premature termination", e)
+                    logger.critical("Unable to start capture")
+                    status = 4
                 else:
-                    f = open(config.get("paths", "datafolder") + '0000', 'wb')
-                    f.close()
                     try:
-                        pro = subprocess.Popen(["/usr/bin/python", "logger/sampler.py"])
+                        pidfile = open(config.get('paths', 'pidfile'), 'w')
+                        pidfile.write(str(pro.pid))
+                        pidfile.close()
                     except IOError as e:
                         logger.critical("%s %s", "premature termination", e)
-                        logger.critical("Unable to start capture")
+                        logger.critical("Unable to create pid file")
                         status = 4
                     else:
-                        try:
-                            pidfile = open(config.get('paths', 'pidfile'), 'w')
-                            pidfile.write(str(pro.pid))
-                            pidfile.close()
-                        except IOError as e:
-                            logger.critical("%s %s", "premature termination", e)
-                            logger.critical("Unable to create pid file")
-                            status = 4
-                        else:
-                            logger.debug("Started logger/sampler ....")
-                            status = 0
+                        logger.debug("Started logger/sampler ....")
+                        status = 0
         else:
             logger.debug("premature termination")
             status = 4
