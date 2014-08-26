@@ -28,7 +28,7 @@ def control():
         value = e
         logger.critical("%s %s", "Unable to open datafolder", e)
     except ValueError:
-        value = '000'
+        value = '100'
         status = 0
     else:
         status = 0
