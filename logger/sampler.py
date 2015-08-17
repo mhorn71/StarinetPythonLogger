@@ -88,7 +88,7 @@ def mylogger():
 
         f = open(datafolder + datafile, 'wb')
         samplerdata = ''.join(readadc.read())
-        data = str(stamp) + ' ' + temperature.read() + ' ' + strrate + '   ' + \
+        data = str(stamp) + ' ' + temperature.read() + ' ' + strrate + space + \
             str(samplerdata)
         f.write(data)
         f.close()
