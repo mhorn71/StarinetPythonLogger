@@ -24,7 +24,7 @@ def control(buffer0):
 
     logger.debug("%s %s", "Capture buffer0 ", buffer0)
 
-    if buffer0 == 'true':
+    if buffer0 == 'Y':
 
         logger.debug("Entered true routine")
         if samplerstatus.status() == 8000:
@@ -69,7 +69,7 @@ def control(buffer0):
             logger.debug("premature termination")
             status = 4
 
-    elif buffer0 == 'false':
+    elif buffer0 == 'N':
 
         logger.debug("Entered false routine")
 
