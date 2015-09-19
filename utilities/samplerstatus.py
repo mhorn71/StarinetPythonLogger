@@ -68,5 +68,5 @@ def status():
     return value
 
 if __name__ == "__main__":
-    print str(status())
+    print(str(status()))
 
