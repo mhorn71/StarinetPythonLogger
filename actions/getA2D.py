@@ -1,7 +1,7 @@
 import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
-import logger.readadc as readadc
+import analogue.readadc as readadc
 
 ##initialise logger
 logger = logging.getLogger('actions.getA2D')

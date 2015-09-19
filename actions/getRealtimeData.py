@@ -1,7 +1,7 @@
 import utilities.samplerstatus as samplerstatus
 import logging
-import logger.readadc as readadc
-import getTemperature 
+import analogue.readadc as readadc
+import actions.getTemperature as getTemperature
 
 ##initialise logger
 logger = logging.getLogger('actions.getRealtimeData')
