@@ -4,8 +4,8 @@ import datetime
 import time
 import os
 import threading
-import readadc
-import temperature
+import analogue.readadc as readadc
+import logger.temperature as temperature
 import signal
 
 ## initialise config parser
