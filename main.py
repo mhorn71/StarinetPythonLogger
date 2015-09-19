@@ -61,6 +61,7 @@ class Process(threading.Thread):
         self.my_queue = my_queue
         self.alive = threading.Event()
         self.alive.set()
+        self.interpreter = interpreter.Interpreter()
 
     def run(self):
 
@@ -68,7 +69,7 @@ class Process(threading.Thread):
 
         while True:
             buffer3 = self.my_queue.get()
-            x = interpreter.processor(buffer3[0])
+            x = self.interpreter.processor(buffer3[0])
 
            # print "Interpreter returned - ", repr(x)
 
