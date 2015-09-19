@@ -44,4 +44,4 @@ def newcrc(buffer0):
 
 
 if __name__ == "__main__":
-    print newcrc(str(sys.argv[1:]))
+    print(newcrc(str(sys.argv[1:])))
