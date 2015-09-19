@@ -65,5 +65,5 @@ def read():
     return _reading
 
 if __name__ == "__main__":
-    print read()
+    print(read())
 
