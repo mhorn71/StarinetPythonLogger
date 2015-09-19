@@ -1,11 +1,11 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 
 ##initialise logger
 logger = logging.getLogger('actions.getPublisher')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 
 
 def control():
@@ -19,7 +19,7 @@ def control():
         username = config.get("publisher", "username")
         password = config.get("publisher", "password")
         remotefolder = config.get("publisher", "remotefolder")
-    except ConfigParser.Error as e:
+    except configparser.Error as e:
         status = 4
         value = e
         logger.critical("%s %s", "Unable to get publisher parameters from config", e)

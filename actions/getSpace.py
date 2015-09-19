@@ -1,12 +1,12 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 import os
 
 ##initialise logger
 logger = logging.getLogger('actions.getSpace')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 
@@ -19,7 +19,7 @@ def control():
                              key=lambda p: os.path.getctime(os.path.join(
                                  config.get("paths", "datafolder"), p))), 16) + 1
         value = str(int(100 - int(100 * float(blockcount) / 65534))).zfill(3)
-    except ConfigParser.Error as e:
+    except configparser.Error as e:
         status = 4
         value = e
         logger.critical("%s %s", "Unable to open datafolder", e)

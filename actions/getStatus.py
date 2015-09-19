@@ -1,11 +1,11 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 
 ##initialise logger
 logger = logging.getLogger('actions.getStatus')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 

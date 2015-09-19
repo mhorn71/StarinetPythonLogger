@@ -1,5 +1,5 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 import re
 import uuid
@@ -7,7 +7,7 @@ import uuid
 ##initialise logger
 logger = logging.getLogger('actions.getMACAddress')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 

@@ -4,7 +4,7 @@ import Queue
 import interpreter
 import logging
 import logging.config
-import ConfigParser
+import configparser
 import time
 import Adafruit_BBIO.ADC as ADC
 
@@ -13,7 +13,7 @@ logging.config.fileConfig('StarinetBeagleLogger.conf', disable_existing_loggers=
 logger = logging.getLogger('main')
 
 ##initialise config parser
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 try:

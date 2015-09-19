@@ -1,7 +1,7 @@
 StarinetPythonLogger
 ====================
 
-Beaglebone Black Python Starinet four channel data logger for the UKRAA Starbase Observatory
+Beaglebone Black Python3 Starinet six channel data logger for the UKRAA Starbase Observatory
 
 
 Install Instructions

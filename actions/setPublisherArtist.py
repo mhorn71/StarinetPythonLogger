@@ -1,13 +1,13 @@
 __author__ = 'mark'
 import utilities.publisherstatus as publisherstatus
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 
 ##initialise logger
 logger = logging.getLogger('actions.setPublisherArtist')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 
 
 def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6):

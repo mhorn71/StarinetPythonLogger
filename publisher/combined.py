@@ -6,7 +6,7 @@ matplotlib.use('Agg')  ## do this before import matplotlib.pyplot so tkinter doe
 import matplotlib.pyplot as plt
 import os
 import time
-import ConfigParser
+import configparser
 import re
 import datetime
 import threading
@@ -15,7 +15,7 @@ import gc
 from matplotlib.ticker import MaxNLocator
 
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 label0 = config.get("publisherlabels", "channel0")

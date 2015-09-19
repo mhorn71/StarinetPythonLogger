@@ -1,12 +1,12 @@
 __author__ = 'mark'
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 
 ##initialise logger
 logger = logging.getLogger('actions.getPublisherArtist')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 
 
 def control():
@@ -22,7 +22,7 @@ def control():
         channel3 = config.get("publisherartist", "channelArt3")
         temperature = config.get("publisherartist", "TemperatureArt")
         autoscale = config.get("publisherartist", "autoscale")
-    except ConfigParser.Error as e:
+    except configparser.Error as e:
         status = 4
         value = e
         logger.critical("%s %s", "Unable to get publisher artist parameters from config", e)

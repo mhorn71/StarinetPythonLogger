@@ -2,7 +2,7 @@ import os.path
 import subprocess
 import utilities.publisherstatus as publisherstatus
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import signal
 import logging
 import sys
@@ -11,7 +11,7 @@ import sys
 ##initialise logger
 logger = logging.getLogger('actions.capturePublisher')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 #config.read("StarinetBeagleLogger.conf")
 
 

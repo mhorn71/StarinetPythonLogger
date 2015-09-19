@@ -1,11 +1,11 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 
 ##initialise logger
 logger = logging.getLogger('actions.getRate')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 
 
 def control():
@@ -16,7 +16,7 @@ def control():
     try:
         config.read("StarinetBeagleLogger.conf")
         rate = config.get("capture", "rate")
-    except ConfigParser.Error as e:
+    except configparser.Error as e:
         status = 4
         value = e
         logger.critical("%s %s", "Unable to get capture rate from config", e)

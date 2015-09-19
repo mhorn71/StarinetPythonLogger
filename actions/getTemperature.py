@@ -1,5 +1,5 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 import Adafruit_BBIO.ADC as ADC
 import re
@@ -20,7 +20,7 @@ except Exception as e:
 ##initialise logger
 logger = logging.getLogger('actions.getTemperature')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 

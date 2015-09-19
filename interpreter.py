@@ -2,7 +2,7 @@ import re
 import struct
 import logging
 import utilities.staribuscrc as staribuscrc
-import ConfigParser
+import configparser
 import actions.capture as capture
 import actions.ping as ping
 import actions.getDataBlockCount as getDataBlockCount
@@ -35,7 +35,7 @@ import utilities.samplerstatus as samplerstatus
 logger = logging.getLogger('interpreter')
 
 ##initialise config parser
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 x = None

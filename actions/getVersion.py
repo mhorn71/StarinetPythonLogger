@@ -1,11 +1,11 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 
 ##initialise logger
 logger = logging.getLogger('actions.getVersion')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 
 
 
@@ -16,7 +16,7 @@ def control():
     try:
         config.read("StarinetBeagleLogger.conf")
         value = config.get("version", "version")
-    except ConfigParser.Error as e:
+    except configparser.Error as e:
         status = 4
         value = e
         logger.critical("%s %s", "Unable to get version from config", e)

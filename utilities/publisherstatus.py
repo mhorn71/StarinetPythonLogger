@@ -1,12 +1,12 @@
 import os
 import psutil
-import ConfigParser
+import configparser
 import logging
 
 logger = logging.getLogger('utilities.publisherstatus')
 
 ##initialise config parser
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 ## the following status will return: 1 = Not Running, 0 = Running, 2 = Error

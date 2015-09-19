@@ -1,5 +1,5 @@
 import utilities.samplerstatus as samplerstatus
-import ConfigParser
+import configparser
 import logging
 import re
 import os
@@ -7,7 +7,7 @@ import os
 ##initialise logger
 logger = logging.getLogger('actions.getConfigurationBlockCount')
 
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 

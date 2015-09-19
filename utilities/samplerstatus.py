@@ -1,12 +1,12 @@
 import os
 import psutil
-import ConfigParser
+import configparser
 import logging
 
 logger = logging.getLogger('utilities.samplerstatus')
 
 ##initialise config parser
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 
