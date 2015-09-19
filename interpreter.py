@@ -54,7 +54,7 @@ def processor(buffer0):
 
     logger.debug("Interpreter was called.")
 
-    if re.match("^\x02*[0-9a-zA-Z]{14}\x04*", buffer0):   # Matched Command with no parameters
+    if re.match("^[0-9a-zA-Z]{14}$", buffer0):   # Matched Command with no parameters
 
         logger.debug("Matched command with no parameters")
         logger.debug("%s %s", "Current current response_command - ", response_command)
@@ -63,7 +63,7 @@ def processor(buffer0):
         logger.debug("%s %s", "Current current response_crc - ", response_crc)
 
         try:
-            data = buffer0.strip('\x02\x1F\x04\r\n')
+            data = buffer0
             logger.debug("%s %s", "Stripped control chars from packet ", repr(data))
         except Exception as e:
             logger.debug("%s %s", "Unable to strip ctl chars from packet ", e)
@@ -71,6 +71,7 @@ def processor(buffer0):
             try:
                 address, command, crc = struct.unpack('<2s8s4s', data.encode('utf-8'))
                 command = command.decode('utf-8')
+                address = address.decode('utf-8')
                 logger.debug("%s %s %s %s", "Unpacked Staribus command", address, command, crc)
             except struct.error as e:
                 logger.debug("%s %s", "Can not unpack command ", e)
@@ -136,7 +137,7 @@ def processor(buffer0):
                             logger.debug("Matched command - NO MATCH")
                             x = 20, None 
 
-    elif re.match("^\x02*[0-9a-zA-Z]{10}\x1F*(([0-9a-zA-Z]*)(\x1F)*)*\x04*", buffer0):  # Matched Cmd with parameters
+    elif re.match("^[0-9a-zA-Z]{10}\x1F*(([0-9a-zA-Z]*)(\x1F)*)*", buffer0):  # Matched Cmd with parameters
 
         logger.debug("Matched command with parameters")
         logger.debug("%s %s", "Current current response_command - ", response_command)
@@ -145,7 +146,7 @@ def processor(buffer0):
         logger.debug("%s %s", "Current current response_crc - ", response_crc)
 
         try:
-            data = buffer0.strip('\x02\x1F\x03\x04\r\n').split('\x1F')  # Strip off ctrl characters and split on <us>
+            data = buffer0.split('\x1F')  # Strip off ctrl characters and split on <us>
             logger.debug("%s %s", "Stripped control chars from packet", repr(data))
         except Exception as e:
             logger.debug("%s %s", "Unable to strip ctl chars from packet ", e)
@@ -153,6 +154,7 @@ def processor(buffer0):
             try:
                 address, command = struct.unpack('<2s8s', data[0].encode('utf-8'))  # Unpack command
                 command = command.decode('utf-8')
+                address = address.decode('utf-8')
                 logger.debug("%s %s %s", "Unpacked Staribus command", address, command)
             except struct.error as e:
                 logger.debug("%s %s", "Can not unpack command ", e)
