@@ -3,13 +3,13 @@ import Adafruit_BBIO.ADC as ADC
 try:
     ADC.setup()
 except Exception as e:
-    print 'Adc failed - did you start as root?', e
+    print('Adc failed - did you start as root?' + str(e))
     pass
 
 try:
     ADC.read("P9_40")
 except Exception as e:
-    print 'failed to read adc - did you start as root?', e
+    print('failed to read adc - did you start as root?' + str(e))
     pass
 
 

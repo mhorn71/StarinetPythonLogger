@@ -110,7 +110,7 @@ def mypublisher():
             file.close()                                    # close file and FTP
             session.quit()
         except ftplib.all_errors as e:
-            print "We had an FTP Error - ", e
+            print("We had an FTP Error - " + str(e))
         else:
             gc.collect()
 
@@ -175,7 +175,7 @@ def mypublisher():
             plt.close('all')
 
         except Exception as e:
-            print "We had a matplotlib error - ", e
+            print("We had a matplotlib error - " + str(e))
         else:
             myftp()
 
@@ -281,7 +281,7 @@ def mypublisher():
             # experimental plt.close see if it helps with memory?
             plt.close('all')
         except Exception as e:
-            print "stacked Exception - ", e
+            print("stacked Exception - " + str(e))
         else:
             myftp()
 

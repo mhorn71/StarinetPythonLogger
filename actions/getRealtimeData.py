@@ -13,7 +13,7 @@ def control():
 
     try:
         samplerresponse = readadc.read()
-        print "getRealTimeData sampleresponse = ", samplerresponse
+        logger.info("getRealTimeData sampleresponse = " + str(samplerresponse))
         temp = getTemperature.control()
     except IOError as e:
         status = 4

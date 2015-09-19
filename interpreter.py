@@ -74,7 +74,7 @@ def processor(buffer0):
             except struct.error as e:
                 logger.debug("%s %s", "Can not unpack command ", e)
             else:
-                if int(staribuscrc.checkcrc(buffer0)) == 0200:
+                if int(staribuscrc.checkcrc(buffer0)) == 200:
                     logger.debug("Packet failed crc check")
                     x = 200, None
                 else:
@@ -155,7 +155,7 @@ def processor(buffer0):
             except struct.error as e:
                 logger.debug("%s %s", "Can not unpack command ", e)
             else:
-                if int(staribuscrc.checkcrc(buffer0)) == 0200:  # check crc
+                if int(staribuscrc.checkcrc(buffer0)) == 200:  # check crc
                     logger.debug("Packet failed crc check")
                     x = 200, None
                 else:

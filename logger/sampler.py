@@ -69,17 +69,17 @@ def mylogger():
                 pid = int(pidfile.read())
                 pidfile.close()
             except IOError as e:
-                print "Unable to assign pid to pro.pid capture.py"
+                print("Unable to assign pid to pro.pid capture.py")
             else:
                 try:
                     os.kill(pid, signal.SIGTERM)
                 except OSError as e:
-                    print "Unable to kill process logger/sampler"
+                    print("Unable to kill process logger/sampler")
                 else:
                     try:
                         os.remove(str(config.get('paths', 'pidfile')))
                     except OSError as e:
-                        print "Unable to remove pid file fatal error", e
+                        print("Unable to remove pid file fatal error" + str(e))
 
         f = open(datafolder + datafile, 'wb')
         samplerdata = ''.join(readadc.read())

@@ -131,5 +131,5 @@ def control(buffer0):
     return status, value
 
 if __name__ == "__main__":
-    print control(str(sys.argv[1:]))
+    print(control(str(sys.argv[1:])))
 

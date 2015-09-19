@@ -4,13 +4,13 @@ import re
 try:
     ADC.setup()
 except Exception as e:
-    print 'Adc failed - did you start as root?', e
+    print('Adc failed - did you start as root?' + str(e))
     pass
 
 try:
     ADC.read("AIN6")
 except Exception as e:
-    print 'failed to read adc - did you start as root?', e
+    print('failed to read adc - did you start as root?' + str(e))
     pass
 
 

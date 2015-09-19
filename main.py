@@ -19,7 +19,7 @@ config.read("StarinetBeagleLogger.conf")
 try:
     ADC.setup()
 except IOError as e:
-    print 'Adc failed - did you start as root?', e
+    print('Adc failed - did you start as root?' + str(e))
     pass
 
 try:
@@ -78,7 +78,7 @@ class Process(threading.Thread):
                 socketUDP.sendto(buffer4, buffer3[1])
                 self.my_queue.task_done()
             else:
-                print "x has no data"
+                print("x has no data")
                 self.my_queue.task_done()
 
 
