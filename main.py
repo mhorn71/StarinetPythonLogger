@@ -1,6 +1,6 @@
 import socket
 import threading
-import Queue
+import queue
 import interpreter
 import logging
 import logging.config
@@ -28,7 +28,7 @@ except IOError as e:
     pass
 
 mybuffer = 570
-my_queue = Queue.Queue()
+my_queue = queue.Queue()
 
 
 class ReadFromUDPSocket(threading.Thread):
