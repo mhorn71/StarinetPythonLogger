@@ -26,6 +26,8 @@ def control(buffer0):
 
     nx = publisherstatus.status()
 
+    buffer0 = buffer0.lower()
+
     if buffer0 == 'true':
 
         logger.debug("Entered true routine")

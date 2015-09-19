@@ -24,6 +24,8 @@ def control(buffer0):
 
     logger.debug("%s %s", "Capture buffer0 ", buffer0)
 
+    buffer0 = buffer0.lower()
+
     if buffer0 == 'true':
 
         logger.debug("Entered true routine")
