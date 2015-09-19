@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import os
@@ -33,7 +32,5 @@ def control():
     else:
         status = 0
         logger.debug("%s %s", "getSpace returned value ", value)
-    
-    status = status + samplerstatus.status()
 
     return status, value

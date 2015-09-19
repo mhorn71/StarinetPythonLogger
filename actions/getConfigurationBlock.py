@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import re
@@ -48,7 +47,5 @@ def control(buffer0, buffer1, buffer2):
         status = 40
 
     logger.debug("%s %s %s", "getConfigurationBlock returned ", status, value)
-
-    status = status + samplerstatus.status()
 
     return status, value

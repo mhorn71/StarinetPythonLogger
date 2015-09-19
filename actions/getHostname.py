@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import socket
@@ -24,7 +23,5 @@ def control():
         status = 0
         
     logger.debug("%s %s", "getHostname returned ", value)
-
-    status = status + samplerstatus.status()
 
     return status, value

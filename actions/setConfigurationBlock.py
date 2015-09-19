@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import re
@@ -44,8 +43,6 @@ def control(buffer0, buffer1, buffer2):
         logger.critical("setConfigurationBlock unable to locate module or buffer")
 
     logger.debug("%s %s", "setConfigurationBlock returned ", status)
-
-    status = status + samplerstatus.status()
 
     return status, value
 

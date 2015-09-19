@@ -1,5 +1,4 @@
 import os
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -31,7 +30,5 @@ def control():
         logger.critical("%s %s", "Unable to open datafolder", e)
     else:
         status = 0
-
-    status = status + samplerstatus.status()
 
     return status, value

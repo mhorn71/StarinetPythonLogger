@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import re
@@ -63,8 +62,6 @@ def control(buffer0):
         logger.critical("%s %s", "Invalid module - ", buffer0)
         status = 40
         value = None
-
-    status = status + samplerstatus.status()
 
     logger.debug("%s %s %s", "getConfigurationBlockCount returned ", status, value)
 

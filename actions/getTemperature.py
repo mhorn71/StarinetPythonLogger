@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import Adafruit_BBIO.ADC as ADC
@@ -73,7 +72,7 @@ def control():
     else:
         status = 0
 
-    status = status + samplerstatus.status()
+    status = status
 
     return status, value
 

@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import analogue.readadc as readadc
@@ -27,7 +26,5 @@ def control(buffer0):
         value = None
     else:
         status = 0
-
-    status = status + samplerstatus.status()
 
     return status, value

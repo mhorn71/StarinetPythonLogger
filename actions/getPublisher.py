@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -27,7 +26,5 @@ def control():
         status = 0
         value = str(interval) + ',' + server + ',' + username + ',' + password + ',' + str(remotefolder)
         logger.debug("%s %s", "returning value ", value)
-
-    status = status + samplerstatus.status()
 
     return status, value

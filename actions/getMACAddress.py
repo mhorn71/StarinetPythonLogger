@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 import re
@@ -25,7 +24,5 @@ def control():
         status = 0
 
     logger.debug("%s %s", "getMACAddress returned ", value)
-
-    status = status + samplerstatus.status()
 
     return status, value

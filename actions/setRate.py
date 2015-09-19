@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -8,11 +7,11 @@ logger = logging.getLogger('actions.setRate')
 config = configparser.RawConfigParser()
 
 
-def control(buffer0):
+def control(buffer0, sampler2):
 
     logger.debug("setRate called")
 
-    if samplerstatus.status() == 8000:
+    if sampler2.status() == 8000:
         status = 2
         value = None
     else:
@@ -31,6 +30,6 @@ def control(buffer0):
             value = None
     logger.debug("%s %s", "setRate returned ", status)
 
-    status = status + samplerstatus.status()
+    status = status
 
     return status, value

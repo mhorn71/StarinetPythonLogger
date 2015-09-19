@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -28,8 +27,6 @@ def control(buffer0):
         status = 0
         value = datablock.ljust(512, '0').strip('\r\n\x00')
         logger.debug("%s %s", "returning data block", buffer0)
-
-    status = status + samplerstatus.status()
 
     return status, value
 

@@ -1,5 +1,4 @@
 __author__ = 'mark'
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -30,7 +29,5 @@ def control():
         status = 0
         value = chart + ',' + channel0 + ',' + channel1 + ',' + channel2 + ',' + channel3 + ',' + temperature
         logger.debug("%s %s", "returning value ", value)
-
-    status = status + samplerstatus.status()
 
     return status, value

@@ -1,5 +1,4 @@
 __author__ = 'mark'
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -27,7 +26,5 @@ def control():
         status = 0
         value = channel0 + ',' + channel1 + ',' + channel2 + ',' + channel3
         logger.debug("%s %s", "returning value ", value)
-
-    status = status + samplerstatus.status()
 
     return status, value

@@ -1,6 +1,5 @@
 __author__ = 'mark'
 import utilities.publisherstatus as publisherstatus
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -39,8 +38,6 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6):
             status = 0  # SUCCESS
             value = None
     logger.debug("%s %s", "setPublisherArtist returned ", status)
-
-    status = status + samplerstatus.status()
 
     return status, value
 

@@ -1,4 +1,4 @@
-import utilities.samplerstatus as samplerstatus
+
 import configparser
 import logging
 
@@ -16,10 +16,7 @@ def ping():
 
     logger.debug("ping called")
 
-    if samplerstatus.status() == 8000:
-        status = 8000
-    else:
-        status = 0
+    status = 0
 
     logger.debug("%s %s", "ping status ", status)
 

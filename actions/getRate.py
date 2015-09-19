@@ -1,4 +1,3 @@
-import utilities.samplerstatus as samplerstatus
 import configparser
 import logging
 
@@ -24,8 +23,6 @@ def control():
         status = 0
         value = rate.zfill(4)
         logger.debug("%s %s", "returning value ", value)
-    
-    status = status + samplerstatus.status()
 
     return status, value
 

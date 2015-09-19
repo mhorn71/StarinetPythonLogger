@@ -29,7 +29,7 @@ import actions.getPublisherLabels as getPublisherLabels
 import actions.setPublisherArtist as setPublisherArtist
 import actions.getPublisherArtist as getPublisherArtist
 import actions.getConfigurationBlockCount as getConfigurationBlockCount
-import utilities.samplerstatus as samplerstatus
+import logger.sampler2 as sampler
 
 # ## initialise logger
 # logger = logging.getLogger('interpreter')
@@ -59,6 +59,9 @@ class Interpreter(object):
         self.response_crc = None
         self.response_command = None
         self.response_value = None
+        self.data_array = [[] for i in range(4076)]
+
+        self.sampler = sampler.logger(self.data_array)
 
     def processor(self, buffer0):
 
@@ -106,7 +109,8 @@ class Interpreter(object):
                                 self.x = getMACAddress.control()
                             elif re.match('000E0000', command):  # getStatus
                                 self.logger.debug("Matched command getStatus")
-                                self.x = getStatus.control(self.response_command, self.response_status, self.response_crc)
+                                self.x = getStatus.control(self.response_command, self.response_status,
+                                                           self.response_crc)
                             ############ Utilities Module ############
                             elif re.match('01010000', command):  # getTemperature
                                 self.logger.debug("Matched command getTemperature")
@@ -180,26 +184,34 @@ class Interpreter(object):
                             ############ Core Module ############
                             if re.match('00050000', command):  # getConfigurationBlockCount
                                 self.logger.debug("Matched command getConfigurationBlockCount")
-                                self.x = getConfigurationBlockCount.control(data[1])
+                                self.x = getConfigurationBlockCount.control(data[1].encode('utf-8'))
                             elif re.match('00060000', command):  # getConfigurationBlock
                                 self.logger.debug("Matched command getConfigurationBlock")
-                                self.x = getConfigurationBlock.control(data[1], data[2], data[3])
+                                self.x = getConfigurationBlock.control(data[1].encode('utf-8'), data[2].encode('utf-8'),
+                                                                       data[3].encode('utf-8'))
                             elif re.match('00070000', command):  # setConfigurationBlock
                                 self.logger.debug("Matched command setConfigurationBlock")
-                                self.x = setConfigurationBlock.control(data[1], data[2], data[3])
+                                self.x = setConfigurationBlock.control(data[1].encode('utf-8'), data[2].encode('utf-8'),
+                                                                       data[3].encode('utf-8'))
                             ############ Publisher Module ############
                             elif re.match('05050000', command):  # setPublisherLabels
                                 self.logger.debug("Matched command setPublisherLabels")
-                                self.x = setPublisherLabels.control(data[1], data[2], data[3], data[4])
+                                self.x = setPublisherLabels.control(data[1].encode('utf-8'), data[2].encode('utf-8'),
+                                                                    data[3].encode('utf-8'), data[4].encode('utf-8'))
                             elif re.match('05070000', command):  # setPublisherArtist
                                 self.logger.debug("Matched command setPublisherArtist")
-                                self.x = setPublisherArtist.control(data[1], data[2], data[3], data[4], data[5], data[6], data[7])
+                                self.x = setPublisherArtist.control(data[1].encode('utf-8'), data[2].encode('utf-8'),
+                                                                    data[3].encode('utf-8'), data[4].encode('utf-8'),
+                                                                    data[5].encode('utf-8'), data[6].encode('utf-8'),
+                                                                    data[7].encode('utf-8'))
                             elif re.match('05010000', command):  # publisher
                                 self.logger.debug("Matched command publisher")
                                 self.x = capturePublisher.control(data[1])
                             elif re.match('05020000', command):  # setPublisher
                                 self.logger.debug("Matched command setPublisher")
-                                self.x = setPublisher.control(data[1], data[2], data[3], data[4], data[5], data[6])
+                                self.x = setPublisher.control(data[1].encode('utf-8'), data[2].encode('utf-8'),
+                                                              data[3].encode('utf-8'), data[4].encode('utf-8'),
+                                                              data[5].encode('utf-8'), data[6].encode('utf-8'))
                             ############ Analogue Module #############
                             elif re.match('02000000', command):  # getA2D
                                 self.logger.debug("Matched command getA2D")
@@ -210,16 +222,17 @@ class Interpreter(object):
                                 self.x = getDataBlock.control(data[1])
                             elif re.match('03050000', command):  # setRate set capture interval
                                 self.logger.debug("Matched command setRate")
-                                self.x = setRate.control(data[1])
+                                self.x = setRate.control(data[1].encode('utf-8'), self.sampler)
                             elif re.match('03060000', command):  # capture
                                 self.logger.debug("Matched command capture")
-                                self.x = capture.control(data[1])
+                                self.x = capture.control(data[1], self.sampler)
                             else:
                                 self.logger.debug("Matched command - NO MATCH")
                                 self.x = 20, None
 
         if (self.x[0] is not None) and (self.x[1] is not None):
-            self.response_status = str(self.x[0]).zfill(4)
+            status = self.x[0] + self.sampler.status()
+            self.response_status = str(status).zfill(4)
             self.response_value = str(self.x[1])
             self.response_command = str(address) + str(command)
             joinvalue = self.response_command + str(self.response_status) + '\x1F' + str(self.response_value) + '\x1F'
@@ -227,7 +240,8 @@ class Interpreter(object):
             value = '\x02' + joinvalue + self.response_crc + '\x04\r\n'
             self.logger.debug("%s %s", "Created Return Message -", repr(value))
         elif (self.x[0] is not None) and (self.x[1] is None):
-            self.response_status = str(self.x[0]).zfill(4)
+            status = self.x[0] + self.sampler.status()
+            self.response_status = str(status).zfill(4)
             self.response_command = str(address) + str(command)
             self.response_value = None
             joinvalue = self.response_command + str(self.response_status)
@@ -235,7 +249,7 @@ class Interpreter(object):
             value = '\x02' + joinvalue + self.response_crc + '\x04\r\n'
             self.logger.debug("%s %s", "Created Return Message -", repr(value))
         else:
-            status = 4 + samplerstatus.status()
+            status = 4 + self.sampler.status()
             self.response_status = str(status).zfill(4)
             self.response_command = str(address) + str(command)
             self.response_value = None
