@@ -1,5 +1,7 @@
-StarinetPythonLogger
+StarinetPython3Logger
 ====================
+
+Currently in development.
 
 Beaglebone Black Python3 Starinet six channel data logger for the UKRAA Starbase Observatory
 
@@ -55,5 +57,4 @@ Software install
 
     3.) Start as root.
 
-    4.) Download Starbase from ukraa.com/builds/beta and set the IP address of your
-        beaglebone in the file StarinetPythonLogger-instrument.xml
+    4.) Use with StarbaseMini available at the same github account this software.
