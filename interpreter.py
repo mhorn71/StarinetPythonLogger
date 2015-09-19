@@ -69,7 +69,8 @@ def processor(buffer0):
             logger.debug("%s %s", "Unable to strip ctl chars from packet ", e)
         else:
             try:
-                address, command, crc = struct.unpack('<2s8s4s', data)
+                address, command, crc = struct.unpack('<2s8s4s', data.encode('utf-8'))
+                command = command.decode('utf-8')
                 logger.debug("%s %s %s %s", "Unpacked Staribus command", address, command, crc)
             except struct.error as e:
                 logger.debug("%s %s", "Can not unpack command ", e)
@@ -150,7 +151,8 @@ def processor(buffer0):
             logger.debug("%s %s", "Unable to strip ctl chars from packet ", e)
         else:
             try:
-                address, command = struct.unpack('<2s8s', data[0])  # Unpack command
+                address, command = struct.unpack('<2s8s', data[0].encode('utf-8'))  # Unpack command
+                command = command.decode('utf-8')
                 logger.debug("%s %s %s", "Unpacked Staribus command", address, command)
             except struct.error as e:
                 logger.debug("%s %s", "Can not unpack command ", e)

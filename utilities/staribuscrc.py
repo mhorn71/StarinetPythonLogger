@@ -15,11 +15,15 @@ def checkcrc(buffer0):
 
     logger.debug("Check crc was called.")
 
-    rxcrc = buffer0.strip('\x02\x04\r\n')[-4:]  # assign the received crc to rxcrc
+    buffer0 = buffer0.encode('utf-8')
+
+    rxcrc = buffer0[-4:]  # assign the received crc to rxcrc
 
     logger.debug("%s %s", "Received data crc - ", rxcrc)
 
-    newrxcrc = str(hex(crc16(buffer0.strip('\x02\x04\r\n')[:-4])).replace('x', '')[1:].zfill(4)).upper()  # new crc
+    newrxcrc = str(hex(crc16(buffer0[:-4])).replace('x', '')[1:].zfill(4)).upper()  # new crc
+
+    newrxcrc = newrxcrc.encode('utf-8')
 
     logger.debug("%s %s", "Calculated new crc based on received data -", newrxcrc)
 
@@ -35,6 +39,8 @@ def checkcrc(buffer0):
 def newcrc(buffer0):
 
     logger.debug("New crc was called.")
+
+    buffer0 = buffer0.encode('UTF-8')
 
     datacrc = str(hex(crc16(buffer0)).replace('x', '')[1:].zfill(4)).upper()
     value = datacrc

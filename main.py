@@ -44,8 +44,9 @@ class ReadFromUDPSocket(threading.Thread):
             buffer1, addr = socketUDP.recvfrom(mybuffer)
             logger.debug("%s %s", "received data - ", repr(buffer1))
 
-            if buffer1.startswith('\x02') and buffer1.endswith('\x04\r\n'):
+            if buffer1.decode().startswith('\x02') and buffer1.decode().endswith('\x04\r\n'):
                 logger.debug("%s %s %s",  'Starinet UDP Packet received from', addr, repr(buffer1))
+                buffer1 = buffer1.decode().strip('\x02\x04\r\n')
                 self.my_queue.put((buffer1, addr))
                 self.my_queue.join()
 
@@ -73,7 +74,7 @@ class Process(threading.Thread):
 
             if x is not None:
                 #buffer4 = '\x0200000100000000127A\x04\r\n'  # Temp line just for testing.
-                buffer4 = x
+                buffer4 = x.encode()
                 logger.debug("%s %s", "return data ", repr(buffer4))
                 socketUDP.sendto(buffer4, buffer3[1])
                 self.my_queue.task_done()
