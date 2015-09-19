@@ -21,7 +21,7 @@ def control(buffer0):
         logger.critical("%s %s", "premature termination", e)
         status = 4
         value = None
-    except IndexError as e:
+    except IndexError:
         logger.critical("invalid parameter")
         status = 8
         value = None

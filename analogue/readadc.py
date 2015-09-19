@@ -8,14 +8,12 @@ logger = logging.getLogger('analogue')
 try:
     ADC.setup()
 except Exception as e:
-    print('Adc failed - did you start as root?' + str(e))
-    pass
+    logger.critical('Adc failed - did you start as root?' + str(e))
 
 try:
     ADC.read("P9_40")
 except Exception as e:
-    print('failed to read adc - did you start as root?' + str(e))
-    pass
+    logger.critical('failed to read adc - did you start as root?' + str(e))
 
 
 def read():
@@ -33,34 +31,33 @@ def read():
         x2 = ADC.read("AIN2")
         x3 = ADC.read("AIN3")
         x3 = ADC.read("AIN3")
-
- #       print "Reading are 0 = ", x0
- #       print "Reading are 1 = ", x1
- #       print "Reading are 2 = ", x2
- #       print "Reading are 3 = ", x3
+        x4 = ADC.read("AIN4")
+        x4 = ADC.read("AIN4")
+        x5 = ADC.read("AIN5")
+        x5 = ADC.read("AIN5")
 
         b0 = int(x0 * 1800)
         b1 = int(x1 * 1800)
         b2 = int(x2 * 1800)
         b3 = int(x3 * 1800)
-
- #       print "Reading are 0 = ", b0
- #       print "Reading are 1 = ", b1
- #       print "Reading are 2 = ", b2
- #       print "Reading are 3 = ", b3
+        b4 = int(x4 * 1800)
+        b5 = int(x5 * 1800)
 
         r0 = "{0:04d}".format(b0)
         r1 = "{0:04d}".format(b1)
         r2 = "{0:04d}".format(b2)
         r3 = "{0:04d}".format(b3)
+        r4 = "{0:04d}".format(b4)
+        r5 = "{0:04d}".format(b5)
+
     except IOError:
-        _reading = '0000', '0000', '0000', '0000'
+        _reading = '0000', '0000', '0000', '0000', '0000', '0000'
         logger.debug("%s %s", "adc IO Error ", e)
     except RuntimeError:
-        _reading = '0000', '0000', '0000', '0000'
+        _reading = '0000', '0000', '0000', '0000', '0000', '0000'
         logger.debug("%s %s", "adc RuntimeError ", e)
     else:
-        _reading = r0, r1, r2, r3
+        _reading = r0, r1, r2, r3, r4, r5
 
     return _reading
 
