@@ -16,7 +16,7 @@ def control():
 
     try:
         value = socket.gethostname()
-    except StandardError as e:
+    except Exception as e:
         status = 4
         value = e
         logger.critical("%s %s", "failure to get gethostname() ", e)

@@ -49,7 +49,7 @@ def control(buffer0):
         except ValueError:
             status = 8
             value = None
-        except StandardError as e:
+        except Exception as e:
             status = 8
             value = None
             logger.critical("%s %s", "Unable to locate module 1 ", e)

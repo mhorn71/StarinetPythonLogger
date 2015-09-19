@@ -16,7 +16,7 @@ def control():
 
     try:
         value = datetime.datetime.now().strftime("%H:%M:%S")
-    except StandardError as e:
+    except Exception as e:
         logger.critical("%s %s", "premature termination", e)
         value = e
         status = 4

@@ -17,7 +17,7 @@ def control():
 
     try:
         value = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
-    except StandardError as e:
+    except Exception as e:
         status = 4
         value = e
         logger.critical("%s %s", "failure to get uuid.getnode() ", e)

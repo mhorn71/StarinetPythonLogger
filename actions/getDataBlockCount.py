@@ -23,7 +23,7 @@ def control():
                             config.get("paths", "datafolder"), p))), 16) + 1
 
         value = hex(lastblock).split('x')[1].upper().zfill(4)
-    except StandardError:
+    except Exception:
         status = 800
     except OSError as e:
         status = 4
