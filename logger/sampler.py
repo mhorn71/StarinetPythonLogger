@@ -1,5 +1,5 @@
 __author__ = 'mark'
-import ConfigParser
+import configparser
 import datetime
 import time
 import os
@@ -9,7 +9,7 @@ import temperature
 import signal
 
 ## initialise config parser
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read("StarinetBeagleLogger.conf")
 
 ## initialise globals
