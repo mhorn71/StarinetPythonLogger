@@ -61,6 +61,10 @@ def read():
 
     return _reading
 
+def read_string():
+    data_list = ''.join(read())
+    return data_list
+
 if __name__ == "__main__":
     print(read())
 

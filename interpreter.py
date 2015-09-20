@@ -59,7 +59,7 @@ class Interpreter(object):
         self.response_crc = None
         self.response_command = None
         self.response_value = None
-        self.data_array = [[] for i in range(4076)]
+        self.data_array = []
 
         self.sampler = sampler.logger(self.data_array)
 

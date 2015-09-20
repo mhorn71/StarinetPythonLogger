@@ -41,7 +41,7 @@ def mylogger():
     threading.Timer(next_call - time.time(), mylogger).start()
 
     #open datafile
-    f = open(datafolder + datafile, 'rb')
+    f = open(datafolder + datafile, 'wb')
 
     #set the first sample time stamp
     stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

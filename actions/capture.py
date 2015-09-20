@@ -37,17 +37,17 @@ def control(buffer0, sampler):
             sampler.start()
             status = 0
             
-            # folder = config.get('paths', 'datafolder')
-            #
-            # try:
-            #     for the_file in os.listdir(folder):
-            #         file_path = os.path.join(folder, the_file)
-            #         if os.path.isfile(file_path):
-            #                 os.unlink(file_path)
-            #         logger.debug("%s %s", "Removing data file ", file_path)
-            # except OSError as e:
-            #             logger.critical("%s %s", "premature termination", e)
-            #             status = 4
+            folder = config.get('paths', 'datafolder')
+
+            try:
+                for the_file in os.listdir(folder):
+                    file_path = os.path.join(folder, the_file)
+                    if os.path.isfile(file_path):
+                            os.unlink(file_path)
+                    logger.debug("%s %s", "Removing data file ", file_path)
+            except OSError as e:
+                        logger.critical("%s %s", "premature termination", e)
+                        status = 4
             # else:
             #     f = open(config.get("paths", "datafolder") + '0000', 'wb')
             #     f.close()
