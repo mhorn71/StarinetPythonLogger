@@ -25,12 +25,9 @@ def control(buffer0, sampler):
         logger.debug("Entered true routine")
         if sampler.status() == 8000:
             logger.debug("%s %s", "samplerstatus reports sampler active", str(sampler.status()))
-            status = 8002
+            status = 2
         elif sampler.status() == 0:
             logger.debug("%s %s", "samplerstatus reports sampler not active", str(sampler.status()))
-
-            sampler.start()
-            status = 0
             
             folder = config.get('paths', 'datafolder')
 
@@ -43,6 +40,10 @@ def control(buffer0, sampler):
             except OSError as e:
                         logger.critical("%s %s", "premature termination", e)
                         status = 4
+
+            sampler.start()
+            status = 0
+
         else:
             logger.debug("premature termination")
             status = 4
