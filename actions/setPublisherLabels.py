@@ -24,7 +24,7 @@ def control(buffer0, buffer1, buffer2, buffer3):
             config.set('publisherlabels', 'channel1', buffer1)  # update
             config.set('publisherlabels', 'channel2', buffer2)  # update
             config.set('publisherlabels', 'channel3', buffer3)  # update
-            with open('StarinetBeagleLogger.conf', 'wb') as configfile:
+            with open('StarinetBeagleLogger.conf', 'w') as configfile:
                 config.write(configfile)
                 configfile.close()
         except IOError as e:

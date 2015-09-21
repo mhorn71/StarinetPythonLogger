@@ -27,7 +27,7 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6):
             config.set('publisherartist', 'channelArt3', buffer4)  # update
             config.set('publisherartist', 'temperatureArt', buffer5)  # update
             config.set('publisherartist', 'autoscale', buffer6)  # update
-            with open('StarinetBeagleLogger.conf', 'wb') as configfile:
+            with open('StarinetBeagleLogger.conf', 'w') as configfile:
                 config.write(configfile)
                 configfile.close()
         except IOError as e:

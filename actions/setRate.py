@@ -18,7 +18,7 @@ def control(buffer0, sampler2):
         try:
             config.read("StarinetBeagleLogger.conf")
             config.set('capture', 'rate', buffer0)  # update
-            with open('StarinetBeagleLogger.conf', 'wb') as configfile:
+            with open('StarinetBeagleLogger.conf', 'w') as configfile:
                 config.write(configfile)
                 configfile.close()
         except IOError as e:
