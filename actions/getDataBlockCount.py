@@ -22,11 +22,12 @@ def control():
                             config.get("paths", "datafolder"), p))), 16) + 1
 
         value = hex(lastblock).split('x')[1].upper().zfill(4)
-    except Exception:
-        status = 800
+    except Exception as e:
+        status = 4
+        value = str(e)
     except OSError as e:
         status = 4
-        value = e
+        value = str(e)
         logger.critical("%s %s", "Unable to open datafolder", e)
     else:
         status = 0
