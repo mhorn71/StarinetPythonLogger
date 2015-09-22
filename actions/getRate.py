@@ -9,7 +9,6 @@ config = configparser.RawConfigParser()
 
 def control():
 
-
     logger.debug("getRate called")
 
     try:

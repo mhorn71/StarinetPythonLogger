@@ -1,7 +1,6 @@
 import configparser
 import logging
 
-
 ##initialise logger
 logger = logging.getLogger('actions.getDataBlock')
 

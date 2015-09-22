@@ -7,7 +7,6 @@ logger = logging.getLogger('actions.getVersion')
 config = configparser.RawConfigParser()
 
 
-
 def control():
 
     logger.debug("getVersion called")

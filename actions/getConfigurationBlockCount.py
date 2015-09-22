@@ -31,7 +31,7 @@ def control(buffer0):
             status = 8
             value = None
         except OSError as e:
-            status = 4
+            status = 2
             value = e
             logger.critical("%s %s", "Unable to open datafolder", e)
         else:
@@ -53,8 +53,8 @@ def control(buffer0):
             value = None
             logger.critical("%s %s", "Unable to locate module 1 ", e)
         except OSError as e:
-            status = 4
-            value = e
+            status = 0
+            value = '0000'
             logger.critical("%s %s", "Unable to open datafolder", e)
         else:
             status = 0

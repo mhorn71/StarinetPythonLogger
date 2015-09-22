@@ -1,5 +1,4 @@
 __author__ = 'mark'
-import utilities.publisherstatus as publisherstatus
 import configparser
 import logging
 
@@ -14,10 +13,6 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6, buffe
     logger.debug("setPublisherArtist called")
     logger.debug("%s %s %s %s %s %s %s %s %s", buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6, buffer7, buffer8)
 
-    # if publisherstatus.status() == 0:
-    #     status = 2  # ABORT
-    #     value = 'capturePublisher_ACTIVE'
-    # else:
     try:
         config.read("StarinetBeagleLogger.conf")
         config.set('publisherartist', 'chart', buffer0)  # update

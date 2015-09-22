@@ -1,5 +1,4 @@
 __author__ = 'mark'
-import utilities.publisherstatus as publisherstatus
 import configparser
 import logging
 

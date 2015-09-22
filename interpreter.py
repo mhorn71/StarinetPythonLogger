@@ -32,18 +32,6 @@ import actions.getConfigurationBlockCount as getConfigurationBlockCount
 import logger.sampler2 as sampler
 import publisher.chartpub as chartpub
 
-# ## initialise logger
-# logger = logging.getLogger('interpreter')
-#
-# ##initialise config parser
-# config = configparser.RawConfigParser()
-# config.read("StarinetBeagleLogger.conf")
-#
-# x = None
-# response_status = None
-# response_command = None
-# response_crc = None
-# #response_value = None
 
 class Interpreter(object):
     def __init__(self):
