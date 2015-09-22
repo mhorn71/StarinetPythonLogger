@@ -12,7 +12,7 @@ config = configparser.RawConfigParser()
 def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6, buffer7, buffer8):
 
     logger.debug("setPublisherArtist called")
-    logger.debug("%s %s %s %s %s %s %s", buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6, buffer7, buffer8)
+    logger.debug("%s %s %s %s %s %s %s %s %s", buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6, buffer7, buffer8)
 
     # if publisherstatus.status() == 0:
     #     status = 2  # ABORT
