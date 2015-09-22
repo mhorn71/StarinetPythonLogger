@@ -23,11 +23,11 @@ def control():
 
         value = hex(lastblock).split('x')[1].upper().zfill(4)
     except Exception as e:
-        status = 4
-        value = str(e)
+        status = 0
+        value = '0000'
     except OSError as e:
-        status = 4
-        value = str(e)
+        status = 0
+        value = '0000'
         logger.critical("%s %s", "Unable to open datafolder", e)
     else:
         status = 0
