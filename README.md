@@ -49,7 +49,7 @@ Software install
     1.) place all files in there own folder
 
     2.) create the following folders in the folder you extract the code too.
-        run
+    
         memory/data
         memory/module
         memory/module/0
