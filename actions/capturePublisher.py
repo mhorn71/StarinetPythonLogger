@@ -1,9 +1,4 @@
-import os.path
-import subprocess
-import utilities.publisherstatus as publisherstatus
-import utilities.samplerstatus as samplerstatus
 import configparser
-import signal
 import logging
 import sys
 
@@ -33,11 +28,11 @@ def control(buffer0, publisher, sampler):
         logger.debug("Entered true routine")
 
         if publisher.status():
-            logger.debug("%s %s", "publisherstatus reports combined active", str(publisherstatus.status()))
+            logger.debug("%s %s", "publisherstatus reports combined active", str(publisher.status()))
             status = 2
             value = 'capturePublisher_ACTIVE'
         elif publisher.status() is False:
-            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
+            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisher.status()))
 
             if sampler.status() == 8000:
                 publisher.start()
@@ -57,7 +52,7 @@ def control(buffer0, publisher, sampler):
         logger.debug("Entered false routine")
 
         if publisher.status() is False:
-            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisherstatus.status()))
+            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisher.status()))
             status = 0
         elif publisher.status():
             publisher.stop()
