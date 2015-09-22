@@ -29,8 +29,8 @@ def control():
         logger.critical("%s %s", "Unable to get publisher artist parameters from config", e)
     else:
         status = 0
-        value = chart + ',' + autoscale + ',' + channel0 + ',' + channel1 + ',' + channel2 + ',' + channel3 + ',' + \
-                channel4 + ',' + channel5 + ',' + channel6
+        value = chart + ',' + channel0 + ',' + channel1 + ',' + channel2 + ',' + channel3 + ',' + \
+                channel4 + ',' + channel5 + ',' + channel6 + ',' + autoscale
         logger.debug("%s %s", "returning value ", value)
 
     return status, value
