@@ -9,7 +9,7 @@ logger = logging.getLogger('actions.capture')
 config = configparser.RawConfigParser()
 
 
-def control(buffer0, sampler):
+def control(buffer0, sampler, publisher):
 
     status = None
     value = None
@@ -57,6 +57,7 @@ def control(buffer0, sampler):
             status = 0
         elif sampler.status() == 8000:
             sampler.stop()
+            publisher.stop()
             status = 0
     else:
         logger.critical("invalid parameter")
