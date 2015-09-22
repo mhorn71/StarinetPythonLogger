@@ -9,10 +9,10 @@ logger = logging.getLogger('actions.setPublisherLabels')
 config = configparser.RawConfigParser()
 
 
-def control(buffer0, buffer1, buffer2, buffer3):
+def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6):
 
     logger.debug("setPublisherLabels called")
-    logger.debug("%s %s %s %s", buffer0, buffer1, buffer2, buffer3)
+    logger.debug("%s %s %s %s %s %s %s", buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6)
 
     if publisherstatus.status() == 0:
         status = 2  # ABORT
@@ -24,6 +24,9 @@ def control(buffer0, buffer1, buffer2, buffer3):
             config.set('publisherlabels', 'channel1', buffer1)  # update
             config.set('publisherlabels', 'channel2', buffer2)  # update
             config.set('publisherlabels', 'channel3', buffer3)  # update
+            config.set('publisherlabels', 'channel4', buffer4)  # update
+            config.set('publisherlabels', 'channel5', buffer5)  # update
+            config.set('publisherlabels', 'channel6', buffer6)  # update
             with open('StarinetBeagleLogger.conf', 'w') as configfile:
                 config.write(configfile)
                 configfile.close()
