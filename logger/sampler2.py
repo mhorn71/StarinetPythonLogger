@@ -9,7 +9,7 @@ import analogue.readadc as adc
 import logger.temperature as temperature
 
 
-class logger(object):
+class Logger(object):
     def __init__(self, data_array):
         self.config = configparser.RawConfigParser()
         self.config.read("StarinetBeagleLogger.conf")

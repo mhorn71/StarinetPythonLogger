@@ -30,6 +30,7 @@ import actions.setPublisherArtist as setPublisherArtist
 import actions.getPublisherArtist as getPublisherArtist
 import actions.getConfigurationBlockCount as getConfigurationBlockCount
 import logger.sampler2 as sampler
+import publisher.chartpub as chartpub
 
 # ## initialise logger
 # logger = logging.getLogger('interpreter')
@@ -61,7 +62,8 @@ class Interpreter(object):
         self.response_value = None
         self.data_array = []
 
-        self.sampler = sampler.logger(self.data_array)
+        self.sampler = sampler.Logger(self.data_array)
+        self.publisher = chartpub.ChartPublisher(self.data_array)
 
     def processor(self, buffer0):
 
