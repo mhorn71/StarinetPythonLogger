@@ -14,12 +14,34 @@ def control(buffer0, publisher, sampler):
 
     status = None
     value = None
+    parameter_state = True
 
     config.read("StarinetBeagleLogger.conf")
+    try:
+        interval = config.get("publisher", "interval")
+        server = config.get("publisher", "server")
+        username = config.get("publisher", "username")
+        password = config.get("publisher", "password")
+        remotefolder = config.get("publisher", "remotefolder")
+    except (configparser.NoSectionError, configparser.NoOptionError):
+        parameter_state = False
+    else:
+        if len(interval) == 0:
+            parameter_state = False
+
+        if len(server) == 0:
+            parameter_state = False
+
+        if len(username) == 0:
+            parameter_state = False
+
+        if len(password) == 0:
+            parameter_state = False
+
+        if len(remotefolder) == 0:
+            parameter_state = False
 
     logger.debug("%s %s", "capturePublisher buffer0 ", buffer0)
-
-    nx = publisher.status()
 
     buffer0 = buffer0.lower()
 
@@ -35,9 +57,13 @@ def control(buffer0, publisher, sampler):
             logger.debug("%s %s", "publisherstatus reports combined not active", str(publisher.status()))
 
             if sampler.status() == 8000:
-                publisher.start()
-                value = 'capturePublisher_ACTIVE'
-                status = 0
+                if parameter_state:
+                    publisher.start()
+                    value = 'capturePublisher_ACTIVE'
+                    status = 0
+                else:
+                    value = 'No remote server parameters set.'
+                    status = 2
             else:
                 logger.debug("capture not active command capturePublisher aborted")
                 status = 2
