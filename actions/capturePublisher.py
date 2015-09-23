@@ -50,42 +50,45 @@ def control(buffer0, publisher, sampler):
         logger.debug("Entered true routine")
 
         if publisher.status():
-            logger.debug("%s %s", "publisherstatus reports combined active", str(publisher.status()))
+            logger.debug("%s %s", "Publisherstatus reports combined active", str(publisher.status()))
             status = 2
-            value = 'capturePublisher_ACTIVE'
+            value = 'PUBLISHER_ACTIVE'
         elif publisher.status() is False:
-            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisher.status()))
+            logger.debug("%s %s", "Publisherstatus reports combined not active", str(publisher.status()))
 
             if sampler.status() == 8000:
                 if parameter_state:
                     publisher.start()
-                    value = 'capturePublisher_ACTIVE'
+                    value = 'PUBLISHER_ACTIVE'
                     status = 0
                 else:
                     value = 'No remote server parameters set.'
                     status = 2
             else:
-                logger.debug("capture not active command capturePublisher aborted")
+                logger.debug("Capture not active command capturePublisher aborted")
                 status = 2
-                value = 'capture not active'
+                value = 'Capture not active'
         else:
-            logger.debug("premature termination")
+            logger.debug("Premature termination")
             status = 4
-            value = 'unable to ascertain publisher status'
+            value = 'Unable to ascertain publisher status'
 
     elif buffer0 == 'false':
 
         logger.debug("Entered false routine")
 
         if publisher.status() is False:
-            logger.debug("%s %s", "publisherstatus reports combined not active", str(publisher.status()))
+            logger.debug("%s %s", "Publisherstatus reports combined not active", str(publisher.status()))
             status = 0
+            value = ' '
         elif publisher.status():
             publisher.stop()
             status = 0
+            value = ' '
     else:
-        logger.critical("invalid parameter")
+        logger.critical("Invalid parameter")
         status = 8
+        value = ' '
 
     return status, value
 
