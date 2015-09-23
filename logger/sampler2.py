@@ -4,9 +4,12 @@ import datetime
 import time
 import threading
 import configparser
+import logging
 
 import analogue.readadc as adc
 import logger.temperature as temperature
+
+logger = logging.getLogger('logger.sampler')
 
 
 class Logger(object):
@@ -44,7 +47,15 @@ class Logger(object):
                     self.string += adc.read_string()
 
                 pause = self.next_call - time.time()
-                time.sleep(pause)
+                try:
+                    time.sleep(pause)
+                except IOError:
+                    try:
+                        time.sleep(pause)
+                    except IOError as error:
+                        logger.critical('IO Error in thread. %s', str(error))
+                        self.status_ = False
+
             elif self.status_ is False:
                 time.sleep(1)
 
