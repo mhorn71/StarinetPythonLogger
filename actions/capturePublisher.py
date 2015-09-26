@@ -50,11 +50,11 @@ def control(buffer0, publisher, sampler):
         logger.debug("Entered true routine")
 
         if publisher.status():
-            logger.debug("%s %s", "Publisherstatus reports combined active", str(publisher.status()))
+            logger.debug("Publisherstatus reports combined active")
             status = 2
             value = 'PUBLISHER_ACTIVE'
         elif publisher.status() is False:
-            logger.debug("%s %s", "Publisherstatus reports combined not active", str(publisher.status()))
+            logger.debug("Publisherstatus reports combined not active")
 
             if sampler.status() == 8000:
                 if parameter_state:

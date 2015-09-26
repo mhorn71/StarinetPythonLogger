@@ -111,8 +111,7 @@ def mypublisher():
             session.quit()
         except ftplib.all_errors as e:
             print("We had an FTP Error - " + str(e))
-        else:
-            gc.collect()
+
 
     # combined chart
     def combined(sampletime,channel0,channel1,channel2,channel3,temperature):

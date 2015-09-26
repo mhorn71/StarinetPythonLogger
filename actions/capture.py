@@ -42,7 +42,16 @@ def control(buffer0, sampler, publisher):
                         status = 4
 
             sampler.start()
-            status = 0
+
+            if sampler.status() == 8000:
+                status = 0
+            else:
+                sampler.status()
+
+            if sampler.status() == 8000:
+                status = 0
+            else:
+                status = 4
 
         else:
             logger.debug("premature termination")
