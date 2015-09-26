@@ -23,8 +23,6 @@ class ChartPublisher:
         self.data_array = data_array
 
         self.title = config.get("publisherlabels", "title")
-        self.xlabel = config.get("publisherlabels", "xlabel")
-        self.ylabel = config.get("publisherlabels", "ylabel")
         self.label0 = config.get("publisherlabels", "channel0")
         self.label1 = config.get("publisherlabels", "channel1")
         self.label2 = config.get("publisherlabels", "channel2")
@@ -53,6 +51,8 @@ class ChartPublisher:
         self.enn = None
         self.fnn = None
         self.gnn = None
+
+        self.row = 0
 
         self.autoscale = config.get("publisherartist", "autoscale")
 
@@ -109,8 +109,6 @@ class ChartPublisher:
         self.label5 = config.get("publisherlabels", "channel5")
         self.label6 = config.get("publisherlabels", "channel6")
         self.title = config.get("publisherlabels", "title")
-        self.xlabel = config.get("publisherlabels", "xlabel")
-        self.ylabel = config.get("publisherlabels", "ylabel")
 
         self.art0 = config.get("publisherartist", "channelArt0")
         self.art1 = config.get("publisherartist", "channelArt1")
@@ -126,6 +124,7 @@ class ChartPublisher:
         self.server_folder = config.get('publisher', 'remotefolder')
 
         self.autoscale = config.get("publisherartist", "autoscale")
+        self.hfmt = matplotlib.dates.DateFormatter('%H:%M:%S')
 
         self.next_call = time.time()
         self.status_.clear()
@@ -186,39 +185,40 @@ class ChartPublisher:
             if len(self.datetime) >= 20:
                 if config.get('publisherartist', 'chart') == 'combined':
                     self.combined()
-                # elif config.get('publisherartist', 'chart') == "stacked":
-                    # stacked()
+                elif config.get('publisherartist', 'chart') == "stacked":
+                    self.chart_setup()
+                    self.stacked()
 
     def chart_setup(self):
-        row = 0
+        self.row = 0
 
         if self.art0 == 'true':
-            row += 1
-            self.ann = row
+            self.row += 1
+            self.ann = self.row
 
         if self.art1 == 'true':
-            row += 1
-            self.bnn = row
+            self.row += 1
+            self.bnn = self.row
 
         if self.art2 == 'true':
-            row += 1
-            self.cnn = row
+            self.row += 1
+            self.cnn = self.row
 
         if self.art3 == 'true':
-            row += 1
-            self.dnn = row
+            self.row += 1
+            self.dnn = self.row
 
         if self.art4 == 'true':
-            row += 1
-            self.enn = row
+            self.row += 1
+            self.enn = self.row
 
         if self.art5 == 'true':
-            row += 1
-            self.fnn = row
+            self.row += 1
+            self.fnn = self.row
 
         if self.art6 == 'true':
-            row += 1
-            self.gnn = row
+            self.row += 1
+            self.gnn = self.row
 
     # combined chart
     def combined(self):
@@ -259,8 +259,8 @@ class ChartPublisher:
                 count += 1
 
             ax1.set_title(self.title)
-            ax1.set_xlabel(self.xlabel)
-            ax1.set_ylabel(self.ylabel)
+            ax1.set_xlabel('Time (UT)')
+            ax1.set_ylabel('mV')
             ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
 
             if self.autoscale == 'false':
@@ -278,22 +278,151 @@ class ChartPublisher:
             for legend_handle in lgd.legendHandles:
                 legend_handle.set_linewidth(8.0)
 
-            hfmt = matplotlib.dates.DateFormatter('%H:%M:%S')
-            ax1.xaxis.set_major_formatter(hfmt)
+            ax1.xaxis.set_major_formatter(self.hfmt)
 
             # set grid
             ax1.grid()
 
             plt.savefig("chart.png", bbox_extra_artists=(lgd,), bbox_inches='tight')
 
-            # clear last figure clf() see if it helps with memory usage.
-            fig.clf()
-
-            # close all figures to see if it helps with memory?
-            plt.close('all')
+            # # clear last figure clf() see if it helps with memory usage.
+            # fig.clf()
+            #
+            # # close all figures to see if it helps with memory?
+            # plt.close('all')
 
         except Exception as e:
             print("We had a matplotlib error - " + str(e))
+        else:
+            self.myftp()
+
+    def stacked(self):
+        try:
+            if self.row == 1:
+                plt.figure(figsize=(14, 2.2))
+            elif self.row == 2:
+                plt.figure(figsize=(14, 4.4))
+            elif self.row == 3:
+                plt.figure(figsize=(14, 6.6))
+            elif self.row == 4:
+                plt.figure(figsize=(14, 8.8))
+            elif self.row == 5:
+                plt.figure(figsize=(14, 11))
+            elif self.row == 6:
+                plt.figure(figsize=(14, 13.2))
+            elif self.row == 7:
+                plt.figure(figsize=(14, 15.4))
+
+            plt.suptitle(self.title)
+
+            # Channels
+            if self.art0 == 'true':
+                ax0 = plt.subplot(self.row, 1, self.ann)
+                ax0.plot_date(self.datetime, self.chan0, 'r-')
+                ax0.set_title('Instrument Temperature')
+                ax0.set_xlabel('Time (UT)')
+                ax0.set_ylabel(self.label0)
+                ax0.xaxis.set_major_formatter(self.hfmt)
+                ax0.yaxis.set_major_locator(MaxNLocator(integer=True))
+                ax0.grid()
+                ax0.margins(0, 1)
+
+            if self.art1 == 'true':
+                ax1 = plt.subplot(self.row, 1, self.bnn)
+                ax1.plot_date(self.datetime, self.chan1, 'b-')
+                ax1.set_title(self.label1)
+                ax1.set_xlabel('Time (UT)')
+                ax1.set_ylabel('mV')
+                ax1.xaxis.set_major_formatter(self.hfmt)
+                ax1.grid()
+
+                if self.autoscale == 'false':
+                    ax1.set_ylim(0,1800)
+                    ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax1.margins(0, 1)
+
+            if self.art2 == 'true':
+                ax2 = plt.subplot(self.row, 1, self.cnn)
+                ax2.plot_date(self.datetime, self.chan2, 'g-')
+                ax2.set_title(self.label2)
+                ax2.set_xlabel('Time (UT)')
+                ax2.set_ylabel('mV')
+                ax2.xaxis.set_major_formatter(self.hfmt)
+                ax2.grid()
+
+                if self.autoscale == 'false':
+                    ax2.set_ylim(0, 1800)
+                    ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax2.margins(0, 1)
+
+            if self.art3 == 'true':
+                ax3 = plt.subplot(self.row, 1, self.dnn)
+                ax3.plot_date(self.datetime, self.chan3, 'c-')
+                ax3.set_title(self.label3)
+                ax3.set_xlabel('Time (UT)')
+                ax3.set_ylabel('mV')
+                ax3.xaxis.set_major_formatter(self.hfmt)
+                ax3.grid()
+
+                if self.autoscale == 'false':
+                    ax3.set_ylim(0, 1800)
+                    ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax3.margins(0, 1)
+
+            if self.art4 == 'true':
+                ax4 = plt.subplot(self.row, 1, self.enn)
+                ax4.plot_date(self.datetime, self.chan4, 'y-')
+                ax4.set_title(self.label4)
+                ax4.set_xlabel('Time (UT)')
+                ax4.set_ylabel('mV')
+                ax4.xaxis.set_major_formatter(self.hfmt)
+                ax4.grid()
+
+                if self.autoscale == 'false':
+                    ax4.set_ylim(0, 1800)
+                    ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax4.margins(0, 1)
+
+            if self.art5 == 'true':
+                ax5 = plt.subplot(self.row, 1, self.fnn)
+                ax5.plot_date(self.datetime, self.chan5, 'm-')
+                ax5.set_title(self.label5)
+                ax5.set_xlabel('Time (UT)')
+                ax5.set_ylabel('mV')
+                ax5.xaxis.set_major_formatter(self.hfmt)
+                ax5.grid()
+
+                if self.autoscale == 'false':
+                    ax5.set_ylim(0, 1800)
+                    ax5.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax5.margins(0, 1)
+
+            if self.art6 == 'true':
+                ax6 = plt.subplot(self.row, 1, self.gnn)
+                ax6.plot_date(self.datetime, self.chan6, 'k-')
+                ax6.set_title(self.label6)
+                ax6.set_xlabel('Time (UT)')
+                ax6.set_ylabel('mV')
+                ax6.xaxis.set_major_formatter(self.hfmt)
+                ax6.grid()
+
+                if self.autoscale == 'false':
+                    ax6.set_ylim(0, 1800)
+                    ax6.set_yticks((0, 360, 720, 1080, 1440, 1800))
+                else:
+                    ax6.margins(0, 1)
+
+            plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+
+            plt.savefig("chart.png", bbox_inches='tight')
+
+        except Exception as e:
+            print("stacked Exception - " + str(e))
         else:
             self.myftp()
 
