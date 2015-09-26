@@ -22,6 +22,9 @@ class ChartPublisher:
     def __init__(self, data_array):
         self.data_array = data_array
 
+        self.title = config.get("publisherlabels", "title")
+        self.xlabel = config.get("publisherlabels", "xlabel")
+        self.ylabel = config.get("publisherlabels", "ylabel")
         self.label0 = config.get("publisherlabels", "channel0")
         self.label1 = config.get("publisherlabels", "channel1")
         self.label2 = config.get("publisherlabels", "channel2")
@@ -73,6 +76,11 @@ class ChartPublisher:
         plt.rcParams['legend.framealpha'] = 0.5
         plt.rcParams['legend.fancybox'] = True
 
+        plt.rcParams['xtick.labelsize'] = 'small'
+        plt.rcParams['ytick.labelsize'] = 'small'
+
+        plt.rcParams['axes.titlesize'] = 'medium'
+
         thread = threading.Thread(target=self.run)
         thread.daemon = True
         thread.start()
@@ -100,6 +108,9 @@ class ChartPublisher:
         self.label4 = config.get("publisherlabels", "channel4")
         self.label5 = config.get("publisherlabels", "channel5")
         self.label6 = config.get("publisherlabels", "channel6")
+        self.title = config.get("publisherlabels", "title")
+        self.xlabel = config.get("publisherlabels", "xlabel")
+        self.ylabel = config.get("publisherlabels", "ylabel")
 
         self.art0 = config.get("publisherartist", "channelArt0")
         self.art1 = config.get("publisherartist", "channelArt1")
@@ -216,8 +227,7 @@ class ChartPublisher:
 
         try:
             # initialise plt
-            fig, ax1 = plt.subplots(figsize=(10, 5))
-            plt.xticks(rotation=30)
+            fig, ax1 = plt.subplots(figsize=(14, 4))
 
             # plot channels
             if self.art0 == 'true':
@@ -248,8 +258,9 @@ class ChartPublisher:
                 ax1.plot(self.datetime, self.chan6, 'k-', label=self.label6)
                 count += 1
 
-            ax1.set_xlabel('Time (UTC)')
-            ax1.set_ylabel('mV')
+            ax1.set_title(self.title)
+            ax1.set_xlabel(self.xlabel)
+            ax1.set_ylabel(self.ylabel)
             ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
 
             if self.autoscale == 'false':
@@ -261,14 +272,14 @@ class ChartPublisher:
             font_size.set_size('small')
 
             # show legend
-            if count == 7:
-                lgd = ax1.legend(prop=font_size, loc=9, bbox_to_anchor=(0.455, -0.21), ncol=count)
-            else:
-                lgd = ax1.legend(prop=font_size, loc=9, bbox_to_anchor=(0.5, -0.21), ncol=count)
+
+            lgd = ax1.legend(prop=font_size, loc=9, bbox_to_anchor=(0.5, -0.17), ncol=count)
+
+            for legend_handle in lgd.legendHandles:
+                legend_handle.set_linewidth(8.0)
 
             hfmt = matplotlib.dates.DateFormatter('%H:%M:%S')
             ax1.xaxis.set_major_formatter(hfmt)
-
 
             # set grid
             ax1.grid()
@@ -289,15 +300,11 @@ class ChartPublisher:
     def myftp(self):
         try:
             session = ftplib.FTP(self.server, self.server_username, self.server_password)
-            session.set_debuglevel(1)
+            # session.set_debuglevel(1)
 
             if self.server_folder is not None:
-                print(self.server_folder)
-                print(session.pwd())
                 if session.pwd() is not self.server_folder:
                     session.cwd(self.server_folder)  # Change directory
-            else:
-                print('server_folder is None')
 
             file = open('chart.png', 'rb')                  # file to send
             session.storbinary('STOR chart.png', file)     # send the file
