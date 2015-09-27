@@ -50,7 +50,6 @@ class Logger:
 
                 self.status_.wait(self.next_call - time.time())
             else:
-                print('Sampler inactive')
                 time.sleep(1)
 
     def datafile_write(self):
