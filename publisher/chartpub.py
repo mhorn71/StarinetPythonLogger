@@ -93,8 +93,6 @@ class ChartPublisher:
 
                 self.data_finder()
 
-                print('Publisher', str(datetime.datetime.now()))
-
                 self.status_.wait(self.next_call - time.time())
             else:
                 time.sleep(1)
