@@ -23,7 +23,7 @@ You need to install the following additional python packages.
     -------
     https://code.google.com/p/psutil/
 
-    matplotlib
+    matplotlib - Version 1.4.3 or greater.
     ----------
     https://github.com/matplotlib/matplotlib
 
@@ -47,13 +47,6 @@ You will need to attach the below hardware to ADC Channel AIN6
 Software install
 
     1.) place all files in there own folder
-
-    2.) create the following folders in the folder you extract the code too.
-    
-        memory/data
-        memory/module
-        memory/module/0
-        memory/module/1
 
     3.) Start as root.
 
