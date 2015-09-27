@@ -15,7 +15,7 @@ def control(buffer0, buffer1, buffer2, buffer3, buffer4, buffer5, buffer6):
 
     try:
         config.read("StarinetBeagleLogger.conf")
-        config.set('publisherlabels', 'channel0', buffer0)  # update
+        config.set('publisherlabels', 'title', buffer0)  # update
         config.set('publisherlabels', 'channel1', buffer1)  # update
         config.set('publisherlabels', 'channel2', buffer2)  # update
         config.set('publisherlabels', 'channel3', buffer3)  # update
