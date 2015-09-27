@@ -1,13 +1,10 @@
 StarinetPython3Logger
-====================
+=====================
 
-Currently in development.
+Beaglebone Black Python3 Starinet six channel data logger. 
 
-Beaglebone Black Python3 Starinet six channel data logger for the UKRAA Starbase Observatory
-
-
-Install Instructions
-====================
+Install Instructions from Source
+================================
 
 You need to install the following additional python packages.
 
@@ -38,16 +35,64 @@ You need to install the following additional python packages.
 
 
 
-You will need to attach the below hardware to ADC Channel AIN6
+Not required but you will need to attach a TMP36 to ADC Channel AIN6 to get a sensible temperature reading.
 
     TMP36 Temperature Sensor
     ------------------------
     https://learn.adafruit.com/measuring-temperature-with-a-beaglebone-black/wiring
 
-Software install
+Software install and startup
 
-    1.) place all files in there own folder
+    1.) place all files in there own folder and then start as shown below assuming you've uncompressed in /home
 
-    3.) Start as root.
+    user@beaglebone:~$ sudo su -                   
+    [sudo] password for user: 
+    root@beaglebone:~# cd /home/StarinetPythonLogger2/
+    root@beaglebone:/home/StarinetPythonLogger2# nohup python3 main.py &
+    
+Usage
+=====
+    
+To use the logger you'll need to either use the latest Starbase-Beta available from http://www.ukraa.com/builds/beta/
+by adding the file located in Starbase-Instrument-Files follow the README or by using StarbaseMini located at
+http://github.com/mhorn71/StarbaseMini.
 
-    4.) Use with StarbaseMini available at the same github account this software.
+Using StarinetPythonLogger2 with StarbaseMini.  Please note StarbaseMini has a number of limitations compared to Starbase
+so a minor amount of manual configuration is required if using the chart publisher.  
+
+To set up the FTP chart publisher do the following if using StarbaseMini, note Starbase-Beta can set all parameters 
+though the UI:
+
+    1. Make a backup of StarinetBeagleLogger.conf before editing. 
+    
+    2. Edit the StarinetBeagleLogger.conf and update the following sections please note leave a space after the = sign
+       and enclose string in quotes do not include comments as they will be lost.
+    
+    
+    [publisher]
+    server = your.server.com  # Either the domainname or IP address of your server
+    username = user@your.server.com  # The username need to log into server
+    password = yourpassword  # The password as required
+    remotefolder = /  # The remote folder.
+    interval = 0005  #  The interval in minutes between uploads must be padded with zeros as shown
+    
+    [publisherlabels]
+    title = Staribus MultiChannel Data  #  The chart time title can be left blank if not needed, e.g. title = 
+    channel0 = channel0  # The channel label these must be present. 
+    channel1 = channel1
+    channel2 = channel2
+    channel3 = channel3
+    channel4 = channel4
+    channel5 = channel5
+    
+    [publisherartist]
+    chart = combined  # either 'combined' all plots overlaying one another or 'stacked' each plot on its own one above the other.
+    channelArt0 = true  # 'true' or 'false' to show channel in figure channel 0 is temperature.
+    channelArt1 = true
+    channelArt2 = true
+    channelArt3 = true
+    channelArt4 = true
+    channelArt5 = true
+    channelArt6 = true
+    autoscale = false #  Autoscale Y axis or leave with preset 0 - 1800
+
