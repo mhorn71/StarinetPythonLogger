@@ -284,11 +284,7 @@ class ChartPublisher:
 
             plt.savefig("chart.png", bbox_extra_artists=(lgd,), bbox_inches='tight')
 
-            # # clear last figure clf() see if it helps with memory usage.
-            # fig.clf()
-            #
-            # # close all figures to see if it helps with memory?
-            # plt.close('all')
+            plt.close('all')
 
         except Exception as e:
             print("We had a matplotlib error - " + str(e))
@@ -419,6 +415,8 @@ class ChartPublisher:
             plt.tight_layout(rect=[0, 0.03, 1, 0.97])
 
             plt.savefig("chart.png", bbox_inches='tight')
+
+            plt.close('all')
 
         except Exception as e:
             print("stacked Exception - " + str(e))
