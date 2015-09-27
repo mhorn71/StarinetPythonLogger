@@ -29,7 +29,6 @@ class ChartPublisher:
         self.label3 = config.get("publisherlabels", "channel3")
         self.label4 = config.get("publisherlabels", "channel4")
         self.label5 = config.get("publisherlabels", "channel5")
-        self.label6 = config.get("publisherlabels", "channel6")
 
         self.art0 = config.get("publisherartist", "channelArt0")
         self.art1 = config.get("publisherartist", "channelArt1")
@@ -55,6 +54,8 @@ class ChartPublisher:
         self.row = 0
 
         self.autoscale = config.get("publisherartist", "autoscale")
+
+        self.hfmt = matplotlib.dates.DateFormatter('%H:%M:%S')
 
         self.rate = int(config.get("publisher", "interval").lstrip("0"))
 
@@ -107,7 +108,6 @@ class ChartPublisher:
         self.label3 = config.get("publisherlabels", "channel3")
         self.label4 = config.get("publisherlabels", "channel4")
         self.label5 = config.get("publisherlabels", "channel5")
-        self.label6 = config.get("publisherlabels", "channel6")
         self.title = config.get("publisherlabels", "title")
 
         self.art0 = config.get("publisherartist", "channelArt0")
@@ -124,7 +124,6 @@ class ChartPublisher:
         self.server_folder = config.get('publisher', 'remotefolder')
 
         self.autoscale = config.get("publisherartist", "autoscale")
-        self.hfmt = matplotlib.dates.DateFormatter('%H:%M:%S')
 
         self.next_call = time.time()
         self.status_.clear()
@@ -231,31 +230,31 @@ class ChartPublisher:
 
             # plot channels
             if self.art0 == 'true':
-                ax1.plot(self.datetime, self.chan0, 'r-', label=self.label0)
+                ax1.plot(self.datetime, self.chan0, 'r-', label='Celsius')
                 count += 1
 
             if self.art1 == 'true':
-                ax1.plot(self.datetime, self.chan1, 'b-', label=self.label1)
+                ax1.plot(self.datetime, self.chan1, 'b-', label=self.label0)
                 count += 1
 
             if self.art2 == 'true':
-                ax1.plot(self.datetime, self.chan2, 'g-', label=self.label2)
+                ax1.plot(self.datetime, self.chan2, 'g-', label=self.label1)
                 count += 1
 
             if self.art3 == 'true':
-                ax1.plot(self.datetime, self.chan3, 'c-', label=self.label3)
+                ax1.plot(self.datetime, self.chan3, 'c-', label=self.label2)
                 count += 1
 
             if self.art4 == 'true':
-                ax1.plot(self.datetime, self.chan4, 'y-', label=self.label4)
+                ax1.plot(self.datetime, self.chan4, 'y-', label=self.label3)
                 count += 1
 
             if self.art5 == 'true':
-                ax1.plot(self.datetime, self.chan5, 'm-', label=self.label5)
+                ax1.plot(self.datetime, self.chan5, 'm-', label=self.label4)
                 count += 1
 
             if self.art6 == 'true':
-                ax1.plot(self.datetime, self.chan6, 'k-', label=self.label6)
+                ax1.plot(self.datetime, self.chan6, 'k-', label=self.label5)
                 count += 1
 
             ax1.set_title(self.title)
@@ -321,7 +320,7 @@ class ChartPublisher:
                 ax0.plot_date(self.datetime, self.chan0, 'r-')
                 ax0.set_title('Instrument Temperature')
                 ax0.set_xlabel('Time (UT)')
-                ax0.set_ylabel(self.label0)
+                ax0.set_ylabel('Celsius')
                 ax0.xaxis.set_major_formatter(self.hfmt)
                 ax0.yaxis.set_major_locator(MaxNLocator(integer=True))
                 ax0.grid()
@@ -330,7 +329,7 @@ class ChartPublisher:
             if self.art1 == 'true':
                 ax1 = plt.subplot(self.row, 1, self.bnn)
                 ax1.plot_date(self.datetime, self.chan1, 'b-')
-                ax1.set_title(self.label1)
+                ax1.set_title(self.label0)
                 ax1.set_xlabel('Time (UT)')
                 ax1.set_ylabel('mV')
                 ax1.xaxis.set_major_formatter(self.hfmt)
@@ -345,7 +344,7 @@ class ChartPublisher:
             if self.art2 == 'true':
                 ax2 = plt.subplot(self.row, 1, self.cnn)
                 ax2.plot_date(self.datetime, self.chan2, 'g-')
-                ax2.set_title(self.label2)
+                ax2.set_title(self.label1)
                 ax2.set_xlabel('Time (UT)')
                 ax2.set_ylabel('mV')
                 ax2.xaxis.set_major_formatter(self.hfmt)
@@ -360,7 +359,7 @@ class ChartPublisher:
             if self.art3 == 'true':
                 ax3 = plt.subplot(self.row, 1, self.dnn)
                 ax3.plot_date(self.datetime, self.chan3, 'c-')
-                ax3.set_title(self.label3)
+                ax3.set_title(self.label2)
                 ax3.set_xlabel('Time (UT)')
                 ax3.set_ylabel('mV')
                 ax3.xaxis.set_major_formatter(self.hfmt)
@@ -375,7 +374,7 @@ class ChartPublisher:
             if self.art4 == 'true':
                 ax4 = plt.subplot(self.row, 1, self.enn)
                 ax4.plot_date(self.datetime, self.chan4, 'y-')
-                ax4.set_title(self.label4)
+                ax4.set_title(self.label3)
                 ax4.set_xlabel('Time (UT)')
                 ax4.set_ylabel('mV')
                 ax4.xaxis.set_major_formatter(self.hfmt)
@@ -390,7 +389,7 @@ class ChartPublisher:
             if self.art5 == 'true':
                 ax5 = plt.subplot(self.row, 1, self.fnn)
                 ax5.plot_date(self.datetime, self.chan5, 'm-')
-                ax5.set_title(self.label5)
+                ax5.set_title(self.label4)
                 ax5.set_xlabel('Time (UT)')
                 ax5.set_ylabel('mV')
                 ax5.xaxis.set_major_formatter(self.hfmt)
@@ -405,7 +404,7 @@ class ChartPublisher:
             if self.art6 == 'true':
                 ax6 = plt.subplot(self.row, 1, self.gnn)
                 ax6.plot_date(self.datetime, self.chan6, 'k-')
-                ax6.set_title(self.label6)
+                ax6.set_title(self.label5)
                 ax6.set_xlabel('Time (UT)')
                 ax6.set_ylabel('mV')
                 ax6.xaxis.set_major_formatter(self.hfmt)
