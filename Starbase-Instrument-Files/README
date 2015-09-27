@@ -1,0 +1,35 @@
+To add the instrument to Starbase-Beta do the following.
+
+cd into the application home folder normally :
+
+    Windows C:\Starbase-Beta
+    Linux : $HOME/Starbase-Beta
+    Mac OSX : /Applications/Starbase-Beta.app/Contents/Resources/Java
+
+Now cd to plugins/observatory/imports and copy both StarinetPython3Logger-*.xml files into it.
+
+Next edit the instrument-attributes.xml file and add the following xml before the closing </attributes> tag:
+
+    <Configuration>
+        <Identifier>StarinetPython3Logger</Identifier>
+        <UserRoles>
+            <RoleName>SuperUser</RoleName>
+            <RoleName>Administrator</RoleName>
+            <RoleName>Builder</RoleName>
+            <RoleName>Simplified</RoleName>
+            <RoleName>Researcher</RoleName>
+            <RoleName>Developer</RoleName>
+        </UserRoles>
+        <ObservatoryGroups>
+            <gro:Group>
+                <gro:GroupID>0</gro:GroupID>
+                <gro:SortIndex>3</gro:SortIndex>
+            </gro:Group>
+        </ObservatoryGroups>
+    </Configuration>
+
+When you start Starbase you should find the instrument located under the 'WORKSHOP' tab.
+
+Before starting you will need to edit the StarinetPython3Logger-instrument.xml and set the Starinet IP Address located
+between the <IPAddress>192.168.1.13:1205____</IPAddress> tags please don't change the port number and ensure there are
+21 characters between the <IPAddress> tags pad with underscores.
