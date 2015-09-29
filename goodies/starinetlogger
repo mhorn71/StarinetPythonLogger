@@ -1,0 +1,57 @@
+#! /bin/sh
+# /etc/init.d/starinetlogger
+
+PIDFILE=/var/run/starinetlogger.pid
+
+# Update HOMEBASE to where ever you have installed the software.
+
+HOMEBASE=/opt/StarinetPythonLogger_Ver_5_0_1_linux-armv7l
+
+case "$1" in
+  start)
+    echo "Starting Starinet Logger"
+
+    cd $HOMEBASE
+
+    $HOMEBASE/main &
+
+    ps -ef | grep -q $HOMEBASE/main
+
+    if [ $? -eq 0 ]
+	then
+	    echo $! >> $PIDFILE
+	else
+	    echo "Unable to start logger"
+    fi
+
+
+    ;;
+
+  stop)
+    echo "Stopping Starinet Logger"
+
+    if [ $PIDFILE -f ]
+	then
+
+            kill `cat $PIDFILE`
+
+            if [ $? -eq 0 ]
+	       then
+    	           echo "Starinet Logger is dead"
+	           rm $PIDFILE
+	       else
+	           echo "Unable to stop Starinet Logger"
+            fi
+        else:
+            echo "Process not running"
+    fi
+
+    ;;
+
+  *)
+    echo "Usage: /etc/init.d/starinetlogger {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

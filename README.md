@@ -49,6 +49,29 @@ Software install and startup
     [sudo] password for user: 
     root@beaglebone:~# cd /home/StarinetPythonLogger2/
     root@beaglebone:/home/StarinetPythonLogger2# nohup python3 main.py &
+
+Binary Setup
+============
+
+To use the binary available under releases you'll need to do the following. 
+
+Copy the binary to /opt and start main as root :
+
+    sudo ./main 
+
+Alternatively you can use the very basic init script located in goodies called starinetlogger
+
+Copy the file to /etc/init.d then update the HOMEBASE variable with where you've installed the software too.
+
+Make the script executable :
+
+    chmod 755 starinetlogger
+
+Then from the cmdline you can do /etc/init.d/starinetlogger start / stop
+
+If you want it to run on restarts :
+
+    update-rc.d starinetlogger defaults
     
 Usage
 =====
@@ -95,4 +118,3 @@ though the UI:
     channelArt5 = true
     channelArt6 = true
     autoscale = false #  Autoscale Y axis or leave with preset 0 - 1800
-
