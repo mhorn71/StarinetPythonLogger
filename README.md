@@ -83,13 +83,13 @@ http://github.com/mhorn71/StarbaseMini.
 Using StarinetPythonLogger2 with StarbaseMini.  Please note StarbaseMini has a number of limitations compared to Starbase
 so a minor amount of manual configuration is required if using the chart publisher.  
 
-To set up the FTP chart publisher do the following if using StarbaseMini, note Starbase-Beta can set all parameters 
-though the UI:
+To set up the FTP chart publisher do the following if using StarbaseMini, if using Starbase-Beta you can set all parameters
+though the Starbase-Beta UI:
 
     1. Make a backup of StarinetBeagleLogger.conf before editing. 
     
     2. Edit the StarinetBeagleLogger.conf and update the following sections please note leave a space after the = sign
-       and enclose string in quotes do not include comments as they will be lost.
+       and DO NOT enclose strings in quotes and Do Not include comments as they will be lost.
     
     
     [publisher]
