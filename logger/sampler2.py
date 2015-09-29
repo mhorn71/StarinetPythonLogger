@@ -59,6 +59,7 @@ class Logger:
         file.close()
 
     def start(self):
+        del self.data[:]
         self.config.read("StarinetBeagleLogger.conf")
         self.rate_string = self.config.get('capture', 'rate')
         self.rate = int(self.rate_string)
