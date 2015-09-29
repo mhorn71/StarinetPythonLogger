@@ -1,4 +1,5 @@
 import socket
+import sys
 import threading
 import queue
 import interpreter
@@ -92,7 +93,7 @@ if __name__ == '__main__':
         socketUDP.bind((config.get("network", "ip"), int(config.get("network", "port"))))
     except socket.error:
         logger.critical("Fatal Error unable to open network port.")
-        exit(1)
+        sys.exit(1)
     else:
         logger.info("%s %s", "Initiated IPv4 Socket bound to port ", config.get("network", "port"))
 
