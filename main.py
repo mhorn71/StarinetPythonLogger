@@ -90,6 +90,7 @@ if __name__ == '__main__':
     # Create socket (IPv4 protocol, datagram (UDP)) and bind to address
     try:
         socketUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socketUDP.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         socketUDP.bind((config.get("network", "ip"), int(config.get("network", "port"))))
     except socket.error:
         logger.critical("Fatal Error unable to open network port.")
