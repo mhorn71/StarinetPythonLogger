@@ -18,8 +18,6 @@ except Exception as e:
 
 def read():
 
-    logger.debug("Analogue.readadc called")
-
     _reading = None
 
     try:
@@ -58,8 +56,10 @@ def read():
         logger.debug("%s %s", "adc RuntimeError ", e)
     else:
         _reading = r0, r1, r2, r3, r4, r5
+        logger.debug('ADC Reading was : ' + str(repr(_reading)))
 
     return _reading
+
 
 def read_string():
     data_list = ''.join(read())
