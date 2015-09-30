@@ -30,7 +30,7 @@ case "$1" in
   stop)
     echo "Stopping Starinet Logger"
 
-    if [ $PIDFILE -f ]
+    if [ -f $PIDFILE ]
 	then
 
             kill `cat $PIDFILE`
@@ -42,7 +42,7 @@ case "$1" in
 	       else
 	           echo "Unable to stop Starinet Logger"
             fi
-        else:
+        else
             echo "Process not running"
     fi
 
