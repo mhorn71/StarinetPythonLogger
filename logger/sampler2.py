@@ -24,11 +24,15 @@ class Logger:
         self.data = data_array
         self.string = ''
         self.block_count = 0
-        self.logger = logging.getLogger('logger.sampler')
+        self.logger = logging.getLogger('logger.Logger')
+        self.logger.info('Logger initialising')
 
         thread = threading.Thread(target=self.run)
         thread.daemon = True
         thread.start()
+
+        if thread.is_alive():
+            self.logger.info('Logger thread started')
 
     def run(self):
         while 1:
