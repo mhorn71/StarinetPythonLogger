@@ -8,50 +8,50 @@ PIDFILE=/var/run/starinetlogger.pid
 HOMEBASE=/opt/StarinetPythonLogger_Ver_5_0_1_linux-armv7l
 
 case "$1" in
-  start)
-    echo "Starting Starinet Logger"
+    start)
+        echo "Starting Starinet Logger"
 
-    cd $HOMEBASE
+        cd $HOMEBASE
 
-    $HOMEBASE/main &
+        $HOMEBASE/main &
 
-    ps -ef | grep -q $HOMEBASE/main
+        ps -ef | grep -q $HOMEBASE/main
 
-    if [ $? -eq 0 ]
-	then
-	    echo $! >> $PIDFILE
-	else
-	    echo "Unable to start logger"
-    fi
+        if [ $? -eq 0 ]
+            then
+                echo $! >> $PIDFILE
+            else
+                echo "Unable to start logger"
+        fi
 
 
-    ;;
+        ;;
 
-  stop)
-    echo "Stopping Starinet Logger"
+    stop)
+        echo "Stopping Starinet Logger"
 
-    if [ -f $PIDFILE ]
-	then
+        if [ -f $PIDFILE ]
+            then
 
-            kill `cat $PIDFILE`
+                kill `cat $PIDFILE`
 
-            if [ $? -eq 0 ]
-	       then
-    	           echo "Starinet Logger is dead"
-	           rm $PIDFILE
-	       else
-	           echo "Unable to stop Starinet Logger"
-            fi
-        else
-            echo "Process not running"
-    fi
+                if [ $? -eq 0 ]
+                    then
+                       echo "Starinet Logger is dead"
+                       rm $PIDFILE
+                    else
+                       echo "Unable to stop Starinet Logger"
+                fi
+            else
+                echo "Process not running"
+        fi
 
-    ;;
+        ;;
 
   *)
     echo "Usage: /etc/init.d/starinetlogger {start|stop}"
-    exit 1
-    ;;
+        exit 1
+        ;;
 esac
 
 exit 0
