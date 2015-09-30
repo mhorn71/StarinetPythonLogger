@@ -12,6 +12,7 @@ import re
 import datetime
 import threading
 import ftplib
+import logging
 from matplotlib.ticker import MaxNLocator
 
 config = configparser.RawConfigParser()
@@ -82,9 +83,15 @@ class ChartPublisher:
 
         plt.rcParams['axes.titlesize'] = 'medium'
 
+        self.logger = logging.getLogger('publisher.ChartPublisher')
+        self.logger.info('ChartPublisher initialised')
+
         thread = threading.Thread(target=self.run)
         thread.daemon = True
         thread.start()
+
+        if thread.is_alive():
+            self.logger.info('ChartPublisher thread started')
 
     def run(self):
         while 1:
@@ -99,7 +106,9 @@ class ChartPublisher:
 
     def start(self):
         config.read("StarinetBeagleLogger.conf")
+        self.logger.debug('ChartPublisher started')
         self.rate = int(config.get("publisher", "interval").lstrip("0"))
+        self.logger.debug('ChartPublisher rate set too : ' + str(self.rate))
         self.label0 = config.get("publisherlabels", "channel0")
         self.label1 = config.get("publisherlabels", "channel1")
         self.label2 = config.get("publisherlabels", "channel2")
@@ -127,6 +136,7 @@ class ChartPublisher:
         self.status_.clear()
 
     def stop(self):
+        self.logger.info('ChartPublisher stopped.')
         self.status_.set()
 
     def status(self):
@@ -140,6 +150,7 @@ class ChartPublisher:
 
     def data_finder(self):
         if len(self.data_array) == 0:
+            self.logger.debug('Internal data array is zero length.')
             pass
         else:
             timenow = datetime.datetime.now()  # get the current Unix time
@@ -185,6 +196,8 @@ class ChartPublisher:
                 elif config.get('publisherartist', 'chart') == "stacked":
                     self.chart_setup()
                     self.stacked()
+            else:
+                self.logger.debug('Data array is under 20 chars long bypassing chart creation.')
 
     def chart_setup(self):
         self.row = 0
@@ -222,36 +235,45 @@ class ChartPublisher:
 
         count = 0
 
+        self.logger.debug('Combined chart creation started.')
+
         try:
             # initialise plt
             fig, ax1 = plt.subplots(figsize=(14, 4))
 
             # plot channels
             if self.art0 == 'true':
+                self.logger.debug('Plotting channel 0')
                 ax1.plot(self.datetime, self.chan0, 'r-', label='Celsius')
                 count += 1
 
             if self.art1 == 'true':
+                self.logger.debug('Plotting channel 1')
                 ax1.plot(self.datetime, self.chan1, 'b-', label=self.label0)
                 count += 1
 
             if self.art2 == 'true':
+                self.logger.debug('Plotting channel 2')
                 ax1.plot(self.datetime, self.chan2, 'g-', label=self.label1)
                 count += 1
 
             if self.art3 == 'true':
+                self.logger.debug('Plotting channel 3')
                 ax1.plot(self.datetime, self.chan3, 'c-', label=self.label2)
                 count += 1
 
             if self.art4 == 'true':
+                self.logger.debug('Plotting channel 4')
                 ax1.plot(self.datetime, self.chan4, 'y-', label=self.label3)
                 count += 1
 
             if self.art5 == 'true':
+                self.logger.debug('Plotting channel 5')
                 ax1.plot(self.datetime, self.chan5, 'm-', label=self.label4)
                 count += 1
 
             if self.art6 == 'true':
+                self.logger.debug('Plotting channel 6')
                 ax1.plot(self.datetime, self.chan6, 'k-', label=self.label5)
                 count += 1
 
@@ -263,6 +285,7 @@ class ChartPublisher:
             if self.autoscale == 'false':
                 ax1.set_ylim(0, 1800)
             else:
+                self.logger.debug('Scale set to autoscale.')
                 ax1.margins(0, 1)
 
             font_size = FontProperties()
@@ -285,11 +308,12 @@ class ChartPublisher:
             plt.close('all')
 
         except Exception as e:
-            print("We had a matplotlib error - " + str(e))
+            self.logger.critical("We had a matplotlib error - " + str(e))
         else:
             self.myftp()
 
     def stacked(self):
+        self.logger.debug('Stacked chart creation started.')
         try:
             if self.row == 1:
                 plt.figure(figsize=(14, 2.2))
@@ -310,6 +334,7 @@ class ChartPublisher:
 
             # Channels
             if self.art0 == 'true':
+                self.logger.debug('Plotting channel 0')
                 ax0 = plt.subplot(self.row, 1, self.ann)
                 ax0.plot_date(self.datetime, self.chan0, 'r-')
                 ax0.set_title('Instrument Temperature')
@@ -321,6 +346,7 @@ class ChartPublisher:
                 ax0.margins(0, 1)
 
             if self.art1 == 'true':
+                self.logger.debug('Plotting channel 1')
                 ax1 = plt.subplot(self.row, 1, self.bnn)
                 ax1.plot_date(self.datetime, self.chan1, 'b-')
                 ax1.set_title(self.label0)
@@ -333,9 +359,11 @@ class ChartPublisher:
                     ax1.set_ylim(0,1800)
                     ax1.set_yticks((0, 360, 720, 1080, 1440, 1800))
                 else:
+                    self.logger.debug('Chan 1 scale set to autoscale.')
                     ax1.margins(0, 1)
 
             if self.art2 == 'true':
+                self.logger.debug('Plotting channel 2')
                 ax2 = plt.subplot(self.row, 1, self.cnn)
                 ax2.plot_date(self.datetime, self.chan2, 'g-')
                 ax2.set_title(self.label1)
@@ -348,9 +376,11 @@ class ChartPublisher:
                     ax2.set_ylim(0, 1800)
                     ax2.set_yticks((0, 360, 720, 1080, 1440, 1800))
                 else:
+                    self.logger.debug('Chan 2 scale set to autoscale.')
                     ax2.margins(0, 1)
 
             if self.art3 == 'true':
+                self.logger.debug('Plotting channel 3')
                 ax3 = plt.subplot(self.row, 1, self.dnn)
                 ax3.plot_date(self.datetime, self.chan3, 'c-')
                 ax3.set_title(self.label2)
@@ -363,9 +393,11 @@ class ChartPublisher:
                     ax3.set_ylim(0, 1800)
                     ax3.set_yticks((0, 360, 720, 1080, 1440, 1800))
                 else:
+                    self.logger.debug('Chan 3 scale set to autoscale.')
                     ax3.margins(0, 1)
 
             if self.art4 == 'true':
+                self.logger.debug('Plotting channel 4')
                 ax4 = plt.subplot(self.row, 1, self.enn)
                 ax4.plot_date(self.datetime, self.chan4, 'y-')
                 ax4.set_title(self.label3)
@@ -378,9 +410,11 @@ class ChartPublisher:
                     ax4.set_ylim(0, 1800)
                     ax4.set_yticks((0, 360, 720, 1080, 1440, 1800))
                 else:
+                    self.logger.debug('Chan 4 scale set to autoscale.')
                     ax4.margins(0, 1)
 
             if self.art5 == 'true':
+                self.logger.debug('Plotting channel 5')
                 ax5 = plt.subplot(self.row, 1, self.fnn)
                 ax5.plot_date(self.datetime, self.chan5, 'm-')
                 ax5.set_title(self.label4)
@@ -393,9 +427,11 @@ class ChartPublisher:
                     ax5.set_ylim(0, 1800)
                     ax5.set_yticks((0, 360, 720, 1080, 1440, 1800))
                 else:
+                    self.logger.debug('Chan 5 scale set to autoscale.')
                     ax5.margins(0, 1)
 
             if self.art6 == 'true':
+                self.logger.debug('Plotting channel 6')
                 ax6 = plt.subplot(self.row, 1, self.gnn)
                 ax6.plot_date(self.datetime, self.chan6, 'k-')
                 ax6.set_title(self.label5)
@@ -408,6 +444,7 @@ class ChartPublisher:
                     ax6.set_ylim(0, 1800)
                     ax6.set_yticks((0, 360, 720, 1080, 1440, 1800))
                 else:
+                    self.logger.debug('Chan 6 scale set to autoscale.')
                     ax6.margins(0, 1)
 
             plt.tight_layout(rect=[0, 0.03, 1, 0.97])
@@ -417,11 +454,12 @@ class ChartPublisher:
             plt.close('all')
 
         except Exception as e:
-            print("stacked Exception - " + str(e))
+            self.logger.critical("stacked Exception - " + str(e))
         else:
             self.myftp()
 
     def myftp(self):
+        self.logger.debug('Started ftp transfer.')
         try:
             session = ftplib.FTP(self.server, self.server_username, self.server_password)
             # session.set_debuglevel(1)
@@ -436,4 +474,4 @@ class ChartPublisher:
             session.quit()
 
         except (ftplib.all_errors, AttributeError) as e:
-            print("We had an FTP Error - " + str(e))
+            self.logger.critical("We had an FTP Error - " + str(e))
