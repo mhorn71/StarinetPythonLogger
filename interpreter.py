@@ -51,7 +51,7 @@ class Interpreter(object):
         self.data_array = []
 
         self.sampler = sampler.Logger(self.data_array)
-        self.publisher = chartpub.ChartPublisher(self.data_array)
+        self.publisher = chartpub.ChartPublisher(self.data_array, self.sampler)
 
     def processor(self, buffer0):
 
