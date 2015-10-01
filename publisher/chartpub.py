@@ -20,8 +20,9 @@ config.read("StarinetBeagleLogger.conf")
 
 
 class ChartPublisher:
-    def __init__(self, data_array):
+    def __init__(self, data_array, sampler):
         self.data_array = data_array
+        self.sampler = sampler
 
         self.title = config.get("publisherlabels", "title")
         self.label0 = config.get("publisherlabels", "channel0")
@@ -43,6 +44,7 @@ class ChartPublisher:
         self.server_username = config.get('publisher', 'username')
         self.server_password = config.get('publisher', 'password')
         self.server_folder = config.get('publisher', 'remotefolder')
+        self.ftp_state = 'true'
 
         self.ann = None
         self.bnn = None
@@ -101,6 +103,11 @@ class ChartPublisher:
                 self.data_finder()
 
                 self.status_.wait(self.next_call - time.time())
+
+                if self.sampler.status_.is_set():
+                    self.logger.info('ChartPublisher stopped.')
+                    self.status_.set()
+
             else:
                 time.sleep(1)
 
@@ -129,6 +136,7 @@ class ChartPublisher:
         self.server_username = config.get('publisher', 'username')
         self.server_password = config.get('publisher', 'password')
         self.server_folder = config.get('publisher', 'remotefolder')
+        self.ftp_state = config.get('publisher', 'upload')
 
         self.autoscale = config.get("publisherartist", "autoscale")
 
@@ -310,7 +318,8 @@ class ChartPublisher:
         except Exception as e:
             self.logger.critical("We had a matplotlib error - " + str(e))
         else:
-            self.myftp()
+            if self.ftp_state.lower() == 'true':
+                self.myftp()
 
     def stacked(self):
         self.logger.debug('Stacked chart creation started.')
@@ -456,7 +465,8 @@ class ChartPublisher:
         except Exception as e:
             self.logger.critical("stacked Exception - " + str(e))
         else:
-            self.myftp()
+            if self.ftp_state.lower() == 'true':
+                self.myftp()
 
     def myftp(self):
         self.logger.debug('Started ftp transfer.')
