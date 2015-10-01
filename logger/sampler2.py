@@ -44,7 +44,7 @@ class Logger:
                     self.data.append(self.string)
                     self.block_count += 1
                     self.logger.debug('Next data block integer is : ' + str(self.block_count))
-                    if self.block_count == 4096:
+                    if self.block_count == 8192:
                         self.logger.debug('Data block count has reached 4096 stopping sampler.')
                         self.status_.set()
                     else:
