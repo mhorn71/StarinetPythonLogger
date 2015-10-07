@@ -17,7 +17,7 @@ def control():
         blockcount = int(max(os.listdir(config.get("paths", "datafolder")),
                              key=lambda p: os.path.getctime(os.path.join(
                                  config.get("paths", "datafolder"), p))), 16) + 1
-        value = str(int(100 - int(100 * float(blockcount) / 65534))).zfill(3)
+        value = str(int(100 - int(100 * float(blockcount) / 16384))).zfill(3)
     except configparser.Error as e:
         status = 4
         value = e

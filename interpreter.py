@@ -1,8 +1,10 @@
 import re
 import struct
 import logging
-import utilities.staribuscrc as staribuscrc
 import configparser
+
+
+import utilities.staribuscrc as staribuscrc
 import actions.capture as capture
 import actions.ping as ping
 import actions.getDataBlockCount as getDataBlockCount
@@ -21,25 +23,17 @@ import actions.getMACAddress as getMACAddress
 import actions.setRate as setRate
 import actions.setConfigurationBlock as setConfigurationBlock
 import actions.getConfigurationBlock as getConfigurationBlock
-import actions.capturePublisher as capturePublisher
-import actions.setPublisher as setPublisher
-import actions.getPublisher as getPublisher
-import actions.setPublisherLabels as setPublisherLabels
-import actions.getPublisherLabels as getPublisherLabels
-import actions.setPublisherArtist as setPublisherArtist
-import actions.getPublisherArtist as getPublisherArtist
 import actions.getConfigurationBlockCount as getConfigurationBlockCount
-import logger.sampler2 as sampler
-import publisher.chartpub as chartpub
+import logger.sampler3 as sampler
 
 
 class Interpreter(object):
     def __init__(self):
 
-        ## initialise logger
+        # initialise logger
         self.logger = logging.getLogger('interpreter')
 
-        ##initialise config parser
+        # initialise config parser
         self.config = configparser.RawConfigParser()
         self.config.read("StarinetBeagleLogger.conf")
 
@@ -51,7 +45,7 @@ class Interpreter(object):
         self.data_array = []
 
         self.sampler = sampler.Logger(self.data_array)
-        self.publisher = chartpub.ChartPublisher(self.data_array, self.sampler)
+
 
     def processor(self, buffer0):
 
@@ -124,15 +118,6 @@ class Interpreter(object):
                             elif re.match('03020000', command):  # getDataBlockCount
                                 self.logger.debug("Matched command getDataBlockCount")
                                 self.x = getDataBlockCount.control()
-                            ############# Publisher Module ###############
-                            elif re.match('05040000', command):  # getPublisherLabels
-                                self.logger.debug("Matched command getPublisherLabels")
-                                self.x = getPublisherLabels.control()
-                            elif re.match('05030000', command):  # getPublisher
-                                self.logger.debug("Matched command getPublisher")
-                                self.x = getPublisher.control()
-                            elif re.match('05060000', command): # getPublisherArtist
-                                self.x = getPublisherArtist.control()
                             ############ Logger Plugin ############
                             elif re.match('04000000', command):  # getRealTimeData
                                 self.logger.debug("Matched command getRealTimeData")
@@ -181,21 +166,6 @@ class Interpreter(object):
                             elif re.match('00070000', command):  # setConfigurationBlock
                                 self.logger.debug("Matched command setConfigurationBlock")
                                 self.x = setConfigurationBlock.control(data[1], data[2], data[3])
-                            ############ Publisher Module ############
-                            elif re.match('05050000', command):  # setPublisherLabels
-                                self.logger.debug("Matched command setPublisherLabels")
-                                self.x = setPublisherLabels.control(data[1], data[2], data[3], data[4], data[5],
-                                                                    data[6], data[7])
-                            elif re.match('05070000', command):  # setPublisherArtist
-                                self.logger.debug("Matched command setPublisherArtist")
-                                self.x = setPublisherArtist.control(data[1], data[2], data[3], data[4], data[5],
-                                                                    data[6], data[7], data[8], data[9])
-                            elif re.match('05010000', command):  # publisher
-                                self.logger.debug("Matched command publisher")
-                                self.x = capturePublisher.control(data[1], self.publisher, self.sampler)
-                            elif re.match('05020000', command):  # setPublisher
-                                self.logger.debug("Matched command setPublisher")
-                                self.x = setPublisher.control(data[1], data[2], data[3], data[4], data[5], data[6])
                             ############ Analogue Module #############
                             elif re.match('02000000', command):  # getA2D
                                 self.logger.debug("Matched command getA2D")
@@ -209,7 +179,7 @@ class Interpreter(object):
                                 self.x = setRate.control(data[1])
                             elif re.match('03060000', command):  # capture
                                 self.logger.debug("Matched command capture")
-                                self.x = capture.control(data[1], self.sampler, self.publisher)
+                                self.x = capture.control(data[1], self.sampler)
                             else:
                                 self.logger.debug("Matched command - NO MATCH")
                                 self.x = 20, None

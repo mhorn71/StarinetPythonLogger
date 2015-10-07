@@ -27,36 +27,26 @@ class Logger:
         self.logger = logging.getLogger('logger.Logger')
         self.logger.info('Logger initialising')
 
-        thread = threading.Thread(target=self.run)
-        thread.daemon = True
-        thread.start()
-
-        if thread.is_alive():
-            self.logger.info('Logger thread started')
-
-    def run(self):
-        while 1:
-            while not self.status_.is_set():
-                self.next_call += self.rate
-                if len(self.string) == 512:
-                    self.datafile_write()
-                    self.logger.debug('Appending data to internal memory string.')
-                    self.data.append(self.string)
-                    self.block_count += 1
-                    self.logger.debug('Next data block integer is : ' + str(self.block_count))
-                    if self.block_count == 8192:
-                        self.logger.debug('Data block count has reached 4096 stopping sampler.')
-                        self.status_.set()
-                    else:
-                        stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        self.string = str(stamp) + ' ' + temperature.read() + ' ' + self.rate_string + '   ' + \
-                                      adc.read_string()
+    def log(self):
+        while not self.status_.is_set():
+            self.next_call += self.rate
+            if len(self.string) == 512:
+                self.datafile_write()
+                self.logger.debug('Appending data to internal memory string.')
+                self.data.append(self.string)
+                self.block_count += 1
+                self.logger.debug('Next data block integer is : ' + str(self.block_count))
+                if self.block_count == 16384:
+                    self.logger.debug('Data block count has reached 16384 stopping sampler.')
+                    self.status_.set()
                 else:
-                    self.string += adc.read_string()
-
-                self.status_.wait(self.next_call - time.time())
+                    stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    self.string = str(stamp) + ' ' + temperature.read() + ' ' + self.rate_string + '   ' + \
+                                  adc.read_string()
             else:
-                time.sleep(1)
+                self.string += adc.read_string()
+
+            self.status_.wait(self.next_call - time.time())
 
     def datafile_write(self):
         datafile = hex(self.block_count).split('x')[1].upper().zfill(4)
@@ -83,14 +73,24 @@ class Logger:
         stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.string = str(stamp) + ' ' + temperature.read() + ' ' + self.rate_string + '   ' + adc.read_string()
         self.status_.clear()
-        self.logger.info('Sampler Started...')
+
+        global thread
+        thread = threading.Thread(target=self.log)
+        thread.daemon = True
+        thread.start()
+
+        if thread.is_alive():
+            self.logger.info('Logger thread started')
 
     def stop(self):
         self.status_.set()
+        thread.join()
+
         if len(self.string) > 0:
             self.logger.debug('Internal memory string has data flushing to disk.')
             self.data.append(self.string)
             self.datafile_write()
+
         self.logger.info('Sampler Stopped...')
 
     def status(self):
@@ -101,3 +101,4 @@ class Logger:
             value = 0
 
         return value
+
