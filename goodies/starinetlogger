@@ -19,6 +19,11 @@ case "$1" in
 
         if [ $? -eq 0 ]
             then
+                if [ -f $PIDFILE ]
+                    then
+                        rm $PIDFILE
+                fi
+
                 echo $! >> $PIDFILE
             else
                 echo "Unable to start logger"
