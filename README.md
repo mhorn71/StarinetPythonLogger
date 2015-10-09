@@ -16,16 +16,11 @@ You need to install the following additional python packages.
     ------
     https://pypi.python.org/pypi/crcmod/1.7
 
-    psutils
-    -------
-    https://code.google.com/p/psutil/
-
     You can install the above using apt-get and pip as the root user or using sudo with the following
     commands:
 
     apt-get install python-pip
     pip install crcmod
-    pip install psutil
     pip install Adafruit_BBIO
 
 
@@ -43,7 +38,7 @@ Software install and startup
     user@beaglebone:~$ sudo su -                   
     [sudo] password for user: 
     root@beaglebone:~# cd /home/StarinetPythonLogger2/
-    root@beaglebone:/home/StarinetPythonLogger2# nohup python3 main.py &
+    root@beaglebone:/home/StarinetPythonLogger2# nohup python3 StarinetPython3Logger.py &
 
 Binary Setup
 ============
@@ -52,7 +47,7 @@ To use the binary available under releases you'll need to do the following.
 
 Copy the binary to /opt and start main as root :
 
-    sudo ./main 
+    sudo ./StarinetPython3Logger
 
 Alternatively you can use the very basic init script located in goodies called starinetlogger
 

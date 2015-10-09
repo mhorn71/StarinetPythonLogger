@@ -5,7 +5,7 @@ PIDFILE=/var/run/starinetlogger.pid
 
 # Update HOMEBASE to where ever you have installed the software.
 
-HOMEBASE=/opt/StarinetPythonLogger_Ver_5_0_3_linux-armv7l
+HOMEBASE=/opt/StarinetPythonLogger_Ver_5_0_4_linux-armv7l
 
 case "$1" in
     start)
