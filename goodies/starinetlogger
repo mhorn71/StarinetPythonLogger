@@ -13,9 +13,9 @@ case "$1" in
 
         cd $HOMEBASE
 
-        $HOMEBASE/main &
+        $HOMEBASE/StarinetPython3Logger &
 
-        ps -ef | grep -q $HOMEBASE/main
+        ps -ef | grep -q $HOMEBASE/StarinetPython3Logger
 
         if [ $? -eq 0 ]
             then

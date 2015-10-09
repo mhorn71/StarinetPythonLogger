@@ -1,17 +1,17 @@
 __author__ = 'mark'
 application_title = "StarinetPython3Logger"
-main_python_file = "main.py"
+main_python_file = "StarinetPython3Logger.py"
 
 import sys
 from cx_Freeze import setup, Executable
 
 base = None
 
-includes = ["crcmod","ctypes","matplotlib","numpy"]
+includes = ["crcmod","ctypes"]
 
 setup(
        name = application_title,
-       version = "5.0.0",
+       version = "5.0.3",
        description = "Starinet Python3 6 Channel Data Logger for Beaglebone Black",
        options = {"build_exe" : {"includes" : includes }},
        executables = [Executable(main_python_file, base = base)])
