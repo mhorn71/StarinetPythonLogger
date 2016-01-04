@@ -65,7 +65,6 @@ class Interpreter(object):
 
         self.sampler = sampler.Logger(self.data_array)
 
-
     def processor(self, buffer0):
 
         self.logger.debug("Interpreter was called.")
@@ -130,7 +129,7 @@ class Interpreter(object):
                             ############# Data Capture Module ############
                             elif re.match('03000000', command):  # getSpace
                                 self.logger.debug("Matched command getSpace")
-                                self.x = getSpace.control()
+                                self.x = getSpace.control(self.data_array)
                             elif re.match('03040000', command):  # getRate return capture interval
                                 self.logger.debug("Matched command getRate")
                                 self.x = getRate.control()
