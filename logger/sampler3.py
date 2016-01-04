@@ -18,12 +18,12 @@ __author__ = 'mark'
 # along with StarinetPython3Logger.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 import datetime
 import time
 import threading
 import configparser
 import logging
+import os
 
 import analogue.readadc as adc
 import logger.temperature as temperature
@@ -45,6 +45,16 @@ class Logger:
         self.block_count = 0
         self.logger = logging.getLogger('logger.Logger')
         self.logger.info('Logger initialising')
+
+    def delete_datafiles(self):
+        try:
+            for the_file in os.listdir(self.datafolder):
+                file_path = os.path.join(self.datafolder, the_file)
+                if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                self.logger.debug("%s %s", "Removing data file ", file_path)
+        except OSError as e:
+                    self.logger.critical("%s %s", "premature termination", e)
 
     def log(self):
         while not self.status_.is_set():
@@ -92,6 +102,10 @@ class Logger:
         stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.string = str(stamp) + ' ' + temperature.read() + ' ' + self.rate_string + '   ' + adc.read_string()
         self.status_.clear()
+
+        delete_thread = threading.Thread(target=self.delete_datafiles)
+        delete_thread.daemon = True
+        delete_thread.start()
 
         global thread
         thread = threading.Thread(target=self.log)
