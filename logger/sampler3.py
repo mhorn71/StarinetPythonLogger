@@ -45,6 +45,7 @@ class Logger:
         self.block_count = 0
         self.logger = logging.getLogger('logger.Logger')
         self.logger.info('Logger initialising')
+        self.data_cleared = False
 
     def delete_datafiles(self):
         try:
@@ -55,38 +56,92 @@ class Logger:
                 self.logger.debug("%s %s", "Removing data file ", file_path)
         except OSError as e:
                     self.logger.critical("%s %s", "premature termination", e)
+        else:
+            self.data_cleared = True
+
+    def string_start(self):
+
+        stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        string_start = str(stamp) + ' ' + temperature.read() + ' ' + self.rate_string + '   ' + \
+                   adc.read_string()
+
+        return string_start
+
+    def adc_string(self):
+        string = adc.read_string()
+        return string
 
     def log(self):
         while not self.status_.is_set():
-            self.next_call += self.rate
-            if len(self.string) == 512:
-                self.datafile_write()
-                self.logger.debug('Appending data to internal memory string.')
-                self.data.append(self.string)
-                self.block_count += 1
-                self.logger.debug('Next data block integer is : ' + str(self.block_count))
-                if self.block_count == 16384:
-                    self.logger.debug('Data block count has reached 16384 stopping sampler.')
+            if self.data_cleared is True:
+                self.next_call += self.rate
+                if len(self.string) == 512:
+                    if self.datafile_write():
+                        self.logger.debug('Appending data to internal memory string.')
+                        self.data.append(self.string)
+                        self.block_count += 1
+                        self.logger.debug('Next data block integer is : ' + str(self.block_count))
+                        if self.block_count == 16384:
+                            self.logger.debug('Data block count has reached 16384 stopping sampler.')
+                            self.status_.set()
+                        else:
+                            while True:
+                                start_string =self.string_start()
+
+                                if len(start_string) == 56:
+                                    self.string = start_string
+                                    break
+                                else:
+                                    self.logger.warning('String start length exceeded 56 bytes : %s' % str(len(start_string)))
+                                    start_string = self.string_start()
+                    else:
+                        pass
+
+                elif len(self.string) > 512:
+                    self.logger.critical('Block size is greater than 512bytes stopping logger')
                     self.status_.set()
                 else:
-                    stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    self.string = str(stamp) + ' ' + temperature.read() + ' ' + self.rate_string + '   ' + \
-                                  adc.read_string()
-            else:
-                self.string += adc.read_string()
+                    while True:
+                        adc_string = self.adc_string()
 
-            self.status_.wait(self.next_call - time.time())
+                        if len(adc_string) == 24:
+                            self.string += adc.read_string()
+                            break
+                        else:
+                            print('ADC reading length exceed 24 bytes : %s' % str(len(adc_string)))
+                            adc_string = self.adc_string()
+
+                self.status_.wait(self.next_call - time.time())
+            else:
+                time.sleep(1)
 
     def datafile_write(self):
         datafile = hex(self.block_count).split('x')[1].upper().zfill(4)
         self.logger.debug('Writing new data block : ' + str(datafile))
+
+        filename = self.datafolder + datafile
+
         try:
-            file = open(self.datafolder + datafile, 'wt', encoding='utf-8')
+            file = open(filename, 'wt', encoding='utf-8')
             file.write(self.string)
             file.close()
         except IOError as msg:
+            self.logger.critical('Unable to write data block :' + str(datafile) + ' : ' + str(msg) + ' : retrying write.')
+            try:
+                file = open(filename + datafile, 'wt', encoding='utf-8')
+                file.write(self.string)
+                file.close()
+            except IOError as msg:
+                self.status_.set()
+                self.logger.critical('Unable to write data block :' + str(datafile) + ' : ' + str(msg))
+
+        if os.path.isfile(filename):
+            self.logger.info('Created data file : ' + str(datafile))
+            return True
+        else:
             self.status_.set()
-            self.logger.critical('Unable to write data block :' + str(datafile) + ' : ' + str(msg))
+            self.logger.critical('Data block : ' + str(datafile) + ' : was not created, logger halted.')
 
     def start(self):
         self.logger.debug('Clearing internal data array')
@@ -102,6 +157,7 @@ class Logger:
         stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.string = str(stamp) + ' ' + temperature.read() + ' ' + self.rate_string + '   ' + adc.read_string()
         self.status_.clear()
+        self.data_cleared = False
 
         delete_thread = threading.Thread(target=self.delete_datafiles)
         delete_thread.daemon = True

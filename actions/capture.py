@@ -49,11 +49,6 @@ def control(buffer0, sampler):
 
             sampler.start()
 
-            # if sampler.status() == 8000:
-            #     status = 0
-            # else:
-            #     sampler.status()
-
             if sampler.status() == 8000:
                 status = 0
             else:
